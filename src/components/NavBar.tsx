@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Navbar: React.FC = () => {
+export const NavBar: React.FC = () => {
   return (
 <nav className=' w-full h-full text-white flex flex-col font-bold mr-3'>
     <div className='text-center text-2xl mb-2'>V-FOODS</div>
