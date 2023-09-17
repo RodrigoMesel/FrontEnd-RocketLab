@@ -2,20 +2,32 @@ import React from 'react';
 
 export const Navbar: React.FC = () => {
   return (
-    <nav className="bg-[#E48586] px-4 py-2 w-1/6 text-white flex flex-col">
-      {/* <div className="max-w-6xl mx-auto">
-          <div className="text-white font-mono font-semibold text-xl">Sweet Shop</div>
-      </div> */}
-      <div className='text-center text-xl font-bold '>V-FOODS</div>
-      
-      <div className="grow h-28"></div>
-      <button className='text-left font-semibold px-4'>Início</button>
-      <button className='text-left font-semibold  px-4'> Colaboradores</button>
-      <div className="grow h-28"></div>
-      <button className='text-left font-semibold px-4'> Configurações</button>
-      <button className='text-left font-semibold px-4'> Sair</button>
+<nav className=' w-full h-full text-white flex flex-col font-bold mr-3'>
+    <div className='text-center text-2xl mb-2'>V-FOODS</div>
 
-      
-    </nav>
+    <div className="flex-grow"></div>
+
+    <button className='flex items-center space-x-2 mb-2'>
+        <img src="./src/assets/home.svg" alt="" className="h-6 w-6" />
+        <div className="text-lg">Início</div>
+    </button>
+
+    <button className='flex items-center space-x-2'> 
+        <img src="./src/assets/group.svg" alt="" className="h-6 w-6" />
+        <div className="text-lg">Colaboradores</div>
+    </button>
+
+    <div className="flex-grow"></div>
+
+    <button className='flex items-center space-x-2 mb-2'> 
+        <img src="./src/assets/settings.svg" alt="" className="h-6 w-6" />
+        <div className="text-lg">Configurações</div>
+    </button>
+
+    <button className='flex items-center space-x-2'>
+        <img src="./src/assets/logout.svg" alt="" className="h-6 w-6" />
+        <div className="text-lg">Sair</div>
+    </button>
+</nav>
   );
 };

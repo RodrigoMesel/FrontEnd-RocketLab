@@ -7,21 +7,14 @@ function App() {
   return (
     <>
       <Styling>
-        <div className='py-16 px-3'>
-          <Navbar/>
-        </div>
-  
-        {/* <Router>
-          <Routes>
-            <Route path="/colaborators" element={<Colaborators/>} />
-          </Routes>
-        </Router> */}
         
-        <div className="grid grid-cols-[1fr,7fr] gap-4">
-          <div className='mt-16'>
-            NavBar aqui
+        <div className="grid grid-cols-[1fr,7fr]  h-screen gap-4">
+
+          <div className='mt-16 mb-16 ml-4 mr-2 h-1/2'>
+            <Navbar/>
           </div>
-          <div className='min-h-screen mt-16 mb-16 mr-12'>
+
+          <div className=' mt-16 mb-16 mr-12'>
             <GeneralWindow>
               Conteúdo da página aqui
               {/* <Router>
