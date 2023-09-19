@@ -11,13 +11,13 @@ export const NavBar: React.FC = () => {
         <Link to='/'>
             <button className='flex items-center space-x-2 mb-2'>
                 <img src="./src/assets/home.svg" alt="" className="h-6 w-6" />
-                <div className="text-lg">Início</div>
+                <div className="text-base">Início</div>
             </button>
         </Link>
     <Link to='/colaboradores'>
     <button className='flex items-center space-x-2'> 
         <img src="./src/assets/group.svg" alt="" className="h-6 w-6" />
-        <div className="text-lg">Colaboradores</div>
+        <div className="text-base">Colaboradores</div>
     </button>
     </Link>
 
@@ -25,12 +25,12 @@ export const NavBar: React.FC = () => {
 
     <button className='flex items-center space-x-2 mb-2'> 
         <img src="./src/assets/settings.svg" alt="" className="h-6 w-6" />
-        <div className="text-lg">Configurações</div>
+        <div className="text-base">Configurações</div>
     </button>
 
     <button className='flex items-center space-x-2'>
         <img src="./src/assets/logout.svg" alt="" className="h-6 w-6" />
-        <div className="text-lg">Sair</div>
+        <div className="text-base">Sair</div>
     </button>
 </nav>
 </>
