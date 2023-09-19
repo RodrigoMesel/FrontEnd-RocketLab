@@ -1,21 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 export const NavBar: React.FC = () => {
   return (
+    <>
 <nav className=' w-full h-full text-white flex flex-col font-bold mr-3'>
     <div className='text-center text-2xl mb-2'>V-FOODS</div>
 
     <div className="flex-grow"></div>
-
-    <button className='flex items-center space-x-2 mb-2'>
-        <img src="./src/assets/home.svg" alt="" className="h-6 w-6" />
-        <div className="text-lg">Início</div>
-    </button>
-
+        <Link to='/'>
+            <button className='flex items-center space-x-2 mb-2'>
+                <img src="./src/assets/home.svg" alt="" className="h-6 w-6" />
+                <div className="text-lg">Início</div>
+            </button>
+        </Link>
+    <Link to='/colaboradores'>
     <button className='flex items-center space-x-2'> 
         <img src="./src/assets/group.svg" alt="" className="h-6 w-6" />
         <div className="text-lg">Colaboradores</div>
     </button>
+    </Link>
 
     <div className="flex-grow"></div>
 
@@ -29,5 +33,6 @@ export const NavBar: React.FC = () => {
         <div className="text-lg">Sair</div>
     </button>
 </nav>
+</>
   );
 };
