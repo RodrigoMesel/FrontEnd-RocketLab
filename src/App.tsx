@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Styling from './styling/Background'
 import { NavBar } from './components/NavBar'
 import GeneralWindow from './components/GeneralWindow'
-import Colaborators from './pages/colaborators';
+import Colaborators from './pages/Colaborators';
+import './font.css';
 
 function App() {
 
