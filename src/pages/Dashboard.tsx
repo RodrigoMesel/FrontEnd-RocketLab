@@ -15,7 +15,12 @@ export default function Dashboard() {
       <div className="rounded-xl border border-solid w-6/12 h-auto p-3">
         <div className=" text-4xs">Performance de Indicadores</div>
         <div className="">
-          <BarChart chartData={getData()} yAxisLabel="Colaboradores" />
+          <BarChart
+            chartData={getData(
+              "http://localhost:3000/colaborator-indicator/statistics"
+            )}
+            yAxisLabel="Colaboradores"
+          />
         </div>
       </div>
     </>
