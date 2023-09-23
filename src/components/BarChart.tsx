@@ -1,49 +1,76 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 
-const BarChart: React.FC = () => {
-  const [userData] = useState({
-    labels: Data.map((data) => getMonthName(data.month).toUpperCase()),
+interface BarChartProps {
+  chartData: {
+    month: number;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    nothing: number;
+  }[];
+  yAxisLabel: string;
+}
+
+const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
+  const [userData, setUserData] = useState({
+    labels: [""],
     datasets: [
       {
-        label: "Meta",
-        data: Data.map((data) => data.goal),
-        backgroundColor: "#AC72C1",
-        borderRadius: 22,
-        borderSkipped: false,
-        barPercentage: 0.4,
-        categoryPercentage: 0.5,
-      },
-      {
-        label: "Supermeta",
-        data: Data.map((data) => data.superGoal),
-        backgroundColor: "#32B97C",
-        borderRadius: 22,
-        borderSkipped: false,
-        barPercentage: 0.4,
-        categoryPercentage: 0.5,
-      },
-      {
-        label: "Desafio",
-        data: Data.map((data) => data.challenge),
-        backgroundColor: "#6186D3",
-        borderRadius: 22,
-        borderSkipped: false,
-        barPercentage: 0.4,
-        categoryPercentage: 0.5,
-      },
-      {
-        label: "Não alcançado",
-        data: Data.map((data) => data.nothing),
-        backgroundColor: "#F16062",
-        borderRadius: 22,
-        borderSkipped: false,
-        barPercentage: 0.4,
-        categoryPercentage: 0.5,
+        label: "",
+        data: [0],
+        backgroundColor: "",
+        borderRadius: 0,
+        borderSkipped: true,
+        barPercentage: 0,
+        categoryPercentage: 0,
       },
     ],
   });
+  useEffect(() => {
+    setUserData({
+      labels: chartData.map((data) => getMonthName(data.month).toUpperCase()),
+      datasets: [
+        {
+          label: "Meta",
+          data: chartData.map((data) => data.goal),
+          backgroundColor: "#AC72C1",
+          borderRadius: 22,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.5,
+        },
+        {
+          label: "Supermeta",
+          data: chartData.map((data) => data.superGoal),
+          backgroundColor: "#32B97C",
+          borderRadius: 22,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.5,
+        },
+        {
+          label: "Desafio",
+          data: chartData.map((data) => data.challenge),
+          backgroundColor: "#6186D3",
+          borderRadius: 22,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.5,
+        },
+        {
+          label: "Não alcançado",
+          data: chartData.map((data) => data.nothing),
+          backgroundColor: "#F16062",
+          borderRadius: 22,
+          borderSkipped: false,
+          barPercentage: 0.4,
+          categoryPercentage: 0.5,
+        },
+      ],
+    });
+  }, [chartData]);
 
   return (
     <>
@@ -56,7 +83,7 @@ const BarChart: React.FC = () => {
             },
             y: {
               ticks: { count: 4 },
-              title: { text: "Indicadores", display: true },
+              title: { text: yAxisLabel, display: true },
             },
           },
           plugins: {
@@ -83,8 +110,8 @@ function getMonthName(monthNumber: number) {
 
   return date.toLocaleString("pt-BR", { month: "long" }).substring(0, 3);
 }
-
-const Data = [
+/*
+const chartD = [
   {
     month: 8,
     goal: 6,
@@ -121,3 +148,4 @@ const Data = [
     nothing: 5,
   },
 ];
+*/
