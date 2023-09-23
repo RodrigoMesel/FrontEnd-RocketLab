@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
+import { getMonthName } from "../utils/getMonthName";
 
 interface BarChartProps {
   chartData: {
@@ -103,49 +104,3 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
   );
 };
 export default BarChart;
-
-function getMonthName(monthNumber: number) {
-  const date = new Date();
-  date.setMonth(monthNumber - 1);
-
-  return date.toLocaleString("pt-BR", { month: "long" }).substring(0, 3);
-}
-/*
-const chartD = [
-  {
-    month: 8,
-    goal: 6,
-    superGoal: 4,
-    challenge: 2,
-    nothing: 1,
-  },
-  {
-    month: 7,
-    goal: 5,
-    superGoal: 7,
-    challenge: 4,
-    nothing: 2,
-  },
-  {
-    month: 6,
-    goal: 4,
-    superGoal: 1,
-    challenge: 1,
-    nothing: 6,
-  },
-  {
-    month: 5,
-    goal: 9,
-    superGoal: 6,
-    challenge: 0,
-    nothing: 0,
-  },
-  {
-    month: 4,
-    goal: 3,
-    superGoal: 0,
-    challenge: 2,
-    nothing: 5,
-  },
-];
-*/
