@@ -5,22 +5,23 @@ export function getData(url: string) {
   const [data, setData] = useState([
     { month: 0, goal: 0, superGoal: 0, challenge: 0, nothing: 0 },
   ]);
+
   useEffect(() => {
     axios
       .get(url)
       .then((res) => {
         const newData = () => {
           const newData = [];
-          var month = new Date().getMonth();
+          var month = new Date();
           for (var i = 0; i < 6; i++) {
+            month.setMonth(month.getMonth() - 1);
             newData.push({
-              month: month,
+              month: month.getMonth(),
               goal: res.data.goal[i],
               superGoal: res.data.superGoal[i],
               challenge: res.data.challenge[i],
               nothing: res.data.nothing[i],
             });
-            month--;
           }
           return newData;
         };
