@@ -1,21 +1,29 @@
 import SearchBar from "../components/SearchBar";
-import BarChart from "../components/BarChart";
-import { getData } from "../utils/getData";
+import DashboardHighlights from "../components/DashboardHighlights";
+import DashboardChart from "../components/DashboardChart";
 
 export default function Dashboard() {
   return (
     <>
-      <div className="mt-2">
-        <SearchBar />
-      </div>
-      <div className="items-center space-x-2 ml-5 mt-10 mr-4">
-        <div className="font-bold text-3xl"> Dashboard </div>
-      </div>
+      <div className="px-16">
+        <div className="mt-2">
+          <SearchBar />
+        </div>
 
-      <div className="rounded-xl border border-solid w-6/12 h-auto p-3">
-        <div className=" text-4xs">Performance de Indicadores</div>
-        <div className="">
-          <BarChart chartData={getData()} yAxisLabel="Colaboradores" />
+        <div className="items-center space-x-2 ml-5 mt-10 mr-4">
+          <p className="font-bold text-3xl"> Dashboard </p>
+        </div>
+
+        <div className="flex flex-wrap gap-6 ">
+          <div className="flex gap-6">
+            <div className="w-2/3">
+              <DashboardChart />
+            </div>
+            <div className="w-1/3">
+              <DashboardHighlights />
+            </div>
+          </div>
+          <div className="border w-full">Ranking de colaboradores</div>
         </div>
       </div>
     </>
