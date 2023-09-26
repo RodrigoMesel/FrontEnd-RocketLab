@@ -31,7 +31,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
   });
   useEffect(() => {
     setUserData({
-      labels: chartData.map((data) => getMonthName(data.month).toUpperCase()),
+      labels: chartData.map((data) => getMonthName(data.month).substring(0, 3)),
       datasets: [
         {
           label: "Meta",
@@ -39,7 +39,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#AC72C1",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.4,
+          barPercentage: 0.5,
           categoryPercentage: 0.5,
         },
         {
@@ -48,7 +48,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#32B97C",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.4,
+          barPercentage: 0.5,
           categoryPercentage: 0.5,
         },
         {
@@ -57,7 +57,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#6186D3",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.4,
+          barPercentage: 0.5,
           categoryPercentage: 0.5,
         },
         {
@@ -66,7 +66,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#F16062",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.4,
+          barPercentage: 0.5,
           categoryPercentage: 0.5,
         },
       ],
@@ -81,9 +81,10 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           scales: {
             x: {
               grid: { display: false },
+              reverse: true,
             },
             y: {
-              ticks: { count: 4 },
+              ticks: { count: 4, precision: 0 },
               title: { text: yAxisLabel, display: true },
             },
           },
@@ -98,6 +99,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
               },
             },
           },
+          datasets: {},
         }}
       />
     </>
