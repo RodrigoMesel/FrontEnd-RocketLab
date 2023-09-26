@@ -31,7 +31,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
   });
   useEffect(() => {
     setUserData({
-      labels: chartData.map((data) => getMonthName(data.month).toUpperCase()),
+      labels: chartData.map((data) => getMonthName(data.month).substring(0, 3)),
       datasets: [
         {
           label: "Meta",
