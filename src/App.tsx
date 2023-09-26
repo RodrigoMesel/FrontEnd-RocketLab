@@ -3,6 +3,7 @@ import Styling from "./styling/Background";
 import { NavBar } from "./components/NavBar";
 import GeneralWindow from "./components/GeneralWindow";
 import Colaborators from "./pages/Colaborators";
+import Colaborator from "./pages/Colaborator";
 import "./font.css";
 import Dashboard from "./pages/Dashboard";
 
@@ -20,6 +21,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/colaboradores" element={<Colaborators />} />
+                  <Route path="/colaborador" element={<Colaborator />} />
                 </Routes>
               </GeneralWindow>
             </div>
