@@ -12,7 +12,7 @@ function App() {
     <>
       <Styling>
         <Router>
-          <div className="grid grid-cols-[1fr,7fr]  h-screen gap-4">
+          <div className="grid grid-cols-[1fr,7fr]  h-full gap-4">
             <div className="mt-16 mb-16 ml-4 mr-2 h-1/2">
               <NavBar />
             </div>
