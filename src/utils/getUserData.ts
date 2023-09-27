@@ -1,8 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export function getUserData(userId : number) {
-  const [userData, setUserData] = useState(null);
+type UserData = {
+  id: number;
+  name: string;
+  grade: number;
+  role: string;
+};
+
+export function getUserData(userId: number) {
+  const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
 
   useEffect(() => {
     axios
@@ -10,9 +17,9 @@ export function getUserData(userId : number) {
       .then((res) => {
         const { id, name, grade, role } = res.data;
 
-        const user = { id, name, grade, role };
-        
-        //setUserData(user);
+        const user: UserData = { id, name, grade, role };
+
+        setUserData(user);
         console.log(user);
       })
       .catch((error) => {
