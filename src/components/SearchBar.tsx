@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { FilterContext } from '../context/FilterContext';
+
 
 const SearchBar: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const {filterText, setFilterText} = useContext(FilterContext)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    setFilterText(e.target.value);
   };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Colaborador:', searchTerm);
+    console.log('Colaborador:', filterText);
   };
 
   
@@ -22,7 +25,7 @@ const SearchBar: React.FC = () => {
           type="text"
           placeholder="Buscar colaboradores"
           className="p-2 w-full bg-[#FBFBFB] ml-1 mr-4 rounded-2xl outline-none"
-          value={searchTerm}
+          value={filterText}
           onChange={handleSearchChange}
         />
       </form>
