@@ -1,4 +1,5 @@
 import React from 'react';
+import ColaboratorImage from './ColaboratorImage';
 
 const ColaboratorCard: React.FC = () => {
 
@@ -7,9 +8,7 @@ const ColaboratorCard: React.FC = () => {
     <>
         <div className='flex flex-col rounded-2xl bg-[#FBFBFB] h-44 w-40 text-center items-center text-[#312843]'>
             <div className='flex items-center mt-5'>
-                <div className='rounded-3xl bg-[#E5E5E5] h-12 w-12 flex items-center justify-center ml-1'>
-                    <img src="./src/assets/person.svg" alt="Img colaborador" />
-                </div>
+                <ColaboratorImage/>
             </div>
                 <div className='font-bold mt-1'>Alice Martins</div>
                 <div className=''>Marketing</div>
