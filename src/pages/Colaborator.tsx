@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar'
 import { getUserData } from '../utils/getUserData'
 import ColaboratorImage from '../components/ColaboratorImage';
+import BarChart from '../components/SemestralBarChart';
+import DoughnutChart from '../components/MonthlyPercentageGraph';
+import { getData } from "../utils/getData";
+import { getMonthData } from "../utils/getMonthData";
 
 type UserData = {
     id: number;
@@ -14,7 +18,7 @@ export default function Colaborator() {
   const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
 
   // No momento, estamos passando um id fixo! Precisa alterar isso depois
-  const data = getUserData(2);
+  const data = getUserData(63);
 
   useEffect(() => {
     setUserData(data);
@@ -25,7 +29,6 @@ export default function Colaborator() {
       <div className='mt-2'>
         <SearchBar />
       </div>
-      
       <div className='flex flex-col  flex-column space-x-2 ml-5 mt-8 mr-4'>
         {/* {userData.id !== 0 ? (
           <> */}
@@ -45,13 +48,35 @@ export default function Colaborator() {
         ) : (
           <div>Carregando...</div>
         )} */}
-        </div>
-        
-      <div className='flex'>
-        <div className='flex flex-row justify-items-start px-10 py-10' style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-        </div>
-        <div className="grow h-14 ..."></div>
       </div>
+
+      <div className="rounded-lg border border-solid p-3">
+        <div className="">
+          <div className="w-full h-80">
+            <DoughnutChart
+              chartData={getMonthData(
+                "http://localhost:3000/colaborator-indicator/statistics/month/7/colaboratorId/64"
+              )}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-lg border border-solid p-3">
+        <div className="">
+          <div className="w-full">
+            <BarChart
+              chartData={getData(
+                "http://localhost:3000/colaborator-indicator/statistics/colaboratorId/61"
+              )}
+              yAxisLabel="Colaboradores"
+            />
+          </div>
+        </div>
+      </div>
+      
+      
+      
     </>
   )
 }
