@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SortedByContext } from '../context/SortedByContext';
 
 interface ChangeListOrderModalProps{
@@ -12,6 +12,13 @@ const ChangeListOrderModal:  React.FC<ChangeListOrderModalProps> = ({openPopUp, 
 
     const [partialValue, setPartialValue] = useState(sortedByName)
 
+    const [rankingBgColor, setRankingBgColor] = useState('')
+    const [nameBgColor, setNameBgColor] = useState('')
+
+    useEffect(() => {
+        setRankingBgColor((!partialValue) ? 'bg-[#952323]' : 'bg-white')
+        setNameBgColor((partialValue) ? 'bg-[#952323]' : 'bg-white')
+    },[partialValue])
 
     if(openPopUp){
         return (
@@ -33,15 +40,15 @@ const ChangeListOrderModal:  React.FC<ChangeListOrderModalProps> = ({openPopUp, 
                             <div className='flex flex-col gap-7 my-10 justify-start w-96 px-10'>
                                 <span className='font-bold'>Mostrar colaboradores por:</span>
 
-                                <div className='flex gap-4 content-center'>
-                                    <input type="checkbox" className='cursor-pointer' onClick={() => setPartialValue(false)} checked={!partialValue}/>
-                                    <span>Ranking</span>
-                                </div>
+                                <button className={`text-black w-80 rounded-xl px-2 py-2 flex bg-opacity-25 ${rankingBgColor}`}
+                                onClick={() => setPartialValue(false)}>
+                                    Ranking
+                                </button>
 
-                                <div  className='flex gap-4 content-center'>
-                                    <input type="checkbox" className='cursor-pointer' onClick={() => setPartialValue(true)} checked={partialValue}/>
-                                    <span>Ordem alfabética</span>
-                                </div>
+                                <button className={`text-black w-80 rounded-xl px-2 py-2 flex bg-opacity-25 ${nameBgColor}`}
+                                onClick={() => setPartialValue(true)}>
+                                    Ordem alfabética
+                                </button>
                             </div>
                         </div>
                         

@@ -34,13 +34,17 @@ type MonthStatistics = {
 };
 
 export default function Colaborator() {
+
+    const { id } = useParams();
+    const userId = parseInt(id!, 10)
+
     const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
     
     const [monthStats, loading] = getMonthStatistics(2, 1); 
     const [indicatorName, setIndicatorName] = useState<string | null>(null);
 
     // No momento, estamos passando um id fixo! Precisa alterar isso depois
-    const data = getUserData(2);
+    const data = getUserData(userId);
     const nameData = getIndicatorName(99);
 
     useEffect(() => {
