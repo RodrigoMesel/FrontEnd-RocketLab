@@ -28,7 +28,7 @@ const HighlightsModal: React.FC = () => {
         <h1>Colaboradores</h1>
         <ul>
           {highlightsContext.colaborators.colaboratorList?.map((item) => (
-            <li>
+            <li key={item.id}>
               {item.name} {""} {item.grade}
             </li>
           ))}
