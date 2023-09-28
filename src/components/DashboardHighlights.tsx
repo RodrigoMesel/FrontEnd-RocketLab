@@ -1,6 +1,7 @@
 import { getMonthName } from "../utils/getMonthName";
 import HighlightsList from "./HighlightsList";
 import StatsTextBox from "./StatsTextBox";
+import { HighlightsModalProvider } from "./context/HighlightsModalContext";
 
 const DashboardHighlights: React.FC = () => {
   return (
@@ -14,7 +15,9 @@ const DashboardHighlights: React.FC = () => {
         </div>
 
         <div>
-          <HighlightsList />
+          <HighlightsModalProvider>
+            <HighlightsList />
+          </HighlightsModalProvider>
         </div>
       </div>
     </>
