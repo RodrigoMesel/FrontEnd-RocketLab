@@ -18,6 +18,7 @@ type MonthStatistics = {
     goal: number;
     superGoal: number;
     challenge: number;
+    name: string;
   }>;
   nothingIndicators: Array<{
     id: number;
@@ -30,6 +31,7 @@ type MonthStatistics = {
     goal: number;
     superGoal: number;
     challenge: number;
+    name: string;
   }>;
 };
 
