@@ -10,7 +10,7 @@ const ColaboratorGrade: React.FC<ColaboratorGradeProps> = ({ grade }) => {
       ? "bg-[#F16062]"
       : grade <= 2
       ? "bg-[#AC72C1]"
-      : grade <= 4
+      : grade < 4
       ? "bg-[#32B97C]"
       : "bg-[#6186D3]";
 
