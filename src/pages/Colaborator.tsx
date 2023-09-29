@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import SearchBar from '../components/SearchBar'
 import { BrowserRouter as Router, Route, useParams } from 'react-router-dom';
 import { getUserData } from '../utils/getUserData'
@@ -11,6 +11,9 @@ import IndicatorCard from '../components/IndicatorCard';
 import { getMonthStatistics } from '../utils/getMonthStatistics'; 
 import ColaboratorGrade from '../components/ColaboratorGrade';
 import grade from '../assets/grade.svg';
+import AddIndicator from '../components/AddIndicator';
+import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
+import StatsTextBox from "../components/StatsTextBox";
 
 type UserData = {
     id: number;
@@ -46,6 +49,8 @@ export default function Colaborator() {
 
     const data = getUserData(userId);
 
+    const {openCreatePopUp, setOpenCreatePopUp} = useContext(CreateColaboratorListContext)
+
     useEffect(() => {
         setUserData(data);
     }, [data]);
@@ -60,7 +65,7 @@ export default function Colaborator() {
       <div className='flex flex-row space-x-5 ml-5 mt-8 mr-4'>
         {/* {userData.id !== 0 ? (
           <> */}
-        <ColaboratorImage/>
+        <ColaboratorImage/ >
         <div className='flex flex-col'>
             <div>{userData.role}</div>
             <div className='font-bold text-3xl'>{userData.name}</div>
@@ -82,24 +87,37 @@ export default function Colaborator() {
         )} */}
         </div>
 
-        <div className='mt-2 ml-5'> Indicadores</div>
+        <div className='flex flex-row space-x-24'> 
+
+          <div className='mt-2 ml-5'> Indicadores</div>
+          
+          <AddIndicator
+                    openCreatePopUp={openCreatePopUp}
+                    setOpenCreatePopUp={setOpenCreatePopUp}
+                    />
+        </div>
+        {/* Flex box da primeira coluna de componentes */}
 
         <div className='flex flex-row space-x-24'> 
 
           {/* Cards dos indicadores */}
-          <div className='flex flex-col space-y-2'>
+          <div className='flex flex-col space-y-2 ml-5 mt-3 overflow-y-auto'>
+            
                   {monthStats && monthStats.monthIndicators.map((indicator) => (
             <IndicatorCard
-                key={indicator.id}
+                id={indicator.id}
                 name={indicator.name}
                 weight={indicator.weight}
                 goal={indicator.goal}
                 supergoal={indicator.superGoal}
                 challenge={indicator.challenge}
+                result = {indicator.result}
             />
+
           ))}
           </div>  
 
+          <div className='flex flex-col'> 
           <div className="rounded-lg border border-solid p-3">
             <div className="">
               <div className="w-full h-80">
@@ -109,20 +127,30 @@ export default function Colaborator() {
               </div>
             </div>
           </div>
+          <div className="grow h-14 ..."></div>
+          </div>
       </div>
 
-      <div className="rounded-lg border border-solid p-3">
-        <div className="">
-          <div className="w-full">
+      <div className="rounded-lg border border-solid p-3 mt-3 ml-5">
+        <div className="w-2/3">
+
+        <div className="flex pb-5 content-start justify-between">
+          <div className=" text-4xs p-2">Evolução de resultados</div>
+          <StatsTextBox txt={"Últimos 6 meses"} />
+        </div>
+          <div className="">
             <BarChart
               chartData={getData(
                 `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
               )}
-              yAxisLabel="Colaboradores"
+              yAxisLabel="Indicadores" 
             />
           </div>
         </div>
       </div>
+
+
+      
     </>
   )
 }
