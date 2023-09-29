@@ -8,8 +8,6 @@ import DoughnutChart from '../components/MonthlyPercentageGraph';
 import { getData } from "../utils/getData";
 import { getMonthData } from "../utils/getMonthData";
 import IndicatorCard from '../components/IndicatorCard';
-import IndicatorCardteste from '../components/IndicatorCardteste';
-import { getIndicatorName } from '../utils/getIndicatorName';
 import { getMonthStatistics } from '../utils/getMonthStatistics'; 
 
 type UserData = {
@@ -25,6 +23,7 @@ type MonthStatistics = {
     challenge: number;
     monthIndicators: Array<{
       id: number;
+      name: string;
       weight: number;
       goal: number;
       superGoal: number;
@@ -40,17 +39,10 @@ export default function Colaborator() {
 
     const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
     
-    const [monthStats, loading] = getMonthStatistics(2, 1); 
-    const [indicatorName, setIndicatorName] = useState<string | null>(null);
+    // UserID está sendo passado, o mês está fixo (em todas as requisições aqui)
+    const [monthStats, loading] = getMonthStatistics(2, userId); 
 
-    // No momento, estamos passando um id fixo! Precisa alterar isso depois
     const data = getUserData(userId);
-    const nameData = getIndicatorName(99);
-
-    useEffect(() => {
-        setIndicatorName(nameData);
-    }, [nameData]);
-
 
     useEffect(() => {
         setUserData(data);
@@ -89,14 +81,14 @@ export default function Colaborator() {
 
         <div className='flex flex-col space-y-2'>
                 {monthStats && monthStats.monthIndicators.map((indicator) => (
-        <IndicatorCard
-            key={indicator.id}
-            name="Converter 20 novos clientes"
-            weight={indicator.weight}
-            goal={indicator.goal}
-            supergoal={indicator.superGoal}
-            challenge={indicator.challenge}
-        />
+          <IndicatorCard
+              key={indicator.id}
+              name={indicator.name}
+              weight={indicator.weight}
+              goal={indicator.goal}
+              supergoal={indicator.superGoal}
+              challenge={indicator.challenge}
+          />
         ))}
 
         </div>  
@@ -105,9 +97,7 @@ export default function Colaborator() {
         <div className="">
           <div className="w-full h-80">
             <DoughnutChart
-              chartData={getMonthData(
-                "http://localhost:3000/colaborator-indicator/statistics/month/7/colaboratorId/64"
-              )}
+                chartData={getMonthData(`http://localhost:3000/colaborator-indicator/statistics/month/7/colaboratorId/${userId}`)}
             />
           </div>
         </div>
@@ -118,7 +108,7 @@ export default function Colaborator() {
           <div className="w-full">
             <BarChart
               chartData={getData(
-                "http://localhost:3000/colaborator-indicator/statistics/colaboratorId/61"
+                `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
               )}
               yAxisLabel="Colaboradores"
             />
