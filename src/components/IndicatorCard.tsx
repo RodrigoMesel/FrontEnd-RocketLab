@@ -1,4 +1,5 @@
 import React from 'react';
+import retangulo from '../assets/retangulo.svg';
 
 interface IndicatorCardProps {
     name: string;
@@ -14,12 +15,12 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({name, weight, goal,
     <>
     <div className='bg-[#FBFBFB] w-80 rounded-lg '>
         <div className='text-lg mt-3 ml-3'> {name}</div>
-        <div className='text-xs ml-3'> Peso: {weight}</div>
+        <div className='text-xs ml-3'> Peso: {weight.toFixed(2)}</div>
 
         <div className='flex flex-row space-x-4 mt-3 ml-3'>
 
             <div className='flex flex-row'>
-                <img src="./src/assets/retangulo.svg" alt="" className="h-12 w-8" />
+                <img src={retangulo} alt="" className="h-12 w-8" />
                 <div className='flex flex-col'>
                     <div> Meta </div>
                     <div className='font-bold text-lg'> {goal}</div>
@@ -27,7 +28,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({name, weight, goal,
             </div>
 
             <div className='flex flex-row'>
-                <img src="./src/assets/retangulo.svg" alt="" className="h-12 w-8" />
+                <img src={retangulo} alt="" className="h-12 w-8" />
                 <div className='flex flex-col'>
                     <div> Supermeta </div>
                     <div className='font-bold text-lg'> {supergoal}</div>
@@ -35,7 +36,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({name, weight, goal,
             </div>
 
             <div className='flex flex-row'>
-                <img src="./src/assets/retangulo.svg" alt="" className="h-12 w-8" />
+                <img src={retangulo} alt="" className="h-12 w-8" />
                 
             <div className='flex flex-col'>
                 <div> Desafio </div>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { FilterContext } from '../context/FilterContext';
-
+import search from '../assets/search.svg';
 
 const SearchBar: React.FC = () => {
 
@@ -19,7 +19,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className='flex items-center bg-[#FBFBFB] ml-4 mr-4 rounded-2xl'>
-      <img src="./src/assets/search.svg" alt="" className="h-4 w-4 ml-4" />
+      <img src={search} alt="" className="h-4 w-4 ml-4" />
       <form onSubmit={handleSearchSubmit} className='flex-grow'>
         <input
           type="text"
