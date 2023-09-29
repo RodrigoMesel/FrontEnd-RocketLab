@@ -14,6 +14,7 @@ import grade from '../assets/grade.svg';
 import AddIndicator from '../components/AddIndicator';
 import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
 import StatsTextBox from "../components/StatsTextBox";
+import ChangeMonthBox from "../components/ChangeMonthBox";
 
 type UserData = {
     id: number;
@@ -37,15 +38,58 @@ type MonthStatistics = {
     }>;
 };
 
+interface Indicator {
+  id: number;
+  colaboratorId: number;
+  indicatorId: number;
+  result: number;
+  creationMonth: number;
+  weight: number;
+  unity: string;
+  goal: number;
+  superGoal: number;
+  challenge: number;
+}
+
+interface DoughnutChartProps {
+  chartData: {
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    nothing: number;
+    monthGrade: number;
+    nothingIndicators: Indicator[];
+    monthIndicators: Indicator[];
+  };
+}
+
 export default function Colaborator() {
 
     const { id } = useParams();
     const userId = parseInt(id!, 10)
 
     const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
+    const [number, setNumber] = useState(5);
+    const [doughnutChartData, setDoughnutChartData] = useState<DoughnutChartProps['chartData']>({
+      goal: 0,
+      superGoal: 0,
+      challenge: 0,
+      nothing: 0,
+      monthGrade: 0,
+      nothingIndicators: [],
+      monthIndicators: [],
+    });
     
-    // UserID está sendo passado, o mês está fixo (em todas as requisições aqui)
-    const [monthStats, loading] = getMonthStatistics(2, userId); 
+
+    const incrementNumber = () => {
+      setNumber(number + 1);
+    };
+
+    const decrementNumber = () => {
+      setNumber(number - 1);
+    };
+
+    const [monthStats, loading] = getMonthStatistics(number, userId);
 
     const data = getUserData(userId);
 
@@ -98,6 +142,10 @@ export default function Colaborator() {
         </div>
         {/* Flex box da primeira coluna de componentes */}
 
+        <button onClick={decrementNumber}>-</button>
+        <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
+        <button onClick={incrementNumber}>+</button>
+
         <div className='flex flex-row space-x-24'> 
 
           {/* Cards dos indicadores */}
@@ -122,7 +170,7 @@ export default function Colaborator() {
             <div className="">
               <div className="w-full h-80">
                 <DoughnutChart
-                    chartData={getMonthData(`http://localhost:3000/colaborator-indicator/statistics/month/7/colaboratorId/${userId}`)}
+                    chartData={getMonthData(`http://localhost:3000/colaborator-indicator/statistics/month/${number}/colaboratorId/${userId}`)}
                 />
               </div>
             </div>
