@@ -135,17 +135,25 @@ export default function Colaborator() {
 
           <div className='mt-2 ml-5'> Indicadores</div>
           
+          <div>
           <AddIndicator
                     openCreatePopUp={openCreatePopUp}
                     setOpenCreatePopUp={setOpenCreatePopUp}
                     />
+          </div>
+
+          
+          <div className="grow ..."></div>
+          <div> 
+            <div className='flex flex-row space-x-1 mr-5'>
+            <button onClick={decrementNumber}>-</button>
+            <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
+            <button onClick={incrementNumber}>+</button>
+            </div>
+          </div>
         </div>
-        {/* Flex box da primeira coluna de componentes */}
 
-        <button onClick={decrementNumber}>-</button>
-        <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-        <button onClick={incrementNumber}>+</button>
-
+        {/* Flex box da primeira linha de componentes */}
         <div className='flex flex-row space-x-24'> 
 
           {/* Cards dos indicadores */}
