@@ -70,9 +70,17 @@ const ColaboratorList: React.FC = () => {
 
     useEffect(() => {
         if(sortedByName){
-
-            //setFilteredNameList(colaboratorNameList.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-        }
+            setFilteredNameList(
+                colaboratorNameList
+                    .map((item: SeparetedByName) => ({
+                        ...item,
+                        colaborators: item.colaborators.filter((colaborator: Colaborator) =>
+                            colaborator.name.toLowerCase().includes(filterText.toLowerCase())
+                        )
+                    }))
+                    .filter((item) => item.colaborators.length > 0)
+            )
+    }
         else{
             setFilteredGrade4_5List(colaboratorGradeList!.grade4_5.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
             setFilteredGrade3_4List(colaboratorGradeList!.grade3_4.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
@@ -89,7 +97,7 @@ const ColaboratorList: React.FC = () => {
 
         {(sortedByName) ? 
 
-            colaboratorNameList.map((item, index) => (
+                filteredNameList.map((item, index) => (
                 <div key={index} className="flex w-full flex-col gap-8">
                         <div className='flex flex-row items-center gap-2'>
                             <span>{item.initial}</span>
