@@ -6,60 +6,17 @@ import SearchBar from '../components/SearchBar'
 import axios from 'axios'
 import { SortedByContext } from '../context/SortedByContext'
 import ChangeListOrderModal from '../components/ChangeListOrderModal'
-import { FilterContext } from '../context/FilterContext'
 import AddColaboratorModal from '../components/AddColaboratorModal'
+import ColaboratorList from '../components/ColaboratorsList'
+import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
 
-type Colaborator = {
-  id: number,
-  name: string,
-  grade: number,
-  role: string
-}
+
 
 export default function Colaborators() {
 
-  const {sortedByName} = useContext(SortedByContext)
-
-  const [openCreatePopUp, setOpenCreatePopUp] = useState(false)
+  const {openCreatePopUp, setOpenCreatePopUp} = useContext(CreateColaboratorListContext)
 
   const [openPopUp, setOpenPopUp] = useState(false)
-
-  const [colaboratorList, setColaboratorList] = useState<Colaborator[]>([])
-
-  const [filteredList, setFilteredList] = useState<Colaborator[]>([])
-
-  const {filterText} = useContext(FilterContext)
-
-
-  useEffect(() => {
-    
-    if(sortedByName){
-      axios.get("http://localhost:3000/colaborator/sortedByName")
-        .then(response => {
-          setColaboratorList(response.data);
-        })
-        .catch(error => {
-            console.error("Erro ao buscar os dados:", error);
-        });
-
-    } else{
-      axios.get("http://localhost:3000/colaborator/sortedByGrade")
-      .then(response => {
-        setColaboratorList(response.data);
-      })
-      .catch(error => {
-          console.error("Erro ao buscar os dados:", error);
-      });
-    }
-
-
-  }, [sortedByName, openCreatePopUp])
-
-
-  useEffect(() => {
-    setFilteredList(colaboratorList.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-  },[colaboratorList, filterText])
-
 
   return (
     <>
@@ -82,18 +39,9 @@ export default function Colaborators() {
 
         <div className='flex '>
           <div className = 'flex flex-row justify-items-start px-10 py-10' style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-            
-          {filteredList.map((item, index) =>(
-                        <div key={index}>
-                            <ColaboratorCard 
-                                id={item.id}
-                                name={item.name}
-                                grade={item.grade}
-                                role={item.role}
-                            ></ColaboratorCard>
-                        </div>
-                    ))}
 
+          <ColaboratorList/>
+                      
           </div>
           <div className="grow h-14 ..."></div>
         </div>
