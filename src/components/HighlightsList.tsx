@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import HighlightsModal from "./HighlightsModal";
-import { HighlightsModalContext } from "./context/HighlightsModalContext";
+import { HighlightsModalContext } from "../context/HighlightsModalContext";
 
 const HighlightsList: React.FC = () => {
   const highlightsContext = useContext(HighlightsModalContext);
