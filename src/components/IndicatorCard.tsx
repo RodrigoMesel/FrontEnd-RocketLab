@@ -2,21 +2,33 @@ import React from 'react';
 import retangulo from '../assets/retangulo.svg';
 
 interface IndicatorCardProps {
+    id: number;
     name: string;
     weight: number;
     goal:  number;
     supergoal: number;
     challenge: number;
+    result: number;
 }
   
-export const IndicatorCard: React.FC<IndicatorCardProps> = ({name, weight, goal, supergoal, challenge}) => {
+export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, name, weight, goal, supergoal, challenge, result}) => {
   
   return (
     <>
-    <div className='bg-[#FBFBFB] w-80 rounded-lg '>
-        <div className='text-lg mt-3 ml-3'> {name}</div>
-        <div className='text-xs ml-3'> Peso: {weight.toFixed(2)}</div>
+    <div className='bg-[#FBFBFB] p-5 rounded-lg  '>
+        <div className='flex flex-row'> 
+            <div>
+            <div className='text-lg mt-3 ml-3'> #{id} {name}</div>
+            <div className='text-xs ml-3'> Peso: {weight.toFixed(2)}</div>
+            </div>
 
+            <div className="grow w-8 ..."></div>
+
+            <div className='rounded-3xl bg-[#6186D3] h-12 w-12 flex items-center justify-center ml-1'>
+                <div className='text-white text-xs font-bold'> {result}</div>
+            </div>
+
+        </div>
         <div className='flex flex-row space-x-4 mt-3 ml-3'>
 
             <div className='flex flex-row'>
