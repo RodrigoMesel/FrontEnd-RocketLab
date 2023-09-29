@@ -1,7 +1,7 @@
+import { HighlightsModalProvider } from "../context/HighlightsModalContext";
 import { getMonthName } from "../utils/getMonthName";
 import HighlightsList from "./HighlightsList";
 import StatsTextBox from "./StatsTextBox";
-import { HighlightsModalProvider } from "./context/HighlightsModalContext";
 
 const DashboardHighlights: React.FC = () => {
   return (

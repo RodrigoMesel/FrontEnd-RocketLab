@@ -1,6 +1,7 @@
 import SearchBar from "../components/SearchBar";
 import DashboardHighlights from "../components/DashboardHighlights";
 import DashboardChart from "../components/DashboardChart";
+import DashboardColaboratorRanking from "../components/DashboardColaboratorRanking";
 
 export default function Dashboard() {
   return (
@@ -23,7 +24,9 @@ export default function Dashboard() {
               <DashboardHighlights />
             </div>
           </div>
-          <div className="border w-full">Ranking de colaboradores</div>
+          <div>
+            <DashboardColaboratorRanking />
+          </div>
         </div>
       </div>
     </>

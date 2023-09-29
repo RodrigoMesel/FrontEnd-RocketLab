@@ -1,39 +1,36 @@
-import React from 'react';
-import ColaboratorImage from './ColaboratorImage';
-import { Link } from 'react-router-dom';
 
-interface ColaboratorParams {
-    id: number,
-    name: string,
-    role: string,
-    grade: number
-  } 
+import React from "react";
+import ColaboratorImage from "./ColaboratorImage";
+import ColaboratorGrade from "./ColaboratorGrade";
+import { Link } from "react-router-dom";
 
-const ColaboratorCard: React.FC<ColaboratorParams> = ({id, name, role, grade}: ColaboratorParams) => {
+interface ColaboratorCardI {
+  name: string;
+  role: string;
+  grade: number;
+  id: number;
+}
 
-  const bgColor = (grade <= 1 && grade >= 0) ? 'bg-[#952323]' : (grade <= 2.5 && grade > 1) ? 'bg-[#AC72C1]' : 
-                    ((grade < 4 && grade > 2.5) ) ? 'bg-[#32B97C]' : 'bg-[#6186D3]'
-  
+const ColaboratorCard: React.FC<ColaboratorCardI> = ({
+  name,
+  role,
+  grade,
+  id,
+}) => {
   return (
     <>
       <Link to={`/colaborador/${id}`}>
-
-          <div className='flex flex-col rounded-2xl bg-[#FBFBFB] h-44 w-40 text-center items-center text-[#312843]'>
-              <div className='flex items-center mt-5'>
-                  <ColaboratorImage/>
-              </div>
-                  <div className='font-bold mt-1'>{name}</div>
-                  <div className=''>{role}</div>
-
-
-              <div className={`flex items-center justify-center space-x-1 rounded-xl ${bgColor} h-8 w-16 text-center text-white font-bold`}>
-                  <img src="./src/assets/grade.svg"/>
-                  <div className='mr-4'>{grade}</div>
-              </div>
+        <div className="flex flex-col rounded-2xl bg-[#FBFBFB] h-44 w-40 text-center items-center text-[#312843] cursor-pointer">
+          <div className="flex items-center mt-5">
+            <ColaboratorImage />
           </div>
-        </Link>
-    </>
+          <div className="font-bold mt-1">{name}</div>
+          <div className="">{role}</div>
 
+          <ColaboratorGrade grade={grade} />
+        </div>
+      </Link>
+    </>
   );
 };
 
