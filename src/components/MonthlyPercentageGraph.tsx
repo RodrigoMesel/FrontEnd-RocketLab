@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
+import { ChartContext } from "../context/ChartContext";
+import Chart from "chart.js/auto";
 interface Indicator {
   id: number;
   colaboratorId: number;
@@ -33,16 +35,13 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
       {
         data: [0, 0, 0, 0],
         backgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
-        hoverBackgroundColor: [
-          "#AC72C1",
-          "#32B97C",
-          "#6186D3",
-          "#F16062",
-        ],
+        hoverBackgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
       },
     ],
   });
+  const chartContext = useContext(ChartContext);
 
+  const ref = React.useRef<Chart<"doughnut", number[]>>(null);
   useEffect(() => {
     setUserData({
       labels: ["Meta", "Supermeta", "Desafio", "Não alcançado"],
@@ -55,12 +54,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
             chartData.nothing,
           ],
           backgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
-          hoverBackgroundColor: [
-            "#AC72C1",
-            "#32B97C",
-            "#6186D3",
-            "#F16062",
-          ],
+          hoverBackgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
         },
       ],
     });
@@ -68,6 +62,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
 
   return (
     <Doughnut
+      ref={ref}
       data={userData}
       options={{
         plugins: {
@@ -79,6 +74,13 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
               borderRadius: 4,
               useBorderRadius: true,
             },
+          },
+        },
+        animation: {
+          onComplete: function () {
+            ref.current
+              ? chartContext.changeImg(ref.current.toBase64Image())
+              : "";
           },
         },
       }}
