@@ -4,11 +4,8 @@ import {
   Text,
   Image,
   Document,
-  StyleSheet,
   View,
-  Polygon,
   Svg,
-  Rect,
   Font,
   Path,
   G,
@@ -16,7 +13,7 @@ import {
 import { createTw } from "react-pdf-tailwind";
 import PoppinsBold from "../assets/PDFFonts/Poppins-Bold.ttf";
 import PoppinsRegular from "../assets/PDFFonts/Poppins-Regular.ttf";
-import person from "../assets/person.svg";
+
 export interface PDFProps {
   name: string;
   role: string;
@@ -30,6 +27,20 @@ export interface PDFProps {
     goal: number;
     superGoal: number;
     challenge: number;
+    result: number;
+  }>;
+  nothingIndicators?: Array<{
+    id: number;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
+    weight: number;
+    unity: string;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    name: string;
   }>;
 }
 Font.register({
@@ -61,9 +72,8 @@ const PDFFile: React.FC<PDFProps> = ({
   role,
   doughnutChart,
   monthIndicators,
+  nothingIndicators,
 }) => {
-  //const carrinho = useContext(CarrinhoContext);
-  console.log(doughnutChart);
   return (
     <Document>
       <Page
@@ -92,60 +102,23 @@ const PDFFile: React.FC<PDFProps> = ({
           >
             <Text style={tw("mb-[1rem] text-base")}>Indicadores</Text>
             <View style={tw("flex flex-row flex-wrap gap-[7px]")}>
-              <Indicator
-                title="Converter 20 novos clientes"
-                weight={0.3}
-                goal={20}
-                superGoal={21}
-                challenge={22}
-                result={20}
-              />
-              <Indicator
-                title="Converter 20 novos clientes"
-                weight={0.3}
-                goal={20}
-                superGoal={21}
-                challenge={22}
-                result={19}
-              />
-              <Indicator
-                title="Converter 20 novos clientes"
-                weight={0.3}
-                goal={20}
-                superGoal={21}
-                challenge={22}
-                result={10}
-              />
-              <Indicator
-                title="Converter 20 novos clientes"
-                weight={0.3}
-                goal={20}
-                superGoal={21}
-                challenge={22}
-                result={22}
-              />
-              <Indicator
-                title="Converter 20 novos clientes"
-                weight={0.3}
-                goal={20000}
-                superGoal={21}
-                challenge={22}
-                result={21}
-              />
+              {monthIndicators &&
+                monthIndicators.map((indicator) => (
+                  <Indicator
+                    key={indicator.id}
+                    name={indicator.name}
+                    weight={indicator.weight}
+                    goal={indicator.goal}
+                    superGoal={indicator.superGoal}
+                    challenge={indicator.challenge}
+                    result={indicator.result}
+                  />
+                ))}
             </View>
           </View>
-
-          <View
-            style={tw("w-[64rem] h-[13.563rem] mt-[2.625rem] mx-[0.813rem]")}
-          >
-            {doughnutChart != "" ? (
-              <Image
-                style={tw("w-[15.813rem] h-[15.563rem]")}
-                src={doughnutChart}
-              ></Image>
-            ) : (
-              ""
-            )}
+          <View style={tw("flex flex-row gap-[7px] mt-[3.5rem] mx-[0.813rem]")}>
+            <IndicatorGraph doughnutChart={doughnutChart} />
+            <IndicatorNotReached nothingIndicators={nothingIndicators} />
           </View>
         </View>
       </Page>
@@ -201,7 +174,7 @@ const Grade = (props: { grade: number }) => {
 const IndicatorDone = (props: { color: string; num: number }) => (
   <View
     style={tw(
-      `flex flex-row rounded-xl ${props.color} justify-center w-[5rem] items-center text-center text-white font-bold mr-[4rem]`
+      `flex flex-row rounded-xl ${props.color} overflow-hidden justify-center w-[7.3rem] items-center text-center text-white font-bold mr-[4rem]`
     )}
   >
     <Svg width="26" height="26" viewBox="0 0 26 26">
@@ -223,7 +196,7 @@ const IndicatorDone = (props: { color: string; num: number }) => (
 );
 
 const Indicator = (props: {
-  title: string;
+  name: string;
   weight: number;
   goal: number;
   superGoal: number;
@@ -251,28 +224,28 @@ const Indicator = (props: {
   return (
     <View
       style={tw(
-        "w-[31.625rem] h-[13.25rem] rounded-[20px] bg-[#F5F5F5] px-[1.563rem] pb-[2.676rem] pt-[1.761rem]"
+        "w-[31.625rem] h-[13.25rem] rounded-[20px] bg-[#F5F5F5] px-[1.563rem] pb-[2.676rem] pt-[1.761rem] overflow-hidden"
       )}
     >
       <View style={tw("flex flex-row justify-between w-[28.75rem] h-3")}>
         <View style={tw("w-[25.75rem] h-[2.875rem]")}>
-          <Text style={tw("text-lg")}>{props.title}</Text>
+          <Text style={tw("text-lg")}>{props.name}</Text>
           <Text style={tw("text-sm text-[#A3A3A3]")}>Peso: {props.weight}</Text>
         </View>
         <View
           style={tw(
-            `${color} rounded-[20px] w-[3rem] h-[3rem] text-center items-center justify-center pt-2`
+            `${color} rounded-[20px] px-[0.792rem] max-w-[15rem] min-w-[3rem] h-[3rem] text-center items-center justify-center pt-2 overflow-hidden`
           )}
         >
           <Text style={tw(`text-xl text-white font-bold`)}>{props.result}</Text>
         </View>
       </View>
 
-      <View style={tw("mt-[4rem] w-[22.438rem] h-[3.875rem] flex flex-row")}>
+      <View style={tw("mt-[4rem] w-[31.438rem] h-[3.875rem] flex flex-row")}>
         {type === "goal" ? (
           <View
             style={tw(
-              "border-l-2 border-[#AC72C1] w-[3.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem]"
+              "border-l-2 border-[#AC72C1] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Meta</Text>
@@ -281,7 +254,7 @@ const Indicator = (props: {
         ) : (
           <View
             style={tw(
-              "border-l-2 border-[#312843] w-[3.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem]"
+              "border-l-2 border-[#312843] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Meta</Text>
@@ -294,7 +267,7 @@ const Indicator = (props: {
         {type === "superGoal" ? (
           <View
             style={tw(
-              "border-l-2 border-[#32B97C] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] ml-[3.938rem]"
+              "border-l-2 border-[#32B97C] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Supermeta</Text>
@@ -303,7 +276,7 @@ const Indicator = (props: {
         ) : (
           <View
             style={tw(
-              "border-l-2 border-[#312843] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] ml-[3.938rem]"
+              "border-l-2 border-[#312843] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Supermeta</Text>
@@ -315,7 +288,7 @@ const Indicator = (props: {
         {type === "challenge" ? (
           <View
             style={tw(
-              "border-l-2 border-[#6186D3] w-[8.563rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] ml-[3.938rem]"
+              "border-l-2 border-[#6186D3] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Desafio</Text>
@@ -324,7 +297,7 @@ const Indicator = (props: {
         ) : (
           <View
             style={tw(
-              "border-l-2 border-[#312843] w-[8.563rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] ml-[3.938rem]"
+              "border-l-2 border-[#312843] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Desafio</Text>
@@ -333,6 +306,112 @@ const Indicator = (props: {
             </Text>
           </View>
         )}
+      </View>
+    </View>
+  );
+};
+const IndicatorGraph = (props: { doughnutChart: string }) => {
+  return (
+    <View
+      style={tw(
+        "w-[31.625rem] h-[13.25rem] border rounded-[20px] border-[#D9D9D9] px-[2.5rem] py-[1.75rem] overflow-hidden"
+      )}
+    >
+      <View style={tw("flex flex-row")}>
+        <Text style={tw("font-bold text-base")}>90% </Text>
+        <Text style={tw("text-base")}>dos indicadores foram alcançados</Text>
+      </View>
+
+      <View style={tw("w-[19.75rem] h-[10rem] flex flex-row overflow-hidden")}>
+        <View
+          style={tw(
+            "w-[8rem] h-[8.8rem] mt-[1rem] mr-[5rem] relative bottom-0"
+          )}
+        >
+          {props.doughnutChart != "" ? (
+            <Image
+              style={tw("w-auto h-[8.8rem]")}
+              src={props.doughnutChart}
+            ></Image>
+          ) : (
+            <></>
+          )}
+        </View>
+        <View style={tw("mt-[2.625rem] text-xs flex flex-col gap-[8px]")}>
+          <View style={tw("flex flex-row items-center gap-[9px]")}>
+            <View
+              style={tw(
+                "bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
+              )}
+            ></View>
+            <Text>Meta</Text>
+          </View>
+
+          <View style={tw("flex flex-row items-center gap-[9px]")}>
+            <View
+              style={tw(
+                "bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
+              )}
+            ></View>
+            <Text>Supermeta</Text>
+          </View>
+
+          <View style={tw("flex flex-row items-center gap-[9px]")}>
+            <View
+              style={tw(
+                "bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
+              )}
+            ></View>
+            <Text>Desafio</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const IndicatorNotReached = (props: {
+  nothingIndicators?: Array<{
+    id: number;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
+    weight: number;
+    unity: string;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    name: string;
+  }>;
+}) => {
+  return (
+    <View
+      style={tw(
+        "w-[31.625rem] h-[13.25rem] border rounded-[20px] border-[#D9D9D9] px-[2.5rem] py-[1.75rem] overflow-hidden"
+      )}
+    >
+      <Text style={tw("text-base")}>Indicadores não alcançados</Text>
+      <View style={tw("flex flex-col flex-wrap mt-[1.25rem] overflow-hidden")}>
+        {props.nothingIndicators &&
+          props.nothingIndicators.map((indicator) => (
+            <View
+              key={indicator.id}
+              style={tw("flex flex-row items-center gap-[9px]")}
+            >
+              <View
+                style={tw(
+                  "bg-[#F16062] rounded-[21px] w-[0.90rem] h-[0.25rem] mb-[1.2rem]"
+                )}
+              ></View>
+              <View style={tw("w-[8.79rem] h-[2.25rem]")}>
+                <Text style={tw("text-xs")}>{indicator.name}</Text>
+              </View>
+              <View style={tw("w-[2.813rem] h-[2.25rem]")}>
+                <Text style={tw("text-xs font-bold")}>{indicator.result}</Text>
+              </View>
+            </View>
+          ))}
       </View>
     </View>
   );

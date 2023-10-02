@@ -8,6 +8,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   role,
   doughnutChart,
   monthIndicators,
+  nothingIndicators,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
             role={role}
             grade={grade}
             monthIndicators={monthIndicators}
+            nothingIndicators={nothingIndicators}
           />
         }
         fileName={name}
