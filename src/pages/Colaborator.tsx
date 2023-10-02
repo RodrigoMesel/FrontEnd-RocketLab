@@ -157,7 +157,7 @@ export default function Colaborator() {
         <div className='flex flex-row space-x-24'> 
 
           {/* Cards dos indicadores */}
-          <div className='flex flex-col space-y-2 ml-5 mt-3 overflow-y-auto'>
+          <div className='flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll'>
             
                   {monthStats && monthStats.monthIndicators.map((indicator) => (
             <IndicatorCard

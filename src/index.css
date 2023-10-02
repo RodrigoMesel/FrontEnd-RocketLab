@@ -7,10 +7,10 @@
   width: 10px;
 }
 
-/* Track */
+/* Track
 ::-webkit-scrollbar-track {
   background: #952323;
-}
+} */
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
