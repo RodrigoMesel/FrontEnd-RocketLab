@@ -151,30 +151,6 @@ export default function Colaborator() {
             <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
             <button onClick={incrementNumber}>+</button>
             </div>
-        <div className='flex flex-col space-y-2'>
-                {monthStats && monthStats.monthIndicators.map((indicator) => (
-          <IndicatorCard
-              key={indicator.id}
-              name={indicator.name}
-              weight={indicator.weight}
-              goal={indicator.goal}
-              supergoal={indicator.superGoal}
-              challenge={indicator.challenge}
-          />
-        ))}
-
-        </div>  
-
-        <DownloadPdfButton
-          onClick={() => console.log("funcionou")} // Botar a função que tu quiser Gabriel
-        ></DownloadPdfButton>
-
-        <div className="rounded-lg border border-solid p-3">
-        <div className="">
-          <div className="w-full h-80">
-            <DoughnutChart
-                chartData={getMonthData(`http://localhost:3000/colaborator-indicator/statistics/month/7/colaboratorId/${userId}`)}
-            />
           </div>
         </div>
 
@@ -197,6 +173,10 @@ export default function Colaborator() {
 
           ))}
           </div>  
+          
+        <DownloadPdfButton
+          onClick={() => console.log("funcionou")} // Botar a função que tu quiser Gabriel
+        ></DownloadPdfButton>
 
           <div className='flex flex-col'> 
           <div className="rounded-lg border border-solid p-3">
