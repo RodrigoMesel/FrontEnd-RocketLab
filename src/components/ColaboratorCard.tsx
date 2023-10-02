@@ -1,10 +1,9 @@
-
 import React from "react";
 import ColaboratorImage from "./ColaboratorImage";
 import ColaboratorGrade from "./ColaboratorGrade";
 import { Link } from "react-router-dom";
 
-interface ColaboratorCardI {
+export interface ColaboratorCardI {
   name: string;
   role: string;
   grade: number;
