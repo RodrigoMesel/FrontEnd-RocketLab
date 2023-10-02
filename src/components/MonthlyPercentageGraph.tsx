@@ -77,6 +77,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
           },
         },
         animation: {
+          duration: 0,
           onComplete: function () {
             ref.current
               ? chartContext.changeImg(ref.current.toBase64Image())
