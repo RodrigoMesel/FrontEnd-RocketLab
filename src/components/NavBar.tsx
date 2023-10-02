@@ -5,7 +5,10 @@ export const NavBar: React.FC = () => {
   return (
     <>
 <nav className=' w-full h-96 text-white flex flex-col justify-between font-bold mr-3'>
-    <div className='text-center text-2xl mb-2 flex justify-around'>V-FOODS</div>
+
+    <Link to='/'>
+        <div className='text-center text-2xl mb-2 flex justify-around'>V-FOODS</div>
+    </Link>
 
 
     <div className="">
