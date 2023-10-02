@@ -16,11 +16,12 @@ const HighlightsModal: React.FC = () => {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      maxHeight: "80%"
     },
   };
 
   return (
-    <>
+    <div>
       <Modal
         isOpen={highlightsContext.isOpen}
         onRequestClose={highlightsContext.handleClose}
@@ -61,7 +62,7 @@ const HighlightsModal: React.FC = () => {
           ))}
         </ul>
       </Modal>
-    </>
+    </div>
   );
 };
 export default HighlightsModal;

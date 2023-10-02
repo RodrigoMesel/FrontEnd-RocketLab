@@ -9,6 +9,7 @@ import { getData } from "../utils/getData";
 import { getMonthData } from "../utils/getMonthData";
 import IndicatorCard from '../components/IndicatorCard';
 import { getMonthStatistics } from '../utils/getMonthStatistics'; 
+import DownloadPdfButton from '../components/DownloadPdfButton';
 
 type UserData = {
     id: number;
@@ -92,6 +93,10 @@ export default function Colaborator() {
         ))}
 
         </div>  
+
+        <DownloadPdfButton
+          onClick={() => console.log("funcionou")} // Botar a função que tu quiser Gabriel
+        ></DownloadPdfButton>
 
         <div className="rounded-lg border border-solid p-3">
         <div className="">

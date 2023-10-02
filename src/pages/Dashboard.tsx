@@ -2,12 +2,15 @@ import SearchBar from "../components/SearchBar";
 import DashboardHighlights from "../components/DashboardHighlights";
 import DashboardChart from "../components/DashboardChart";
 import DashboardColaboratorRanking from "../components/DashboardColaboratorRanking";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
     <>
       <div className="mt-2">
-        <SearchBar />
+        <Link to='/colaboradores'>
+          <SearchBar />
+        </Link>
       </div>
 
       <div className="flex flex-wrap items-start space-x-2 ml-5 mt-8 mr-4">
