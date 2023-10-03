@@ -21,6 +21,7 @@ import AddIndicatorTest from '../components/AddIndicatorTeste';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
 import CreateIndicatorModal from '../components/CreateIndicatorModal';
 import { IndicatorContext } from '../context/IndicatorContext';
+import DownloadPdfButton from '../components/DownloadPdfButton';
 
 type UserData = {
     id: number;
@@ -187,6 +188,10 @@ export default function Colaborator() {
 
           ))}
           </div>  
+          
+        <DownloadPdfButton
+          onClick={() => console.log("funcionou")} // Botar a função que tu quiser Gabriel
+        ></DownloadPdfButton>
 
           <div className='flex flex-col'> 
           <div className="rounded-lg border border-solid p-3">

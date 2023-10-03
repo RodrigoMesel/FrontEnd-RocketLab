@@ -6,6 +6,7 @@ import Colaborators from "./pages/Colaborators";
 import Colaborator from "./pages/Colaborator";
 import "./font.css";
 import Dashboard from "./pages/Dashboard";
+import { ChartProvider } from "./context/ChartContext";
 
 function App() {
   return (
@@ -18,11 +19,13 @@ function App() {
             </div>
             <div className=" mt-16 mb-16 mr-12">
               <GeneralWindow>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/colaboradores" element={<Colaborators />} />
-                  <Route path="/colaborador/:id" element={<Colaborator />} />
-                </Routes>
+                <ChartProvider>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/colaboradores" element={<Colaborators />} />
+                    <Route path="/colaborador/:id" element={<Colaborator />} />
+                  </Routes>
+                </ChartProvider>
               </GeneralWindow>
             </div>
           </div>
