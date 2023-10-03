@@ -111,6 +111,7 @@ export default function Colaborator() {
 
   return (
     <>
+    <div className='overflow-scroll'>
       <div className='mt-2'>
         <SearchBar />
       </div>
@@ -152,11 +153,12 @@ export default function Colaborator() {
           />
           </div>
 
-          <AddIndicatorTest
+          {/* <AddIndicatorTest
             openPopUpCreateIndicator={openPopUpCreateIndicator}
             setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+            
           
-          /> 
+          />  */}
 
           
           <div className="grow ..."></div>
@@ -234,7 +236,7 @@ export default function Colaborator() {
           setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
         ></ CreateIndicatorModal>
 
-      
+</div>
     </>
   )
 }
