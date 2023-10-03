@@ -13,6 +13,7 @@ import {
 import { createTw } from "react-pdf-tailwind";
 import PoppinsBold from "../assets/PDFFonts/Poppins-Bold.ttf";
 import PoppinsRegular from "../assets/PDFFonts/Poppins-Regular.ttf";
+import { getMonthName } from "../utils/getMonthName";
 
 export interface PDFProps {
   name: string;
@@ -20,6 +21,7 @@ export interface PDFProps {
   grade: number;
   id: number;
   doughnutChart: string;
+  monthNumber: number;
   monthIndicators?: Array<{
     id: number;
     name: string;
@@ -73,6 +75,7 @@ const PDFFile: React.FC<PDFProps> = ({
   doughnutChart,
   monthIndicators,
   nothingIndicators,
+  monthNumber,
 }) => {
   return (
     <Document>
@@ -84,17 +87,29 @@ const PDFFile: React.FC<PDFProps> = ({
         wrap={false}
       >
         <View style={tw("pr-[8.5rem] pl-[8.5rem] pt-[3.75rem] pb-[4.375rem]")}>
-          <View style={tw("flex w-[30.438rem] flex-row gap-[1.125rem]")}>
-            <Icon />
+          <View style={tw("flex flex-row w-[64.875rem] items-center")}>
+            <View style={tw("flex w-[30.438rem] flex-row gap-[1.125rem]")}>
+              <Icon />
 
-            <View style={tw("w-[18.625rem] flex flex-col")}>
-              <Text style={tw("font-normal text-base text-[#A3A3A3]")}>
-                {role}
-              </Text>
-              <Text style={tw("font-bold text-3xl")}>{name}</Text>
+              <View style={tw("w-[18.625rem] flex flex-col")}>
+                <Text style={tw("font-normal text-base text-[#A3A3A3]")}>
+                  {role}
+                </Text>
+                <Text style={tw("font-bold text-3xl")}>{name}</Text>
+              </View>
+
+              <Grade grade={grade} />
             </View>
 
-            <Grade grade={grade} />
+            <View
+              style={tw(
+                "ml-[24.125rem] rounded-xl border border-solid w-[9.75rem] h-[2.438rem] justify-center items-center px-2.5 py-1 border-[#D9D9D9]"
+              )}
+            >
+              <Text style={tw("font-medium text-base text-[#A3A3A3]")}>
+                {getMonthName(monthNumber)}
+              </Text>
+            </View>
           </View>
 
           <View
