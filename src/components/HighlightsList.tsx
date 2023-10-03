@@ -40,7 +40,7 @@ const HighlightsList: React.FC = () => {
       <ul className="max-w-md divide-y divide-gray-200">
         <li className="pb-3">
           <div
-            className="flex items-center space-x-4 cursor-pointer"
+            className="flex items-center space-x-4 cursor-pointer h-20"
             onClick={() =>
               highlightsContext.handleOpen({ colaboratorList: data?.challenge })
             }
@@ -75,7 +75,7 @@ const HighlightsList: React.FC = () => {
               </svg>
             </div>
 
-            <p>
+            <p className="text-lg">
               <span className="font-bold">
                 {data ? data.challenge.length : 0} colaboradores{" "}
               </span>
@@ -85,7 +85,7 @@ const HighlightsList: React.FC = () => {
         </li>
         <li className="py-3">
           <div
-            className="flex items-center space-x-4 cursor-pointer"
+            className="flex items-center space-x-4 cursor-pointer h-20"
             onClick={() =>
               highlightsContext.handleOpen({ colaboratorList: data?.superGoal })
             }
@@ -120,7 +120,7 @@ const HighlightsList: React.FC = () => {
               </svg>
             </div>
 
-            <p>
+            <p className="text-lg">
               <span className="font-bold">
                 {data ? data.superGoal.length : 0} colaboradores{" "}
               </span>
@@ -130,7 +130,7 @@ const HighlightsList: React.FC = () => {
         </li>
         <li className="py-3">
           <div
-            className="flex items-center space-x-4 cursor-pointer"
+            className="flex items-center space-x-4 cursor-pointer h-20"
             onClick={() =>
               highlightsContext.handleOpen({ colaboratorList: data?.goal })
             }
@@ -164,7 +164,7 @@ const HighlightsList: React.FC = () => {
                 />
               </svg>
             </div>
-            <p>
+            <p className="text-lg">
               <span className="font-bold">
                 {data ? data.goal.length : 0} colaboradores{" "}
               </span>
@@ -174,7 +174,7 @@ const HighlightsList: React.FC = () => {
         </li>
         <li className="pt-3">
           <div
-            className="flex items-center space-x-4 cursor-pointer"
+            className="flex items-center space-x-4 cursor-pointer h-20"
             onClick={() =>
               highlightsContext.handleOpen({ colaboratorList: data?.nothing })
             }
@@ -208,7 +208,7 @@ const HighlightsList: React.FC = () => {
                 />
               </svg>
             </div>
-            <p>
+            <p className="text-lg">
               <span className="font-bold">
                 {data ? data.nothing.length : 0} colaboradores{" "}
               </span>

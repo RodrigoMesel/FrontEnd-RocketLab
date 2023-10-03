@@ -29,8 +29,10 @@ const DashboardColaboratorRanking: React.FC = () => {
 
   return (
     <>
-      <div className="rounded-lg border border-solid p-3 w-full flex gap-3 flex-col">
-        Ranking de colaboradores
+      <div className="rounded-lg p-3 w-full flex gap-3 flex-col">
+        <span className="text-xl">
+          Ranking de colaboradores  
+        </span>
         <div className="flex flex-wrap gap-3 justify-evenly">
           {colaboratorData?.colaboratorList.map((item) => (
             <ColaboratorCard

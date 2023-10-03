@@ -1,5 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import home from '../assets/home.svg';
+import group from '../assets/group.svg';
+import settings from '../assets/settings.svg';
+import logout from '../assets/logout.svg';
+
+
 
 export const NavBar: React.FC = () => {
   return (
@@ -14,13 +20,13 @@ export const NavBar: React.FC = () => {
     <div className="">
         <Link to='/'>
             <button className='flex items-center space-x-2 mb-2'>
-                <img src="./src/assets/home.svg" alt="" className="h-6 w-6" />
+                <img src={home} alt="" className="h-6 w-6" />
                 <div className="text-base">Início</div>
             </button>
         </Link>
         <Link to='/colaboradores'>
         <button className='flex items-center space-x-2'> 
-            <img src="./src/assets/group.svg" alt="" className="h-6 w-6" />
+            <img src={group} alt="" className="h-6 w-6" />
             <div className="text-base">Colaboradores</div>
         </button>
         </Link>
@@ -29,12 +35,12 @@ export const NavBar: React.FC = () => {
     <div className="flex gap-2 flex-col">
 
         <button className='flex items-center space-x-2 mb-2'> 
-            <img src="./src/assets/settings.svg" alt="" className="h-6 w-6" />
+            <img src={settings} alt="" className="h-6 w-6" />
             <div className="text-base">Configurações</div>
         </button>
 
         <button className='flex items-center space-x-2'>
-            <img src="./src/assets/logout.svg" alt="" className="h-6 w-6" />
+            <img src={logout} alt="" className="h-6 w-6" />
             <div className="text-base">Sair</div>
         </button>
     </div>
