@@ -158,7 +158,7 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
 
                                 <button className='text-white bg-[#952323] w-72 py-3 rounded-xl'
                                         onClick={() =>  {
-                                            if(name !== '' || unity !== '' || weight !== '' || goal !== '' || superGoal !== '' || challenge !== '') {
+                                            if((name !== '') && (unity !== '') && (weight !== '') && (goal !== '') && (superGoal !== '') && (challenge !== '')) {
                                                 postCreateIndicator();
                                                 setOpenPopUpCreateIndicator(!openPopUpCreateIndicator);
                                             } else{
