@@ -15,6 +15,12 @@ import AddIndicator from '../components/AddIndicator';
 import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
+// import DownloadPdfButton from '../components/DownloadPdfButton';
+import IndicatorModal from '../components/IndicatorModal'
+import AddIndicatorTest from '../components/AddIndicatorTeste';
+import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
+import CreateIndicatorModal from '../components/CreateIndicatorModal';
+import { IndicatorContext } from '../context/IndicatorContext';
 
 type UserData = {
     id: number;
@@ -69,6 +75,10 @@ export default function Colaborator() {
     const userId = parseInt(id!, 10)
 
     const [userData, setUserData] = useState<UserData>({ id: 0, name: "", grade: 0, role: "" });
+    // Contexts
+    const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
+    const {openPopUpCreateIndicator, setOpenPopUpCreateIndicator} = useContext(CreateIndicatorContext)
+
     const [number, setNumber] = useState(5);
     const [doughnutChartData, setDoughnutChartData] = useState<DoughnutChartProps['chartData']>({
       goal: 0,
@@ -93,7 +103,6 @@ export default function Colaborator() {
 
     const data = getUserData(userId);
 
-    const {openCreatePopUp, setOpenCreatePopUp} = useContext(CreateColaboratorListContext)
 
     useEffect(() => {
         setUserData(data);
@@ -137,10 +146,16 @@ export default function Colaborator() {
           
           <div>
           <AddIndicator
-                    openCreatePopUp={openCreatePopUp}
-                    setOpenCreatePopUp={setOpenCreatePopUp}
-                    />
+            openPopUpIndicator={openPopUpIndicator}
+            setOpenPopUpIndicator={setOpenPopUpIndicator}
+          />
           </div>
+
+          <AddIndicatorTest
+            openPopUpCreateIndicator={openPopUpCreateIndicator}
+            setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+          
+          /> 
 
           
           <div className="grow ..."></div>
@@ -205,6 +220,14 @@ export default function Colaborator() {
         </div>
       </div>
 
+      < IndicatorModal
+            openPopUpIndicator={openPopUpIndicator}
+            setOpenPopUpIndicator={setOpenPopUpIndicator}
+        ></ IndicatorModal>
+      < CreateIndicatorModal
+          openPopUpCreateIndicator={openPopUpCreateIndicator}
+          setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+        ></ CreateIndicatorModal>
 
       
     </>
