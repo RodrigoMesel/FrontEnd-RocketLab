@@ -1,3 +1,6 @@
+import star from '../assets/grade.svg';
+
+
 interface ColaboratorGradeProps {
   grade: number;
 }
@@ -17,9 +20,9 @@ const ColaboratorGrade: React.FC<ColaboratorGradeProps> = ({ grade }) => {
   return (
     <>
       <div
-        className={`flex items-center space-x-1 rounded-xl pr-1 pl-1 ${color} h-8 w-[4.313rem] justify-center text-center text-white font-bold`}
+        className={`flex items-center space-x-1 rounded-xl px-1 ${color} h-8 w-[4.313rem] justify-center text-center text-white font-bold`}
       >
-        <img src="./src/assets/grade.svg" className="" />
+        <img src={star} className="" />
         <div className="">{grade}</div>
       </div>
     </>

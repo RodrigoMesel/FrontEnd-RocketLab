@@ -39,7 +39,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#AC72C1",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.5,
+          barPercentage: 0.60,
           categoryPercentage: 0.5,
         },
         {
@@ -48,7 +48,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#32B97C",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.5,
+          barPercentage: 0.60,
           categoryPercentage: 0.5,
         },
         {
@@ -57,7 +57,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#6186D3",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.5,
+          barPercentage: 0.60,
           categoryPercentage: 0.5,
         },
         {
@@ -66,7 +66,7 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           backgroundColor: "#F16062",
           borderRadius: 22,
           borderSkipped: false,
-          barPercentage: 0.5,
+          barPercentage: 0.60,
           categoryPercentage: 0.5,
         },
       ],
