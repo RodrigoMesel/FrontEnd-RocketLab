@@ -8,11 +8,11 @@ const DashboardChart: React.FC = () => {
       <div className="rounded-lg border border-solid p-3">
         <div className="">
           <div className="flex pb-5 content-start justify-between">
-            <div className=" text-4xs">Performance de Indicadores</div>
+            <div className=" text-xl">Performance de Indicadores</div>
             <StatsTextBox txt={"Últimos 6 meses"} />
           </div>
 
-          <div className="w-auto h-auto">
+          <div className="h-72 flex justify-center ">
             <BarChart
               chartData={getData(
                 "http://localhost:3000/colaborator-indicator/statistics"
