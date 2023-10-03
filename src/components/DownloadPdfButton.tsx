@@ -1,14 +1,19 @@
-import pdfLogo from '../assets/pdf.svg';
+import pdfLogo from "../assets/pdf.svg";
 
-interface DownloadPdfButtonProps{
-    onClick: React.MouseEventHandler<HTMLButtonElement>
+interface DownloadPdfButtonProps {
+  disabled: boolean;
 }
 
-const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({onClick}: DownloadPdfButtonProps) => {
+const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
+  disabled,
+}: DownloadPdfButtonProps) => {
   return (
-    <button onClick={onClick} className="flex text-[#312843] text-opacity-25 underline underline-offset-2 gap-3">
-        <img src={pdfLogo} alt="pdfLogo" />
-        Baixar relatório do mês
+    <button
+      disabled={disabled}
+      className="flex text-[#312843] text-opacity-25 underline underline-offset-2 gap-3"
+    >
+      <img src={pdfLogo} alt="pdfLogo" />
+      Baixar relatório do mês
     </button>
   );
 };

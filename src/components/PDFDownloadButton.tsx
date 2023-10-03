@@ -1,5 +1,7 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFFile, { PDFProps } from "./PDFFile";
+import DownloadPdfButton from "./DownloadPdfButton";
+import { getMonthName } from "../utils/getMonthName";
 
 const PDFDownloadButton: React.FC<PDFProps> = ({
   id,
@@ -9,6 +11,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   doughnutChart,
   monthIndicators,
   nothingIndicators,
+  monthNumber,
 }) => {
   return (
     <>
@@ -22,15 +25,16 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
             grade={grade}
             monthIndicators={monthIndicators}
             nothingIndicators={nothingIndicators}
+            monthNumber={monthNumber}
           />
         }
-        fileName={name}
+        fileName={name + "_" + getMonthName(monthNumber)}
       >
         {({ loading }) =>
           loading ? (
-            <button disabled={true}>Loading</button>
+            <DownloadPdfButton disabled={true}></DownloadPdfButton>
           ) : (
-            <button>Download</button>
+            <DownloadPdfButton disabled={false}></DownloadPdfButton>
           )
         }
       </PDFDownloadLink>
