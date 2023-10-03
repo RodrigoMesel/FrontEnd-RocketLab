@@ -11,7 +11,7 @@ interface ChartData {
   monthIndicators: any[]; // Você pode ajustar o tipo conforme necessário
 }
 
-export function getMonthData (url: string) {
+export function getMonthData(url: string) {
   const [data, setData] = useState<ChartData>({
     goal: 0,
     superGoal: 0,
@@ -42,7 +42,7 @@ export function getMonthData (url: string) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [url]);
   console.log(data);
   return data;
 }
