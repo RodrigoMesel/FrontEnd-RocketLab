@@ -72,27 +72,6 @@ interface DoughnutChartProps {
 }
 
 export default function Colaborator() {
-  const { id } = useParams();
-  const userId = parseInt(id!, 10);
-
-  const [userData, setUserData] = useState<UserData>({
-    id: 0,
-    name: "",
-    grade: 0,
-    role: "",
-  });
-  const [number, setNumber] = useState(5);
-  const [doughnutChartData, setDoughnutChartData] = useState<
-    DoughnutChartProps["chartData"]
-  >({
-    goal: 0,
-    superGoal: 0,
-    challenge: 0,
-    nothing: 0,
-    monthGrade: 0,
-    nothingIndicators: [],
-    monthIndicators: [],
-  });
 
     const { id } = useParams();
     const userId = parseInt(id!, 10)
@@ -128,110 +107,78 @@ export default function Colaborator() {
   const data = getUserData(userId);
 
 
-  const { openCreatePopUp, setOpenCreatePopUp } = useContext(
-    CreateColaboratorListContext
-  );
-
   useEffect(() => {
     setUserData(data);
   }, [data]);
   const chartContext = useContext(ChartContext);
   return (
     <>
-    <div className='overflow-scroll'>
+    
       <div className='mt-2'>
         <Link to='/colaboradores'>
           <SearchBar />
         </Link>
       </div>
 
-      {/* Card do Colaborador com nome, imagem, role e nota */}
-      <div className='flex flex-row justify-between space-x-5 ml-5 my-8 mr-10'>
+       {/* Card do Colaborador com nome, imagem, role e nota */}
+       <div className='flex flex-row justify-between space-x-5 ml-5 my-8 mr-10'>
 
-        <div className='flex flex-col gap-5'>
+      <div className='flex flex-col gap-5'>
 
-          <div className='flex flex-row justify-between'>
+        <div className='flex flex-row justify-between'>
 
-            <div className='flex gap-3 mr-40'>
+          <div className='flex gap-3 mr-40'>
+
+            <ColaboratorImage/>
+            <div className='flex flex-col'>
+                <div className='text-[#A3A3A3]'>{userData.role}</div>
+                <div className='font-bold text-3xl'>{userData.name}</div>
+            </div>
+          </div>
+          
+          <div>
+            <ColaboratorGrade 
+            grade={userData.grade}
+            ></ColaboratorGrade> 
+          </div>
+        </div>
+
+        <div className='flex flex-row space-x-24'> 
 
           <div className='mt-2 ml-5'> Indicadores</div>
           
           <div>
           <AddIndicator
-            openPopUpIndicator={openPopUpIndicator}
-            setOpenPopUpIndicator={setOpenPopUpIndicator}
-          />
-          </div>
-
-          {/* <AddIndicatorTest
-            openPopUpCreateIndicator={openPopUpCreateIndicator}
-            setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-            
-          
-          />  */}
-
-          
-          <div className="grow ..."></div>
-          <div> 
-            <div className='flex flex-row space-x-1 mr-5'>
-            <button onClick={decrementNumber}>-</button>
-            <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-            <button onClick={incrementNumber}>+</button>
-              <ColaboratorImage/ >
-              <div className='flex flex-col'>
-                  <div className='text-[#A3A3A3]'>{userData.role}</div>
-                  <div className='font-bold text-3xl'>{userData.name}</div>
-              </div>
-            </div>
-
-
-            <div>
-               <ColaboratorGrade 
-              grade={userData.grade}
-              ></ColaboratorGrade> 
-            </div>
-          </div>
-
-
-          <div className='flex flex-row space-x-24'> 
-
-            <div className='mt-2 ml-5'> Indicadores</div>
-            
-            <div>
-            </div>
+                  openPopUpIndicator={openPopUpIndicator}
+                  setOpenPopUpIndicator={setOpenPopUpIndicator}
+                />
           </div>
         </div>
-
-
-          
-          <div className="flex flex-col gap-3 items-center pb-5">
-              <div className="grow ..."></div>
-                <div> 
-                  <div className='flex flex-row space-x-1 mr-5'>
-                  <button onClick={decrementNumber}>-</button>
-                  <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-                  <button onClick={incrementNumber}>+</button>
-                  </div>
-                </div>
-                
-                <PDFDownloadButton
-                  name={data.name}
-                  role={data.role}
-                  grade={data.grade}
-                  id={data.id}
-                  doughnutChart={chartContext.chartImg}
-                  monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
-                  nothingIndicators={monthStats?.nothingIndicators}
-                  monthNumber={number}
-                />
-              </div>
-
-                        
       </div>
-
-
-        {/* Flex box da primeira linha de componentes */}
-        <div className='flex flex-row space-x-24'> 
+        
+        <div className="flex flex-col gap-3 items-center pb-5">
+            <div className="grow ..."></div>
+              <div> 
+                <div className='flex flex-row space-x-1 mr-5'>
+                  <button onClick={decrementNumber}>-</button>
+                    <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
+                  <button onClick={incrementNumber}>+</button>
+                </div>
+              </div>
+              
+              <PDFDownloadButton
+                name={data.name}
+                role={data.role}
+                grade={data.grade}
+                id={data.id}
+                doughnutChart={chartContext.chartImg}
+                monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
+                nothingIndicators={monthStats?.nothingIndicators}
+                monthNumber={number}
+              />
+            </div>
+                      
+      </div>
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
@@ -250,11 +197,7 @@ export default function Colaborator() {
               />
             ))}
         </div>
-        </div>
         
-
-
-
         <div className="flex flex-col">
           <div className="rounded-lg border border-solid p-3">
             <div className="">
@@ -269,7 +212,8 @@ export default function Colaborator() {
           </div>
           <div className="grow h-14 ..."></div>
         </div>
-      </div>
+      
+      </div> 
 
       <div className="rounded-lg border border-solid p-3 mt-3 ml-5">
         <div className="w-2/3">
@@ -291,13 +235,13 @@ export default function Colaborator() {
       < IndicatorModal
             openPopUpIndicator={openPopUpIndicator}
             setOpenPopUpIndicator={setOpenPopUpIndicator}
-        ></ IndicatorModal>
+      ></ IndicatorModal>
+
       < CreateIndicatorModal
           openPopUpCreateIndicator={openPopUpCreateIndicator}
           setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-        ></ CreateIndicatorModal>
+      ></ CreateIndicatorModal>
 
-</div>
 
     </>
   );
