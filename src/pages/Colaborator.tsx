@@ -28,6 +28,7 @@ import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
+import { PastChartCard } from "../components/PastChartCard";
 
 type UserData = {
   id: number;
@@ -200,6 +201,11 @@ export default function Colaborator() {
       <div className="flex flex-row space-x-24">
         {/* Cards dos indicadores */}
         <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+          {month != currentMonth ? (
+            <PastChartCard id={data.id} month={month} />
+          ) : (
+            ""
+          )}
           {monthStats &&
             monthStats.monthIndicators.map((indicator) => (
               <IndicatorCard
@@ -226,7 +232,7 @@ export default function Colaborator() {
           <div className="w-full h-40 my-4">
             <DoughnutChart
               chartData={getMonthData(
-                `http://localhost:3000/colaborator-indicator/statistics/month/${currentMonth}/colaboratorId/${userId}`
+                `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
               )}
             />
           </div>
