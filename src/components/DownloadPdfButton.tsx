@@ -10,7 +10,7 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({
   return (
     <button
       disabled={disabled}
-      className="flex text-[#312843] text-opacity-25 underline underline-offset-2 gap-3"
+      className="flex text-[#312843] disabled:text-opacity-25 underline underline-offset-2 gap-3"
     >
       <img src={pdfLogo} alt="pdfLogo" />
       Baixar relatório do mês
