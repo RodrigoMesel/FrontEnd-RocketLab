@@ -15,14 +15,14 @@ export default function Dashboard() {
 
       <div className="flex flex-wrap items-start space-x-2 ml-5 mt-8 mr-4">
         <p className="font-bold text-3xl w-full"> Dashboard </p>
-        <span className=" text-lg font-normal mt-4 mb-4">Resultados</span>
+        <span className=" text-xl font-normal mt-4 mb-2">Resultados</span>
       </div>
 
-      <div className="flex gap-6 space-x-2 ml-5 mr-4">
-        <div className="w-2/3">
+      <div className="flex gap-6 space-x-2 ml-10 mr-10 justify-center">
+        <div className="w-[50%]">
           <DashboardChart />
         </div>
-        <div className="w-1/3">
+        <div className="w-[25%]">
           <DashboardHighlights />
         </div>
       </div>

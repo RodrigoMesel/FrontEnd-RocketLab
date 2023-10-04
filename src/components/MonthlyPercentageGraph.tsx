@@ -36,6 +36,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
         data: [0, 0, 0, 0],
         backgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
         hoverBackgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
+        borderRadius: [1000, 1000, 1000, 1000],
+        borderWidth: [0, 0, 0, 0],
       },
     ],
   });
@@ -55,6 +57,8 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
           ],
           backgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
           hoverBackgroundColor: ["#AC72C1", "#32B97C", "#6186D3", "#F16062"],
+          borderRadius: [1000, 1000, 1000, 1000],
+          borderWidth: [0, 0, 0, 0],
         },
       ],
     });
@@ -64,7 +68,31 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
     <Doughnut
       ref={ref}
       data={userData}
+      plugins={[
+        {
+          id: "text",
+          beforeDraw: function (chart) {
+            var width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx;
+
+            ctx.restore();
+            var fontSize = (height / 70).toFixed(2);
+            ctx.font = "bold " + fontSize + "em Poppins";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#312843";
+
+            var text = `75%`,
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2.3;
+
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          },
+        },
+      ]}
       options={{
+        cutout: "80%",
         plugins: {
           legend: {
             position: "bottom",
@@ -76,6 +104,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
             },
           },
         },
+
         animation: {
           duration: 0,
           onComplete: function () {
