@@ -78,14 +78,21 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
       <Bar
   data={userData}
   options={{
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         grid: { display: false },
         reverse: true,
+        ticks: {
+          font:{
+            size: 20
+          }
+        }
       },
       y: {
         ticks: { count: 3, precision: 0 }, // Define a precisão para 0 para mostrar números inteiros
-        title: { text: yAxisLabel, display: true },
+        title: { text: yAxisLabel, display: true, font: {size: 18} },
       },
     },
     plugins: {
@@ -96,6 +103,10 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
           boxHeight: 7,
           borderRadius: 4,
           useBorderRadius: true,
+          padding: 20,
+          font: {
+            size: 18
+          }
         },
       },
     },

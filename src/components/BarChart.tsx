@@ -78,24 +78,36 @@ const BarChart: React.FC<BarChartProps> = ({ chartData, yAxisLabel }) => {
       <Bar
         data={userData}
         options={{
+          responsive: true,
+          maintainAspectRatio: false,
           scales: {
             x: {
               grid: { display: false },
               reverse: true,
+              ticks: {
+                font:{
+                  size: 15
+                }
+              }
             },
             y: {
               ticks: { count: 4, precision: 0 },
-              title: { text: yAxisLabel, display: true },
+              title: { text: yAxisLabel, display: true, font: {size: 18} },
             },
           },
           plugins: {
             legend: {
+              
               position: "bottom",
               labels: {
                 boxWidth: 30,
                 boxHeight: 7,
                 borderRadius: 4,
                 useBorderRadius: true,
+                padding: 20,
+                font: {
+                  size: 15
+                }
               },
             },
           },

@@ -183,7 +183,7 @@ export default function Colaborator() {
 
 
         {/* Flex box da primeira linha de componentes */}
-        <div className='flex flex-row space-x-24'> 
+    <div className='flex flex-row space-x-24'> 
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
@@ -202,7 +202,7 @@ export default function Colaborator() {
               />
             ))}
         </div>
-        </div>
+      </div>
         
 
 
@@ -223,13 +223,14 @@ export default function Colaborator() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-solid p-3 mt-3 ml-5">
-        <div className="w-2/3">
+                  
+      <div className="flex justify-center items-center mb-5">
+        <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">
-            <div className=" text-4xs p-2">Evolução de resultados</div>
+            <div className="text-xl p-2">Evolução de resultados</div>
             <StatsTextBox txt={"Últimos 6 meses"} />
           </div>
-          <div className="">
+          <div className="flex w-[100%] h-96">
             <BarChart
               chartData={getData(
                 `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
