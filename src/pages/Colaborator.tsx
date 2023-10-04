@@ -20,6 +20,12 @@ import { CreateColaboratorListContext } from "../context/CreateColaboratorListCo
 import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
+import IndicatorModal from "../components/IndicatorModal";
+import { CreateIndicatorContext } from "../context/CreateIndicatorContext";
+import { AssignIndicatorContext } from "../context/AssignIndicatorContext";
+import CreateIndicatorModal from "../components/CreateIndicatorModal";
+import AssignIndicatorModal from "../components/AssignIndicatorModal";
+import { IndicatorContext } from "../context/IndicatorContext";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
@@ -80,7 +86,19 @@ export default function Colaborator() {
     grade: 0,
     role: "",
   });
-  const [number, setNumber] = useState(5);
+  // Contexts
+  const { openPopUpIndicator, setOpenPopUpIndicator } =
+    useContext(IndicatorContext);
+  const { openPopUpCreateIndicator, setOpenPopUpCreateIndicator } = useContext(
+    CreateIndicatorContext
+  );
+  const { openPopUpAssignIndicator, setOpenPopUpAssignIndicator } = useContext(
+    AssignIndicatorContext
+  );
+
+  const currentMonth = new Date().getMonth() + 1; // Mês atual
+  const [month, setNumber] = useState(currentMonth);
+
   const [doughnutChartData, setDoughnutChartData] = useState<
     DoughnutChartProps["chartData"]
   >({
@@ -94,20 +112,16 @@ export default function Colaborator() {
   });
 
   const incrementNumber = () => {
-    setNumber(number + 1);
+    setNumber(month + 1);
   };
 
   const decrementNumber = () => {
-    setNumber(number - 1);
+    setNumber(month - 1);
   };
 
-  const [monthStats, loading] = getMonthStatistics(number, userId);
+  const [monthStats, loading] = getMonthStatistics(month, userId);
 
   const data = getUserData(userId);
-
-  const { openCreatePopUp, setOpenCreatePopUp } = useContext(
-    CreateColaboratorListContext
-  );
 
   useEffect(() => {
     setUserData(data);
@@ -143,8 +157,8 @@ export default function Colaborator() {
 
             <div>
               <AddIndicator
-                openCreatePopUp={openCreatePopUp}
-                setOpenCreatePopUp={setOpenCreatePopUp}
+                openPopUpIndicator={openPopUpIndicator}
+                setOpenPopUpIndicator={setOpenPopUpIndicator}
               />
             </div>
           </div>
@@ -154,9 +168,11 @@ export default function Colaborator() {
           <div className="grow ..."></div>
           <div>
             <div className="flex flex-row space-x-1 mr-5">
-              <button onClick={decrementNumber}>-</button>
-              <ChangeMonthBox monthNumber={number}></ChangeMonthBox>
-              <button onClick={incrementNumber}>+</button>
+              <ChangeMonthBox
+                monthNumber={month}
+                incrementNumber={incrementNumber}
+                decrementNumber={decrementNumber}
+              ></ChangeMonthBox>
             </div>
           </div>
 
@@ -168,7 +184,7 @@ export default function Colaborator() {
             doughnutChart={chartContext.chartImg}
             monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
             nothingIndicators={monthStats?.nothingIndicators}
-            monthNumber={number}
+            monthNumber={month}
             validP={chartContext.validP}
             goalP={chartContext.goalP}
             superGoalP={chartContext.superGoalP}
@@ -180,23 +196,20 @@ export default function Colaborator() {
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
-        {/* Flex box da primeira linha de componentes */}
-        <div className="flex flex-row space-x-24">
-          {/* Cards dos indicadores */}
-          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
-            {monthStats &&
-              monthStats.monthIndicators.map((indicator) => (
-                <IndicatorCard
-                  id={indicator.id}
-                  name={indicator.name}
-                  weight={indicator.weight}
-                  goal={indicator.goal}
-                  supergoal={indicator.superGoal}
-                  challenge={indicator.challenge}
-                  result={indicator.result}
-                />
-              ))}
-          </div>
+        {/* Cards dos indicadores */}
+        <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+          {monthStats &&
+            monthStats.monthIndicators.map((indicator) => (
+              <IndicatorCard
+                id={indicator.id}
+                name={indicator.name}
+                weight={indicator.weight}
+                goal={indicator.goal}
+                supergoal={indicator.superGoal}
+                challenge={indicator.challenge}
+                result={indicator.result}
+              />
+            ))}
         </div>
 
         <div className="flex flex-col">
@@ -205,7 +218,7 @@ export default function Colaborator() {
               <div className="w-full h-80">
                 <DoughnutChart
                   chartData={getMonthData(
-                    `http://localhost:3000/colaborator-indicator/statistics/month/${number}/colaboratorId/${userId}`
+                    `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
                   )}
                 />
               </div>
@@ -231,6 +244,20 @@ export default function Colaborator() {
           </div>
         </div>
       </div>
+
+      <IndicatorModal
+        openPopUpIndicator={openPopUpIndicator}
+        setOpenPopUpIndicator={setOpenPopUpIndicator}
+      ></IndicatorModal>
+
+      <CreateIndicatorModal
+        openPopUpCreateIndicator={openPopUpCreateIndicator}
+        setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+      ></CreateIndicatorModal>
+      <AssignIndicatorModal
+        openPopUpAssignIndicator={openPopUpAssignIndicator}
+        setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
+      ></AssignIndicatorModal>
     </>
   );
 }
