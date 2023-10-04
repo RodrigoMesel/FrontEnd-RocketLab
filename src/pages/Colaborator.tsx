@@ -15,8 +15,7 @@ import { CreateColaboratorListContext } from '../context/CreateColaboratorListCo
 import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
-import IndicatorModal from '../components/IndicatorModal'
-import AddIndicatorTest from '../components/AddIndicatorTeste';
+import IndicatorModal from '../components/IndicatorModal';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
 import CreateIndicatorModal from '../components/CreateIndicatorModal';
 import { IndicatorContext } from '../context/IndicatorContext';
@@ -160,9 +159,10 @@ export default function Colaborator() {
             <div className="grow ..."></div>
               <div> 
                 <div className='flex flex-row space-x-1 mr-5'>
-                  <button onClick={decrementNumber}>-</button>
-                    <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-                  <button onClick={incrementNumber}>+</button>
+                    <ChangeMonthBox monthNumber = {number}
+                      incrementNumber={incrementNumber}
+                      decrementNumber={decrementNumber}
+                    ></ChangeMonthBox>
                 </div>
               </div>
               
