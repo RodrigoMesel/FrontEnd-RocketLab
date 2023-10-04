@@ -13,7 +13,6 @@ import DoughnutChart from "../components/MonthlyPercentageGraph";
 import { getData } from "../utils/getData";
 import { getMonthData } from "../utils/getMonthData";
 import IndicatorCard from "../components/IndicatorCard";
-import { getMonthStatistics } from "../utils/getMonthStatistics";
 import ColaboratorGrade from "../components/ColaboratorGrade";
 import AddIndicator from "../components/AddIndicator";
 import StatsTextBox from "../components/StatsTextBox";
@@ -28,6 +27,7 @@ import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
+import axios from "axios";
 
 type UserData = {
   id: number;
@@ -36,19 +36,42 @@ type UserData = {
   role: string;
 };
 
-type MonthStatistics = {
+interface MonthStatistics {
   goal: number;
   superGoal: number;
   challenge: number;
-  monthIndicators: Array<{
+  nothing: number;
+  monthGrade: number;
+  
+  monthIndicators: {
     id: number;
-    name: string;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
     weight: number;
+    unity: string;
     goal: number;
     superGoal: number;
     challenge: number;
-  }>;
+    name: string;
+  }[];
+
+  nothingIndicators:{
+    id: number;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
+    weight: number;
+    unity: string;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    name: string;
+  }[];
 };
+
 
 interface Indicator {
   id: number;
@@ -119,13 +142,24 @@ export default function Colaborator() {
     setNumber(month - 1);
   };
 
-  const [monthStats, loading] = getMonthStatistics(month, userId);
+  const [monthStats, setMonthStats] = useState<MonthStatistics>();
+
+  useEffect(() => {
+    const fetchIndicators = async () => {
+      const response = await axios.get(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
+      setMonthStats(response.data);
+    };
+
+    fetchIndicators();
+  }, [month, userId, monthStats]);
+
 
   const data = getUserData(userId);
 
   useEffect(() => {
     setUserData(data);
   }, [data]);
+
   const chartContext = useContext(ChartContext);
   return (
     <>
@@ -178,21 +212,23 @@ export default function Colaborator() {
             </div>
           </div>
 
-          <PDFDownloadButton
-            name={data.name}
-            role={data.role}
-            grade={data.grade}
-            id={data.id}
-            doughnutChart={chartContext.chartImg}
-            monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
-            nothingIndicators={monthStats?.nothingIndicators}
-            monthNumber={month}
-            validP={chartContext.validP}
-            goalP={chartContext.goalP}
-            superGoalP={chartContext.superGoalP}
-            challengeP={chartContext.challengeP}
-            nothingP={chartContext.nothingP}
-          />
+          {monthStats && 
+            <PDFDownloadButton
+              name={data.name}
+              role={data.role}
+              grade={data.grade}
+              id={data.id}
+              doughnutChart={chartContext.chartImg}
+              monthIndicators={monthStats.monthIndicators.slice(0, 4)}
+              nothingIndicators={monthStats.nothingIndicators}
+              monthNumber={month}
+              validP={chartContext.validP}
+              goalP={chartContext.goalP}
+              superGoalP={chartContext.superGoalP}
+              challengeP={chartContext.challengeP}
+              nothingP={chartContext.nothingP}
+            />
+          }
         </div>
       </div>
 
@@ -201,8 +237,9 @@ export default function Colaborator() {
         {/* Cards dos indicadores */}
         <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
           {monthStats &&
-            monthStats.monthIndicators.map((indicator) => (
+            monthStats.monthIndicators.map((indicator, index) => (
               <IndicatorCard
+                key={index}
                 id={indicator.id}
                 name={indicator.name}
                 weight={indicator.weight}
