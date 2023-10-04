@@ -1,27 +1,82 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import retangulo from '../assets/retangulo.svg';
 import edit from '../assets/edit.svg';
+import EditIndicatorModal from "../components/EditIndicatorModal";
+import { EditIndicatorContext  } from '../context/EditIndicatorContext';
+
+// interface AddIndicatorProps {
+//     openPopUpIndicator: boolean;
+//     setOpenPopUpIndicator: (value: React.SetStateAction<boolean>) => void;
+//     currentMonth: number; // Mês atual
+//     monthToAddIndicator: number; // Mês para "atribuir indicador"
+//   }
+  
+//   const AddIndicator: React.FC<AddIndicatorProps> = ({
+//     openPopUpIndicator,
+//     setOpenPopUpIndicator,
+//     currentMonth,
+//     monthToAddIndicator,
+//   }: AddIndicatorProps) => 
+
+interface Indicator {
+    id: number;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
+    weight: number;
+    unity: string;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    name: string;
+  }
 
 interface IndicatorCardProps {
     id: number;
-    name: string;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
     weight: number;
-    goal:  number;
+    unity: string;
+    goal: number;
     supergoal: number;
     challenge: number;
-    result: number;
+    creationMonth: number;
+    name: string;
+    openPopUpEditIndicator: boolean,
+    setOpenPopUpEditIndicator: (value: React.SetStateAction<boolean>) => void,
+    editingIndicator: Indicator | null,
+    setEditingIndicator: (value: React.SetStateAction<Indicator | null>) => void,
 }
   
-export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, name, weight, goal, supergoal, challenge, result}) => {
-  
+export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator}) => {
+    // const { openPopUpEditIndicator, setOpenPopUpEditIndicator } = useContext(
+    //     EditIndicatorContext
+    //   );
   return (
     <>
     <div className='bg-[#FBFBFB] p-5 rounded-lg  '>
         <div className='flex flex-row'> 
             <div>
             <div className="text-lg mt-3 ml-3 flex items-center">
-                #{id} {name}
-                <div className="ml-2 cursor-pointer">
+                #{indicatorId} {name}
+                <div className="ml-2 cursor-pointer " onClick={() => {{
+                    setEditingIndicator({
+                        id: id,
+                        colaboratorId: colaboratorId, 
+                        indicatorId: indicatorId,
+                        result: result,
+                        weight: weight,
+                        unity: unity,
+                        goal: goal,
+                        superGoal: supergoal,
+                        challenge: challenge,
+                        creationMonth: creationMonth,
+                        name: name,
+                      })
+                    setOpenPopUpEditIndicator(!openPopUpEditIndicator)
+                }}}>
                     <img src={edit} alt="" className="h-3 w-3" />
                 </div>
             </div>

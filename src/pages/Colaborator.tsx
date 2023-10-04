@@ -20,8 +20,10 @@ import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from "../components/IndicatorModal";
 import { CreateIndicatorContext } from "../context/CreateIndicatorContext";
 import { AssignIndicatorContext } from "../context/AssignIndicatorContext";
+import { EditIndicatorContext } from "../context/EditIndicatorContext";
 import CreateIndicatorModal from "../components/CreateIndicatorModal";
 import AssignIndicatorModal from "../components/AssignIndicatorModal";
+import EditIndicatorModal from "../components/EditIndicatorModal";
 import { IndicatorContext } from "../context/IndicatorContext";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
@@ -84,6 +86,7 @@ interface Indicator {
   goal: number;
   superGoal: number;
   challenge: number;
+  name: string;
 }
 
 interface DoughnutChartProps {
@@ -118,10 +121,14 @@ export default function Colaborator() {
   const { openPopUpAssignIndicator, setOpenPopUpAssignIndicator } = useContext(
     AssignIndicatorContext
   );
+  const { openPopUpEditIndicator, setOpenPopUpEditIndicator } = useContext(
+    EditIndicatorContext
+  );
 
   const currentMonth = new Date().getMonth() + 1; // Mês atual
   const [month, setNumber] = useState(currentMonth);
   const [hasIndicators, setHasIndicators] = useState<boolean | null>(null);
+  const [editingIndicator, setEditingIndicator] = useState<Indicator | null>(null);
 
   const [doughnutChartData, setDoughnutChartData] = useState<
     DoughnutChartProps["chartData"]
@@ -253,12 +260,20 @@ export default function Colaborator() {
             <IndicatorCard
               key={index}
               id={indicator.id}
-              name={indicator.name}
+              colaboratorId={indicator.colaboratorId}
+              indicatorId={indicator.indicatorId}
+              result={indicator.result}
               weight={indicator.weight}
+              unity={indicator.unity}
               goal={indicator.goal}
               supergoal={indicator.superGoal}
               challenge={indicator.challenge}
-              result={indicator.result}
+              name={indicator.name}
+              creationMonth={indicator.creationMonth}
+              openPopUpEditIndicator={openPopUpEditIndicator}
+              setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+              editingIndicator={editingIndicator}
+              setEditingIndicator={setEditingIndicator}
             />
           ))
         ) : (
@@ -341,6 +356,12 @@ export default function Colaborator() {
         openPopUpAssignIndicator={openPopUpAssignIndicator}
         setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
       ></AssignIndicatorModal>
+      <EditIndicatorModal
+        openPopUpEditIndicator={openPopUpEditIndicator}
+        setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+        editingIndicator={editingIndicator}
+        setEditingIndicator={setEditingIndicator}
+      ></EditIndicatorModal>
     </>
   );
 }
