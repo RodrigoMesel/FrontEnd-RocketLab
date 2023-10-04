@@ -1,7 +1,8 @@
 import 'react-toastify/dist/ReactToastify.css';
 import React, { useContext } from 'react';
-import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
-import { AssignIndicatorContext  } from '../context/AssignIndicatorContext'
+import { CreateIndicatorContext  } from '../context/CreateIndicatorContext';
+import { AssignIndicatorContext  } from '../context/AssignIndicatorContext';
+import close from '../assets/close.svg';
 
 interface IndicatorModalProps{
     openPopUpIndicator: boolean,
@@ -34,8 +35,17 @@ const IndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpIndicator,setO
                     </div>
 
                     <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
+
+                    <div className= "flex flex-row mt-2">      
+                        <div className='flex-grow'> 
+                            
+                         </div> 
+                         <div className='flex w-full ml-64 cursor-pointer' onClick={() => setOpenPopUpIndicator(!openPopUpIndicator)}>
+                            <img src={close} alt="" className="h-3 w-3" />
+                        </div>
+                    </div>
                         
-                        <span className='flex justify-end w-full cursor-pointer' onClick={() => setOpenPopUpIndicator(!openPopUpIndicator)}>X</span>
+                    
 
                         <div className='flex flex-col gap-5 my-4 mb-10 items-start w-96 px-10'>
                                 <div className='font-bold flex self-center text-lg'>Atribuir indicador</div>

@@ -1,8 +1,11 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import left from '../assets/left.svg';
+import close from '../assets/close.svg';
+import { IndicatorContext } from '../context/IndicatorContext';
 
 interface Indicator {
   id: number;
@@ -19,6 +22,7 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
   openPopUpAssignIndicator,
   setOpenPopUpAssignIndicator,
 }: IndicatorModalProps) => {
+  const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
   const [indicators, setIndicators] = useState<Indicator[]>([]);
   const [selectedIndicator, setSelectedIndicator] = useState<Indicator | null>(null);
   const [filterText, setFilterText] = useState('');
@@ -110,6 +114,18 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
       theme: 'light',
     });
 
+    const goBack = () => {
+      setOpenPopUpIndicator(true);
+      setOpenPopUpAssignIndicator(false);
+    };
+    const reset = () => {
+                        setSelectedIndicator(null); 
+                        setWeight(null);
+                        setGoal(null);
+                        setSuperGoal(null);
+                        setChallenge(null); 
+    }
+
     if (openPopUpAssignIndicator && selectedIndicator===null){
   return (
     <>
@@ -120,9 +136,14 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
           ></div>
 
           <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
-            <span className="flex justify-end w-full cursor-pointer" onClick={() => {setSelectedIndicator(null); setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}}>
-              X
-            </span>
+          <div className= "flex flex-row mt-2">      
+                        <div className='flex w-full ml-7 cursor-pointer' onClick={() => {reset(); goBack();}}> 
+                            <img src={left} alt="" className="h-3 w-3" />
+                         </div> 
+                        <div className='flex w-full ml-64 cursor-pointer' onClick={() => {setOpenPopUpAssignIndicator(!openPopUpAssignIndicator); reset();}}>
+                            <img src={close} alt="" className="h-3 w-3" />
+                        </div>
+                    </div>
 
             <div className="flex flex-col gap-2 my-1 mb-2 items-center w-96 px-10">
               <div className="font-bold flex self-center text-lg">Atribuir indicador</div>
@@ -165,9 +186,14 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
           ></div>
 
           <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
-            <span className="flex justify-end w-full cursor-pointer" onClick={() => {setSelectedIndicator(null); setWeight(null);setGoal(null);setSuperGoal(null);setChallenge(null); setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}}>
-              X
-            </span>
+          <div className= "flex flex-row mt-2">      
+                        <div className='flex w-full ml-7 cursor-pointer' onClick={() => {reset(); goBack();}}> 
+                            <img src={left} alt="" className="h-3 w-3" />
+                         </div> 
+                        <div className='flex w-full ml-64 cursor-pointer' onClick={() => {setOpenPopUpAssignIndicator(!openPopUpAssignIndicator); reset();}}>
+                            <img src={close} alt="" className="h-3 w-3" />
+                        </div>
+                    </div>
 
             <div className="flex flex-col gap-2 my-1 mb-2 items-center w-96 px-10">
               <div className="font-bold flex self-center text-lg">Atribuir indicador</div>
@@ -216,11 +242,7 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
                     if (weight === null || goal === null || superGoal === null || challenge === null){notify();
                     } else {
                         postColaboratorIndicator(); 
-                        setSelectedIndicator(null); 
-                        setWeight(null);
-                        setGoal(null);
-                        setSuperGoal(null);
-                        setChallenge(null); 
+                        reset();
                         setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}
                   }}
                 >
