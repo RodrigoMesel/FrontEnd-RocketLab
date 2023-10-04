@@ -153,9 +153,11 @@ export default function Colaborator() {
           
           <div>
           <AddIndicator
-                  openPopUpIndicator={openPopUpIndicator}
-                  setOpenPopUpIndicator={setOpenPopUpIndicator}
-                />
+            openPopUpIndicator={openPopUpIndicator}
+            setOpenPopUpIndicator={setOpenPopUpIndicator}
+            currentMonth={currentMonth}
+            monthToAddIndicator={month}
+          />
           </div>
         </div>
       </div>
