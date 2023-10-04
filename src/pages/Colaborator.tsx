@@ -13,11 +13,8 @@ import DoughnutChart from "../components/MonthlyPercentageGraph";
 import { getData } from "../utils/getData";
 import { getMonthData } from "../utils/getMonthData";
 import IndicatorCard from "../components/IndicatorCard";
-import { getMonthStatistics } from "../utils/getMonthStatistics";
 import ColaboratorGrade from "../components/ColaboratorGrade";
 import AddIndicator from "../components/AddIndicator";
-import { CreateColaboratorListContext } from "../context/CreateColaboratorListContext";
-import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from "../components/IndicatorModal";
@@ -29,6 +26,8 @@ import { IndicatorContext } from "../context/IndicatorContext";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
+import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
+import axios from "axios";
 
 type UserData = {
   id: number;
@@ -37,19 +36,42 @@ type UserData = {
   role: string;
 };
 
-type MonthStatistics = {
+interface MonthStatistics {
   goal: number;
   superGoal: number;
   challenge: number;
-  monthIndicators: Array<{
+  nothing: number;
+  monthGrade: number;
+  
+  monthIndicators: {
     id: number;
-    name: string;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
     weight: number;
+    unity: string;
     goal: number;
     superGoal: number;
     challenge: number;
-  }>;
+    name: string;
+  }[];
+
+  nothingIndicators:{
+    id: number;
+    colaboratorId: number;
+    indicatorId: number;
+    result: number;
+    creationMonth: number;
+    weight: number;
+    unity: string;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    name: string;
+  }[];
 };
+
 
 interface Indicator {
   id: number;
@@ -86,6 +108,7 @@ export default function Colaborator() {
     grade: 0,
     role: "",
   });
+
   // Contexts
   const { openPopUpIndicator, setOpenPopUpIndicator } =
     useContext(IndicatorContext);
@@ -119,13 +142,24 @@ export default function Colaborator() {
     setNumber(month - 1);
   };
 
-  const [monthStats, loading] = getMonthStatistics(month, userId);
+  const [monthStats, setMonthStats] = useState<MonthStatistics>();
+
+  useEffect(() => {
+    const fetchIndicators = async () => {
+      const response = await axios.get(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
+      setMonthStats(response.data);
+    };
+
+    fetchIndicators();
+  }, [month, userId, monthStats]);
+
 
   const data = getUserData(userId);
 
   useEffect(() => {
     setUserData(data);
   }, [data]);
+
   const chartContext = useContext(ChartContext);
   return (
     <>
@@ -159,6 +193,8 @@ export default function Colaborator() {
               <AddIndicator
                 openPopUpIndicator={openPopUpIndicator}
                 setOpenPopUpIndicator={setOpenPopUpIndicator}
+                currentMonth={currentMonth}
+                monthToAddIndicator={month}
               />
             </div>
           </div>
@@ -176,21 +212,23 @@ export default function Colaborator() {
             </div>
           </div>
 
-          <PDFDownloadButton
-            name={data.name}
-            role={data.role}
-            grade={data.grade}
-            id={data.id}
-            doughnutChart={chartContext.chartImg}
-            monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
-            nothingIndicators={monthStats?.nothingIndicators}
-            monthNumber={month}
-            validP={chartContext.validP}
-            goalP={chartContext.goalP}
-            superGoalP={chartContext.superGoalP}
-            challengeP={chartContext.challengeP}
-            nothingP={chartContext.nothingP}
-          />
+          {monthStats && 
+            <PDFDownloadButton
+              name={data.name}
+              role={data.role}
+              grade={data.grade}
+              id={data.id}
+              doughnutChart={chartContext.chartImg}
+              monthIndicators={monthStats.monthIndicators.slice(0, 4)}
+              nothingIndicators={monthStats.nothingIndicators}
+              monthNumber={month}
+              validP={chartContext.validP}
+              goalP={chartContext.goalP}
+              superGoalP={chartContext.superGoalP}
+              challengeP={chartContext.challengeP}
+              nothingP={chartContext.nothingP}
+            />
+          }
         </div>
       </div>
 
@@ -199,8 +237,9 @@ export default function Colaborator() {
         {/* Cards dos indicadores */}
         <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
           {monthStats &&
-            monthStats.monthIndicators.map((indicator) => (
+            monthStats.monthIndicators.map((indicator, index) => (
               <IndicatorCard
+                key={index}
                 id={indicator.id}
                 name={indicator.name}
                 weight={indicator.weight}
@@ -212,23 +251,50 @@ export default function Colaborator() {
             ))}
         </div>
 
-        <div className="flex flex-col">
-          <div className="rounded-lg border border-solid p-3">
-            <div className="">
-              <div className="w-full h-80">
-                <DoughnutChart
-                  chartData={getMonthData(
-                    `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-                  )}
-                />
+        {/*Grafico dos indicadores */}
+        <div className="rounded-lg border border-solid p-[1.313rem] w-[25%]">
+          <p className="text-lg">
+            <span className="font-bold">
+              {chartContext.validP}
+              {"% "}
+            </span>
+            dos indicadores foram alcançados
+          </p>
+          <div className="w-full h-40 my-4">
+            <DoughnutChart
+              chartData={getMonthData(
+                `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+              )}
+            />
+          </div>
+          <div className="flex flex-row gap-6 justify-center items-center">
+            <div className="flex flex-col text-xs">
+              <div className="flex flex-row items-center">
+                <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Meta</p>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Supermeta</p>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Desafio</p>
               </div>
             </div>
+            <div className="flex flex-col text-xs">
+              <p className="font-bold">{chartContext.goalP}%</p>
+              <p className="font-bold">{chartContext.superGoalP}%</p>
+              <p className="font-bold">{chartContext.challengeP}%</p>
+            </div>
           </div>
-          <div className="grow h-14 ..."></div>
         </div>
+
+        {monthStats && 
+          <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
+        }
       </div>
 
-                  
       <div className="flex justify-center items-center mb-5">
         <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">
