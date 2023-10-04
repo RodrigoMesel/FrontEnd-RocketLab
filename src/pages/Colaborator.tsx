@@ -31,6 +31,7 @@ import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
 import { PastChartCard } from "../components/PastChartCard";
+import NoIndicatorsCard from "../components/NoIndicatorsCards";
 
 type UserData = {
   id: number;
@@ -204,6 +205,10 @@ export default function Colaborator() {
           <div className="flex flex-row space-x-24">
             <div className="mt-2 ml-5"> Indicadores</div>
 
+          {/* Botão de adicionar só aparece caso tenha indicadores */}
+          {hasIndicators === null ? (
+          <p>Carregando botão...</p>
+        ) : hasIndicators ? (
             <div>
               <AddIndicator
                 openPopUpIndicator={openPopUpIndicator}
@@ -212,6 +217,9 @@ export default function Colaborator() {
                 monthToAddIndicator={month}
               />
             </div>
+        ) : (
+          ""
+        )}
           </div>
         </div>
 
@@ -289,7 +297,9 @@ export default function Colaborator() {
           ))
         ) : (
           // Mostra a mensagem quando não há indicadores
-          <p>Nenhum indicador foi atribuído a este colaborador.</p>
+          <div>
+            <NoIndicatorsCard></NoIndicatorsCard>
+          </div>
         )}
       </div>
         </div>
