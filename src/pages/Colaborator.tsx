@@ -136,14 +136,16 @@ export default function Colaborator() {
 
   const incrementNumber = () => {
     setNumber(month + 1);
+    setUpdateData(true)
   };
 
   const decrementNumber = () => {
     setNumber(month - 1);
+    setUpdateData(true)
   };
 
   const [monthStats, setMonthStats] = useState<MonthStatistics>();
-  const [indicadorCriado, setIndicadorCriado] = useState(false);
+  const [UpdateData, setUpdateData] = useState(true);
 
   useEffect(() => {
     const fetchIndicators = async () => {
@@ -152,11 +154,11 @@ export default function Colaborator() {
       setMonthStats(indicators);
     };
   
-    if (indicadorCriado) {
+    if (UpdateData) {
       fetchIndicators();
-      setIndicadorCriado(false);
+      setUpdateData(false);
     }
-  }, [month, userId, indicadorCriado]);
+  }, [month, userId, UpdateData]);
 
   const data = getUserData(userId);
 
@@ -324,8 +326,8 @@ export default function Colaborator() {
       <CreateIndicatorModal
         openPopUpCreateIndicator={openPopUpCreateIndicator}
         setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-        indicadorCriado={indicadorCriado}
-        setindicadorCriado={setIndicadorCriado}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
       ></CreateIndicatorModal>
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}
