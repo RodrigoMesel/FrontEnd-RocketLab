@@ -11,8 +11,6 @@ import IndicatorCard from '../components/IndicatorCard';
 import { getMonthStatistics } from '../utils/getMonthStatistics'; 
 import ColaboratorGrade from '../components/ColaboratorGrade';
 import AddIndicator from '../components/AddIndicator';
-import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
-import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from '../components/IndicatorModal';
