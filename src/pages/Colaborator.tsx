@@ -156,7 +156,7 @@ export default function Colaborator() {
             <div className="mt-2 ml-5"> Indicadores</div>
 
             <div>
-            <AddIndicator
+              <AddIndicator
                 openPopUpIndicator={openPopUpIndicator}
                 setOpenPopUpIndicator={setOpenPopUpIndicator}
                 currentMonth={currentMonth}
@@ -214,26 +214,50 @@ export default function Colaborator() {
             ))}
         </div>
 
-        <div className="flex flex-col">
-          <div className="rounded-lg border border-solid p-3">
-            <div className="">
-              <div className="w-full h-80">
-                <DoughnutChart
-                  chartData={getMonthData(
-                    `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-                  )}
-                />
+        {/*Grafico dos indicadores */}
+        <div className="rounded-lg border border-solid p-[1.313rem] w-[25%]">
+          <p className="text-lg">
+            <span className="font-bold">
+              {chartContext.validP}
+              {"% "}
+            </span>
+            dos indicadores foram alcançados
+          </p>
+          <div className="w-full h-40 my-4">
+            <DoughnutChart
+              chartData={getMonthData(
+                `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+              )}
+            />
+          </div>
+          <div className="flex flex-row gap-6 justify-center items-center">
+            <div className="flex flex-col text-xs">
+              <div className="flex flex-row items-center">
+                <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Meta</p>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Supermeta</p>
+              </div>
+              <div className="flex flex-row items-center">
+                <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                <p>Desafio</p>
               </div>
             </div>
+            <div className="flex flex-col text-xs">
+              <p className="font-bold">{chartContext.goalP}%</p>
+              <p className="font-bold">{chartContext.superGoalP}%</p>
+              <p className="font-bold">{chartContext.challengeP}%</p>
+            </div>
           </div>
-          <div className="grow h-14 ..."></div>
         </div>
 
         {monthStats && 
           <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
         }
       </div>
-  
+
       <div className="flex justify-center items-center mb-5">
         <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">
