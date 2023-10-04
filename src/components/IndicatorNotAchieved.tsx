@@ -19,9 +19,8 @@ interface IndicatorNotAchieveProps{
 
 const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicators} : IndicatorNotAchieveProps) => {
 
-  console.log(nothingIndicators)
   return (
-    <div className='rounded-lg border border-solid py-8 px-3 flex flex-col max-w-xs h-[21.8rem] gap-8 overflow-scroll'>
+    <div className='rounded-lg border border-solid py-8 px-3 flex flex-col max-w-xs h-[26.5rem] gap-8 overflow-scroll'>
 
       <span className='text-2xl'>Indicadores <span className='font-bold'>não alcançados</span> neste mês</span>
 
