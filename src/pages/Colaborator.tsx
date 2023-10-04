@@ -30,6 +30,7 @@ import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
+import { PastChartCard } from "../components/PastChartCard";
 
 type UserData = {
   id: number;
@@ -44,7 +45,7 @@ interface MonthStatistics {
   challenge: number;
   nothing: number;
   monthGrade: number;
-  
+
   monthIndicators: {
     id: number;
     colaboratorId: number;
@@ -59,7 +60,7 @@ interface MonthStatistics {
     name: string;
   }[];
 
-  nothingIndicators:{
+  nothingIndicators: {
     id: number;
     colaboratorId: number;
     indicatorId: number;
@@ -72,8 +73,7 @@ interface MonthStatistics {
     challenge: number;
     name: string;
   }[];
-};
-
+}
 
 interface Indicator {
   id: number;
@@ -169,7 +169,6 @@ export default function Colaborator() {
     fetchIndicators();
   }, [month, userId, monthStats]);
 
-
   const data = getUserData(userId);
 
   useEffect(() => {
@@ -228,13 +227,14 @@ export default function Colaborator() {
             </div>
           </div>
 
-          {monthStats && 
+          {monthStats && (
             <PDFDownloadButton
               name={data.name}
               role={data.role}
               grade={data.grade}
               id={data.id}
               doughnutChart={chartContext.chartImg}
+              doughnutChartHollow={chartContext.pastChartImg}
               monthIndicators={monthStats.monthIndicators.slice(0, 4)}
               nothingIndicators={monthStats.nothingIndicators}
               monthNumber={month}
@@ -244,14 +244,25 @@ export default function Colaborator() {
               challengeP={chartContext.challengeP}
               nothingP={chartContext.nothingP}
             />
-          }
+          )}
         </div>
       </div>
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
         {/* Cards dos indicadores */}
-        <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+        <div className="flex flex-col">
+          {month != currentMonth ? (
+            <PastChartCard
+              id={data.id}
+              month={month}
+              monthGrade={monthStats?.monthGrade || 0}
+            />
+          ) : (
+            ""
+          )}
+          {/* Cards dos indicadores */}
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
         {hasIndicators === null ? (
           <p>Carregando indicadores...</p>
         ) : hasIndicators ? (
@@ -281,6 +292,7 @@ export default function Colaborator() {
           <p>Nenhum indicador foi atribuído a este colaborador.</p>
         )}
       </div>
+        </div>
 
         {/*Grafico dos indicadores */}
         <div className="rounded-lg border border-solid p-[1.313rem] w-[25%]">
@@ -296,6 +308,7 @@ export default function Colaborator() {
               chartData={getMonthData(
                 `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
               )}
+              centerText={true}
             />
           </div>
           <div className="flex flex-row gap-6 justify-center items-center">
@@ -321,9 +334,11 @@ export default function Colaborator() {
           </div>
         </div>
 
-        {monthStats && 
-          <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
-        }
+        {monthStats && (
+          <IndicatorNotAchieve
+            nothingIndicators={monthStats.nothingIndicators}
+          />
+        )}
       </div>
 
       <div className="flex justify-center items-center mb-5">
