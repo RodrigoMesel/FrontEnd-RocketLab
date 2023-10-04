@@ -18,11 +18,11 @@ export default function Dashboard() {
         <span className=" text-xl font-normal mt-4 mb-2">Resultados</span>
       </div>
 
-      <div className="flex gap-6 space-x-2 ml-10 mr-10 justify-center">
-        <div className="w-[50%]">
+      <div className="flex gap-8 space-x-2 ml-6 mr-6 justify-start">
+        <div className="w-[64.5%]">
           <DashboardChart />
         </div>
-        <div className="w-[25%]">
+        <div className="w-[28%]">
           <DashboardHighlights />
         </div>
       </div>

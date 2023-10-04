@@ -12,6 +12,11 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   monthIndicators,
   nothingIndicators,
   monthNumber,
+  validP,
+  goalP,
+  superGoalP,
+  challengeP,
+  nothingP,
 }) => {
   return (
     <>
@@ -26,6 +31,11 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
             monthIndicators={monthIndicators}
             nothingIndicators={nothingIndicators}
             monthNumber={monthNumber}
+            validP={validP}
+            goalP={goalP}
+            superGoalP={superGoalP}
+            challengeP={challengeP}
+            nothingP={nothingP}
           />
         }
         fileName={name + "_" + getMonthName(monthNumber)}
