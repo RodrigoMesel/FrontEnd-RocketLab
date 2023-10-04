@@ -3,12 +3,14 @@ import { createContext, useState } from "react";
 
 type ChartContext = {
   chartImg: string;
+  pastChartImg: string;
   validP: number;
   goalP: number;
   superGoalP: number;
   challengeP: number;
   nothingP: number;
   changeImg: (str: string) => void;
+  changePastChartImg: (str: string) => void;
   changeValidP: (val: number) => void;
   changeGoalP: (val: number) => void;
   changeSuperGoalP: (val: number) => void;
@@ -18,6 +20,8 @@ type ChartContext = {
 
 export const ChartContext = createContext<ChartContext>({
   chartImg: "",
+  pastChartImg: "",
+  changePastChartImg: (_) => {},
   changeImg: (_) => {},
   validP: 0,
   goalP: 0,
@@ -33,6 +37,7 @@ export const ChartContext = createContext<ChartContext>({
 
 export const ChartProvider = ({ children }: { children: React.ReactNode }) => {
   const [chartImg, changeImg] = useState("");
+  const [pastChartImg, changePastChartImg] = useState("");
   const [validP, changeValidP] = useState(0);
   const [goalP, changeGoalP] = useState(0);
   const [superGoalP, changeSuperGoalP] = useState(0);
@@ -44,6 +49,8 @@ export const ChartProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         chartImg,
         changeImg,
+        pastChartImg,
+        changePastChartImg,
         goalP,
         changeGoalP,
         superGoalP,
