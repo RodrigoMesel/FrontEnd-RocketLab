@@ -16,8 +16,6 @@ import IndicatorCard from "../components/IndicatorCard";
 import { getMonthStatistics } from "../utils/getMonthStatistics";
 import ColaboratorGrade from "../components/ColaboratorGrade";
 import AddIndicator from "../components/AddIndicator";
-import { CreateColaboratorListContext } from "../context/CreateColaboratorListContext";
-import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from "../components/IndicatorModal";
@@ -86,6 +84,7 @@ export default function Colaborator() {
     grade: 0,
     role: "",
   });
+
   // Contexts
   const { openPopUpIndicator, setOpenPopUpIndicator } =
     useContext(IndicatorContext);
@@ -156,9 +155,11 @@ export default function Colaborator() {
             <div className="mt-2 ml-5"> Indicadores</div>
 
             <div>
-              <AddIndicator
+            <AddIndicator
                 openPopUpIndicator={openPopUpIndicator}
                 setOpenPopUpIndicator={setOpenPopUpIndicator}
+                currentMonth={currentMonth}
+                monthToAddIndicator={month}
               />
             </div>
           </div>
@@ -227,8 +228,7 @@ export default function Colaborator() {
           <div className="grow h-14 ..."></div>
         </div>
       </div>
-
-                  
+  
       <div className="flex justify-center items-center mb-5">
         <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">

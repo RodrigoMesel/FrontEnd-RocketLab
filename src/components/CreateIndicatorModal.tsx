@@ -1,7 +1,10 @@
 import axios from 'axios';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useContext, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { IndicatorContext } from '../context/IndicatorContext';
+import left from '../assets/left.svg';
+import close from '../assets/close.svg';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface IndicatorModalProps{
@@ -10,17 +13,16 @@ interface IndicatorModalProps{
 }
 
 const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIndicator, setOpenPopUpCreateIndicator}: IndicatorModalProps) => {
+
+    const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
     const { id } = useParams();
     const userId = parseInt(id!, 10)
     const [name, setName] = useState('')
+    const [unity, setUnitySelection] = useState('');
     const [weight, setWeight] = useState('')
     const [goal, setGoal] = useState('')
     const [superGoal, setSuperGoal] = useState('')
     const [challenge, setChallenge] = useState('')
-
-
-    // const [unity, setUnity] = useState('')
-
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setName(e.target.value);
@@ -56,10 +58,6 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
             // .then(response => console.log(response.data));
 
         const indicatorId = postIndicatorResponse.data.id;
-        // console.log(indicatorId);
-
-        
-
         const colaboratorIndicator = {
             colaboratorId: userId,
             indicatorId: indicatorId,
@@ -68,15 +66,12 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
             superGoal: parseFloat(superGoal),
             challenge: parseFloat(challenge),
           };
-        console.log(colaboratorIndicator);
-        const postColaboratorIndicator = await axios.post('http://localhost:3000/colaborator-indicator', colaboratorIndicator);
-            
+
+        await axios.post('http://localhost:3000/colaborator-indicator', colaboratorIndicator);
         
-    
         } catch (error) {
             console.error('Ocorreu um erro:', error);
         }
-        
     }
 
     const notify = () => toast.error('Preencha todos os campos', {
@@ -90,7 +85,10 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
         theme: "light",
         });;
 
-    const [unity, setUnitySelection] = useState('');
+    const goBack = () => {
+        setOpenPopUpIndicator(true);
+        setOpenPopUpCreateIndicator(false);
+    };
 
     if(openPopUpCreateIndicator){
         return (
@@ -102,13 +100,20 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
                     </div>
 
                     <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
-                        
-                    {/* <span className='flex justify-left w-full cursor-pointer' onClick={() => setOpenPopUpCreateIndicator(!openPopUpCreateIndicator)}> Voltar </span>  */}
-                       
-                        <span className='flex justify-end w-full cursor-pointer' onClick={() => setOpenPopUpCreateIndicator(!openPopUpCreateIndicator)}>X</span>
+
+                    <div>
+                    <div className= "flex flex-row mt-2">      
+                        <div className='flex w-full ml-7 cursor-pointer' onClick={goBack}> 
+                            <img src={left} alt="" className="h-3 w-3" />
+                         </div> 
+                        <div className='flex w-full ml-64 cursor-pointer' onClick={() => setOpenPopUpCreateIndicator(!openPopUpCreateIndicator)}>
+                            <img src={close} alt="" className="h-3 w-3" />
+                        </div>
+                    </div>
 
                         <div className='flex flex-col gap-2 my-1 mb-2 items-center w-96 px-10'>
-                                <div className='font-bold flex self-center text-lg'>Criar novo indicador</div>
+
+                        <div className='font-bold text-l selft-center whitespace-nowrap'>Criar novo indicador</div>
 
                                 <div className='flex flex-col gap-2'>
                                     <label>Nome do indicador</label>
@@ -170,20 +175,11 @@ const CreateIndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpCreateIn
                                 </button>
 
                                 </div>
-
-
-
                         </div>
-
-
-
-                    </div>
-
-                        
-
+                    </div>                     
+                    </div>      
                 </div>
                 <ToastContainer />
-
             </>
         );
     }
