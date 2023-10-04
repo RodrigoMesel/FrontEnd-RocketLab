@@ -1,3 +1,4 @@
+
 import { getMonthName } from '../utils/getMonthName';
 import React from 'react';
 import left from '../assets/left.svg';
@@ -22,7 +23,7 @@ const ChangeMonthBox: React.FC<ChangeMonthBoxProps> = ({
         </button>
 
         <p className="font-medium text-base text-[#A3A3A3]">
-          {getMonthName(monthNumber)}
+          {getMonthName(monthNumber - 1)}
         </p>
 
         <button onClick={incrementNumber}>
