@@ -15,8 +15,7 @@ import { CreateColaboratorListContext } from '../context/CreateColaboratorListCo
 import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
-import IndicatorModal from '../components/IndicatorModal'
-import AddIndicatorTest from '../components/AddIndicatorTeste';
+import IndicatorModal from '../components/IndicatorModal';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
 import CreateIndicatorModal from '../components/CreateIndicatorModal';
 import { IndicatorContext } from '../context/IndicatorContext';
@@ -81,7 +80,9 @@ export default function Colaborator() {
     const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
     const {openPopUpCreateIndicator, setOpenPopUpCreateIndicator} = useContext(CreateIndicatorContext)
 
-    const [number, setNumber] = useState(5);
+    const currentMonth = new Date().getMonth() + 1; // Mês atual
+    const [month, setNumber] = useState(currentMonth);
+    
     const [doughnutChartData, setDoughnutChartData] = useState<DoughnutChartProps['chartData']>({
       goal: 0,
       superGoal: 0,
@@ -94,14 +95,14 @@ export default function Colaborator() {
     
 
     const incrementNumber = () => {
-      setNumber(number + 1);
+      setNumber(month + 1);
     };
 
     const decrementNumber = () => {
-      setNumber(number - 1);
+      setNumber(month - 1);
     };
 
-    const [monthStats, loading] = getMonthStatistics(number, userId);
+    const [monthStats, loading] = getMonthStatistics(month, userId);
 
 
   const data = getUserData(userId);
@@ -160,9 +161,10 @@ export default function Colaborator() {
             <div className="grow ..."></div>
               <div> 
                 <div className='flex flex-row space-x-1 mr-5'>
-                  <button onClick={decrementNumber}>-</button>
-                    <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-                  <button onClick={incrementNumber}>+</button>
+                    <ChangeMonthBox monthNumber = {month}
+                      incrementNumber={incrementNumber}
+                      decrementNumber={decrementNumber}
+                    ></ChangeMonthBox>
                 </div>
               </div>
               
@@ -174,7 +176,7 @@ export default function Colaborator() {
                 doughnutChart={chartContext.chartImg}
                 monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
                 nothingIndicators={monthStats?.nothingIndicators}
-                monthNumber={number}
+                monthNumber={month}
               />
             </div>
                       
@@ -204,7 +206,7 @@ export default function Colaborator() {
               <div className="w-full h-80">
                 <DoughnutChart
                   chartData={getMonthData(
-                    `http://localhost:3000/colaborator-indicator/statistics/month/${number}/colaboratorId/${userId}`
+                    `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
                   )}
                 />
               </div>
