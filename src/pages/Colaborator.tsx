@@ -17,7 +17,9 @@ import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from '../components/IndicatorModal';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
+import { AssignIndicatorContext  } from '../context/AssignIndicatorContext'
 import CreateIndicatorModal from '../components/CreateIndicatorModal';
+import AssignIndicatorModal from '../components/AssignIndicatorModal';
 import { IndicatorContext } from '../context/IndicatorContext';
 import DownloadPdfButton from '../components/DownloadPdfButton';
 import { ChartContext } from "../context/ChartContext";
@@ -79,6 +81,7 @@ export default function Colaborator() {
     // Contexts
     const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
     const {openPopUpCreateIndicator, setOpenPopUpCreateIndicator} = useContext(CreateIndicatorContext)
+    const {openPopUpAssignIndicator, setOpenPopUpAssignIndicator} = useContext(AssignIndicatorContext)
 
     const currentMonth = new Date().getMonth() + 1; // Mês atual
     const [month, setNumber] = useState(currentMonth);
@@ -242,9 +245,11 @@ export default function Colaborator() {
       < CreateIndicatorModal
           openPopUpCreateIndicator={openPopUpCreateIndicator}
           setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-      ></ CreateIndicatorModal>
-
-
+        ></ CreateIndicatorModal>
+      < AssignIndicatorModal
+          openPopUpAssignIndicator={openPopUpAssignIndicator}
+          setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
+        ></ AssignIndicatorModal>  
     </>
   );
 }

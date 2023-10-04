@@ -2,8 +2,10 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateIndicatorModal from './CreateIndicatorModal';
+import AssignIndicatorModal from './AssignIndicatorModal';
 import React, { useState, useContext, useEffect } from 'react';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
+import { AssignIndicatorContext  } from '../context/AssignIndicatorContext'
 
 interface IndicatorModalProps{
     openPopUpIndicator: boolean,
@@ -14,6 +16,7 @@ const IndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpIndicator,setO
 
 
     const {openPopUpCreateIndicator, setOpenPopUpCreateIndicator} = useContext(CreateIndicatorContext )
+    const {openPopUpAssignIndicator, setOpenPopUpAssignIndicator} = useContext(AssignIndicatorContext )
 
     const [name, setName] = useState('')
 
@@ -55,6 +58,10 @@ const IndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpIndicator,setO
         setOpenPopUpIndicator(false);
         setOpenPopUpCreateIndicator(true);
     };
+    const openThirdModal = () => {
+        setOpenPopUpIndicator(false);
+        setOpenPopUpAssignIndicator(true);
+    };
 
     if(openPopUpIndicator){
         return (
@@ -94,42 +101,14 @@ const IndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpIndicator,setO
                             <div className='flex self-center'>ou</div>
 
                             <button className='text-white bg-[#952323] w-80 py-3 rounded-xl'
-                                onClick={() =>  {
-                                            if(name !== '' && role !== '') {
-                                                postColaborator(); 
-                                                setOpenPopUpIndicator(!openPopUpIndicator);
-                                            } else{
-                                                notify()
-                                            }
-
-                                            }}>
-                                    Atribuir indicador já existente
+                             onClick={openThirdModal}
+                             >
+                                Atribuir novo indicador
                             </button>
 
                         </div>
-
-                        {/* (openPopUpCreateIndicator &&{
-                                    < CreateIndicatorModal
-                                    openPopUpCreateIndicator={openPopUpCreateIndicator}
-                                    setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-                                    ></ CreateIndicatorModal>
-                        }) */}
-                                                {/* Renderizar o segundo modal se openPopUpCreateIndicator for verdadeiro */}
-
-
-
                     </div>
-
-                        
-
                 </div>
-                <ToastContainer />
-                {openPopUpCreateIndicator && (
-                            <CreateIndicatorModal
-                            openPopUpCreateIndicator={openPopUpCreateIndicator}
-                            setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-                            />
-                        )}
 
             </>
         );

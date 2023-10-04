@@ -1,123 +1,239 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-interface IndicatorModalProps{
-    openCreatePopUp: boolean,
-    setOpenCreatePopUp: (value: React.SetStateAction<boolean>) => void
+interface Indicator {
+  id: number;
+  name: string;
+  unity: string;
 }
 
-const IndicatorModal:  React.FC<IndicatorModalProps> = ({openCreatePopUp, setOpenCreatePopUp}: IndicatorModalProps) => {
+interface IndicatorModalProps {
+  openPopUpAssignIndicator: boolean;
+  setOpenPopUpAssignIndicator: (value: React.SetStateAction<boolean>) => void;
+}
 
-    const [name, setName] = useState('')
+const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
+  openPopUpAssignIndicator,
+  setOpenPopUpAssignIndicator,
+}: IndicatorModalProps) => {
+  const [indicators, setIndicators] = useState<Indicator[]>([]);
+  const [selectedIndicator, setSelectedIndicator] = useState<Indicator | null>(null);
+  const [filterText, setFilterText] = useState('');
+  const [weight, setWeight] = useState<number | null>(null);
+  const [goal, setGoal] = useState<number | null>(null);
+  const [superGoal, setSuperGoal] = useState<number | null>(null);
+  const [challenge, setChallenge] = useState<number | null>(null);
 
-    const [role, setRole] = useState('')
+  const { id } = useParams();
+  const userId = parseInt(id!, 10)
+  
+  useEffect(() => {
+    // Fetch the indicators from the API when the component mounts
+    axios.get('http://localhost:3000/indicator').then((response) => {
+      setIndicators(response.data);
+    });
+  }, []);
 
+  const handleIndicatorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = parseInt(e.target.value);
+    const selected = indicators.find((indicator) => indicator.id === selectedId);
+    setSelectedIndicator(selected || null);
+  };
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setName(e.target.value);
-    };
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterText(e.target.value);
+  };
 
-    const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRole(e.target.value);
-    };
+ const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWeight(parseFloat(e.target.value));
+ };
 
-    const postColaborator = async () => {
+ const handleGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGoal(parseInt(e.target.value));
+ };
 
-        const data = {
-            name: name,
-            role: role,
-        }
+ const handleSuperGoalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSuperGoal(parseInt(e.target.value));
+ };
 
-        await axios.post('http://localhost:3000/colaborator', data)
-            .then(response => console.log(response.data));
+ const handleChallengeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChallenge(parseInt(e.target.value));
+ };
+
+  const filteredIndicators = indicators.filter((indicator) =>
+    indicator.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const postColaboratorIndicator = async () => {
+    if (!selectedIndicator) {
+      return;
     }
 
-    const notify = () => toast.error('Preencha todos os campos', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        });;
+    const data = {
+        colaboratorId: userId,
+        indicatorId: selectedIndicator.id,
+        weight: weight,
+        goal: goal,
+        superGoal: superGoal,
+        challenge: challenge
+    };
 
+    await axios.post('http://localhost:3000/colaborator-indicator', data).then((response) => {
+      console.log(response.data);
+    });
+  };
 
+  const notifyIndicator = () =>
+    toast.error('Selecione um indicador', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
 
-    if(openCreatePopUp){
-        return (
-            <>
-                <div className="flex items-center justify-center 
-                                fixed top-0 left-0 w-screen h-screen z-50">
+ const notify = () =>
+    toast.error('Preencha os campos', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
 
-                    <div className="fixed top-0 left-0 w-screen h-screen bg-black opacity-70 -z-10"
-                        onClick={() => setOpenCreatePopUp(!openCreatePopUp)}>
-                    </div>
+    if (openPopUpAssignIndicator && selectedIndicator===null){
+  return (
+    <>
+        <div className="flex items-center justify-center fixed top-0 left-0 w-screen h-screen z-50">
+          <div
+            className="fixed top-0 left-0 w-screen h-screen bg-black opacity-70 -z-10"
+            onClick={() => setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}
+          ></div>
 
-                    <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
-                        
-                       
-                        <span className='flex justify-end w-full cursor-pointer' onClick={() => setOpenCreatePopUp(!openCreatePopUp)}>X</span>
+          <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
+            <span className="flex justify-end w-full cursor-pointer" onClick={() => {setSelectedIndicator(null); setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}}>
+              X
+            </span>
 
-                        <div className='flex flex-col gap-5 my-4 mb-10 items-start w-96 px-10'>
-                                <div className='font-bold flex self-center text-lg'>Atribuir indicador</div>
+            <div className="flex flex-col gap-2 my-1 mb-2 items-center w-96 px-10">
+              <div className="font-bold flex self-center text-lg">Atribuir indicador</div>
 
-                                {/* <div className='flex flex-col gap-2'>
-                                    <label>Nome do colaborador:</label>
-                                    <input type="text" onChange={handleNameChange}
-                                        className='flex w-72 px-2 py-3 border-2 border-solid border-zinc-500 rounded-lg'/>
+              <div className="flex flex-col gap-2">
+                {/* <label>Selecione um indicador</label> */}
+                <input type="text" onChange={handleFilterChange} value={filterText} className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg" placeholder="Filtrar indicadores" />
+                <select onChange={handleIndicatorChange} className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg">
+                  <option value="">Selecione um indicador</option>
+                  {filteredIndicators.map((indicator) => (
+                    <option key={indicator.id} value={indicator.id}>
+                      {indicator.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mt-5">
+                <button
+                  className="text-white bg-[#952323] w-72 py-3 rounded-xl"
+                  onClick={() => {
+                    notifyIndicator();
+                  }}
+                >
+                  Concluir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <ToastContainer />
+    </>
+    )} else if (openPopUpAssignIndicator){
+        return(
+        <>
+        <div className="flex items-center justify-center fixed top-0 left-0 w-screen h-screen z-50">
+          <div
+            className="fixed top-0 left-0 w-screen h-screen bg-black opacity-70 -z-10"
+            onClick={() => setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}
+          ></div>
+
+          <div className="flex flex-col items-center bg-white rounded-xl w-96 h-auto px-8 py-4">
+            <span className="flex justify-end w-full cursor-pointer" onClick={() => {setSelectedIndicator(null); setWeight(null);setGoal(null);setSuperGoal(null);setChallenge(null); setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}}>
+              X
+            </span>
+
+            <div className="flex flex-col gap-2 my-1 mb-2 items-center w-96 px-10">
+              <div className="font-bold flex self-center text-lg">Atribuir indicador</div>
+
+              <div className="flex flex-col gap-2">
+                {/* <label>Selecione um indicador</label> */}
+                <input type="text" onChange={handleFilterChange} value={filterText} className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg" placeholder="Filtrar indicadores" />
+                <select onChange={handleIndicatorChange} className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg">
+                  <option value="">Selecione um indicador</option>
+                  {filteredIndicators.map((indicator) => (
+                    <option key={indicator.id} value={indicator.id}>
+                      {indicator.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className='flex flex-col gap-2'>
+                                    <label>Peso</label>
+                                    <input type="text" onChange={handleWeightChange}
+                                         className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
+                                </div>
+                                
+                                <div className='flex flex-col gap-2'>
+                                    <label>Meta</label>
+                                    <input type="text" onChange={handleGoalChange}
+                                         className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
+                                </div>
+                                
+                                <div className='flex flex-col gap-2'>
+                                    <label>Supermeta</label>
+                                    <input type="text" onChange={handleSuperGoalChange}
+                                         className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
                                 </div>
 
                                 <div className='flex flex-col gap-2'>
-                                    <label>Área:</label>
-                                    <input type="text" onChange={handleRoleChange}
-                                         className='flex w-72 px-2 py-3 border-2 border-solid border-zinc-500 rounded-lg' />
-                                </div> */}
+                                    <label>Desafio</label>
+                                    <input type="text" onChange={handleChallengeChange}
+                                         className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
+                                </div>
 
-                            <button className='text-white bg-[#952323] w-80 py-3 rounded-xl'
-                                onClick={() =>  {
-                                            if(name !== '' && role !== '') {
-                                                postColaborator(); 
-                                                setOpenCreatePopUp(!openCreatePopUp);
-                                            } else{
-                                                notify()
-                                            }
-
-                                            }}>
-                                    Criar novo indicador
-                            </button>
-                            <div className='flex self-center'>ou</div>
-
-                            <button className='text-white bg-[#952323] w-80 py-3 rounded-xl'
-                                onClick={() =>  {
-                                            if(name !== '' && role !== '') {
-                                                postColaborator(); 
-                                                setOpenCreatePopUp(!openCreatePopUp);
-                                            } else{
-                                                notify()
-                                            }
-
-                                            }}>
-                                    Atribuir indicador já existente
-                            </button>
-
-                        </div>
-
-
-
-                    </div>
-
-                        
-
-                </div>
-                <ToastContainer />
-
-            </>
-        );
+              <div className="mt-5">
+                <button
+                  className="text-white bg-[#952323] w-72 py-3 rounded-xl"
+                  onClick={() => {
+                    if (weight === null || goal === null || superGoal === null || challenge === null){notify();
+                    } else {
+                        postColaboratorIndicator(); 
+                        setSelectedIndicator(null); 
+                        setWeight(null);
+                        setGoal(null);
+                        setSuperGoal(null);
+                        setChallenge(null); 
+                        setOpenPopUpAssignIndicator(!openPopUpAssignIndicator)}
+                  }}
+                >
+                  Concluir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <ToastContainer />
+    </>
+    )
     }
 };
 
-export default IndicatorModal;
+export default AssignIndicatorModal;
