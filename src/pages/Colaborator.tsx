@@ -149,7 +149,6 @@ export default function Colaborator() {
 
   useEffect(() => {
     const fetchIndicators = async () => {
-<<<<<<< HEAD
       const response = await fetch(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
       const indicators = await response.json();
       setMonthStats(indicators);
@@ -160,16 +159,6 @@ export default function Colaborator() {
       setUpdateData(false);
     }
   }, [month, userId, UpdateData]);
-=======
-      const response = await axios.get(
-        `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-      );
-      setMonthStats(response.data);
-    };
-
-    fetchIndicators();
-  }, [month, userId, monthStats]);
->>>>>>> main
 
   const data = getUserData(userId);
 
