@@ -1,5 +1,6 @@
 import React from 'react';
 import retangulo from '../assets/retangulo.svg';
+import edit from '../assets/edit.svg';
 
 interface IndicatorCardProps {
     id: number;
@@ -18,7 +19,12 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, name, weight, g
     <div className='bg-[#FBFBFB] p-5 rounded-lg  '>
         <div className='flex flex-row'> 
             <div>
-            <div className='text-lg mt-3 ml-3'> #{id} {name}</div>
+            <div className="text-lg mt-3 ml-3 flex items-center">
+                #{id} {name}
+                <div className="ml-2 cursor-pointer">
+                    <img src={edit} alt="" className="h-3 w-3" />
+                </div>
+            </div>
             <div className='text-xs ml-3'> Peso: {weight.toFixed(2)}</div>
             </div>
 

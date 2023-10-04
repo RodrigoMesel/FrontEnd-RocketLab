@@ -121,6 +121,7 @@ export default function Colaborator() {
 
   const currentMonth = new Date().getMonth() + 1; // Mês atual
   const [month, setNumber] = useState(currentMonth);
+  const [hasIndicators, setHasIndicators] = useState<boolean | null>(null);
 
   const [doughnutChartData, setDoughnutChartData] = useState<
     DoughnutChartProps["chartData"]
@@ -146,8 +147,16 @@ export default function Colaborator() {
 
   useEffect(() => {
     const fetchIndicators = async () => {
-      const response = await axios.get(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
-      setMonthStats(response.data);
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+        );
+        setMonthStats(response.data);
+        // Verifica se há indicadores associados
+        setHasIndicators(response.data.monthIndicators.length > 0);
+      } catch (error) {
+        console.error("Erro ao buscar indicadores:", error);
+      }
     };
 
     fetchIndicators();
@@ -236,20 +245,27 @@ export default function Colaborator() {
       <div className="flex flex-row space-x-24">
         {/* Cards dos indicadores */}
         <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
-          {monthStats &&
-            monthStats.monthIndicators.map((indicator, index) => (
-              <IndicatorCard
-                key={index}
-                id={indicator.id}
-                name={indicator.name}
-                weight={indicator.weight}
-                goal={indicator.goal}
-                supergoal={indicator.superGoal}
-                challenge={indicator.challenge}
-                result={indicator.result}
-              />
-            ))}
-        </div>
+        {hasIndicators === null ? (
+          <p>Carregando indicadores...</p>
+        ) : hasIndicators ? (
+          // Renderiza a lista de indicadores
+          monthStats?.monthIndicators.map((indicator, index) => (
+            <IndicatorCard
+              key={index}
+              id={indicator.id}
+              name={indicator.name}
+              weight={indicator.weight}
+              goal={indicator.goal}
+              supergoal={indicator.superGoal}
+              challenge={indicator.challenge}
+              result={indicator.result}
+            />
+          ))
+        ) : (
+          // Mostra a mensagem quando não há indicadores
+          <p>Nenhum indicador foi atribuído a este colaborador.</p>
+        )}
+      </div>
 
         {/*Grafico dos indicadores */}
         <div className="rounded-lg border border-solid p-[1.313rem] w-[25%]">

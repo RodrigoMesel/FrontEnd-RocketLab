@@ -10,6 +10,7 @@ import { CreateIndicatorContextProvider } from './context/CreateIndicatorContext
 import { AssignIndicatorContextProvider } from './context/AssignIndicatorContext.tsx'
 import { IndicatorContextProvider } from './context/IndicatorContext.tsx'
 import { ChartProvider } from "./context/ChartContext.tsx";
+import { EditIndicatorContextProvider } from './context/EditIndicatorContext.tsx'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <IndicatorContextProvider>
             <CreateIndicatorContextProvider>
               <AssignIndicatorContextProvider>
-                <App />
+                <EditIndicatorContextProvider>
+                  <App />
+                </EditIndicatorContextProvider>
               </AssignIndicatorContextProvider>
             </CreateIndicatorContextProvider>
           </IndicatorContextProvider>
