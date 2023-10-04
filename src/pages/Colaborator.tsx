@@ -28,7 +28,7 @@ import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
-import { PastChartCard } from "../components/PastChartCard";
+import { GradeChartCard } from "../components/GradeChartCard";
 
 type UserData = {
   id: number;
@@ -245,7 +245,7 @@ export default function Colaborator() {
       <div className="flex flex-row gap-2">
         <div className="flex flex-col w-[45%]">
           {monthStats && month != currentMonth ? (
-            <PastChartCard
+            <GradeChartCard
               id={data.id}
               month={month}
               monthGrade={monthStats.monthGrade}

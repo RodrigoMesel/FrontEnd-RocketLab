@@ -17,7 +17,7 @@ interface PastChartCardProps {
   }>;
 }
 
-export const PastChartCard: React.FC<PastChartCardProps> = ({
+export const GradeChartCard: React.FC<PastChartCardProps> = ({
   month,
   id,
   monthGrade,
