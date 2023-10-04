@@ -19,7 +19,9 @@ import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from '../components/IndicatorModal'
 import AddIndicatorTest from '../components/AddIndicatorTeste';
 import { CreateIndicatorContext  } from '../context/CreateIndicatorContext'
+import { AssignIndicatorContext  } from '../context/AssignIndicatorContext'
 import CreateIndicatorModal from '../components/CreateIndicatorModal';
+import AssignIndicatorModal from '../components/AssignIndicatorModal';
 import { IndicatorContext } from '../context/IndicatorContext';
 import DownloadPdfButton from '../components/DownloadPdfButton';
 
@@ -79,6 +81,7 @@ export default function Colaborator() {
     // Contexts
     const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
     const {openPopUpCreateIndicator, setOpenPopUpCreateIndicator} = useContext(CreateIndicatorContext)
+    const {openPopUpAssignIndicator, setOpenPopUpAssignIndicator} = useContext(AssignIndicatorContext)
 
     const [number, setNumber] = useState(5);
     const [doughnutChartData, setDoughnutChartData] = useState<DoughnutChartProps['chartData']>({
@@ -126,19 +129,11 @@ export default function Colaborator() {
         </div>
 
         <div>
-          {/* <ColaboratorGrade 
-          grade={userData.grade}
-          ></ColaboratorGrade> */}
             <div className='flex items-center space-x-1 rounded-xl bg-[#6186D3] h-8 w-20 text-center text-white font-bold'>
                 <img src={grade} className='ml-4'/>
                 <div className='mr-4'>{userData.grade}</div>
             </div>
-
         </div>
-          {/* </>
-        ) : (
-          <div>Carregando...</div>
-        )} */}
         </div>
 
         <div className='flex flex-row space-x-24'> 
@@ -151,13 +146,6 @@ export default function Colaborator() {
             setOpenPopUpIndicator={setOpenPopUpIndicator}
           />
           </div>
-
-          <AddIndicatorTest
-            openPopUpCreateIndicator={openPopUpCreateIndicator}
-            setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
-          
-          /> 
-
           
           <div className="grow ..."></div>
           <div> 
@@ -233,8 +221,10 @@ export default function Colaborator() {
           openPopUpCreateIndicator={openPopUpCreateIndicator}
           setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
         ></ CreateIndicatorModal>
-
-      
+      < AssignIndicatorModal
+          openPopUpAssignIndicator={openPopUpAssignIndicator}
+          setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
+        ></ AssignIndicatorModal>  
     </>
   )
 }
