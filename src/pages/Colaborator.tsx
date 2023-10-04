@@ -1,17 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
-import SearchBar from '../components/SearchBar'
-import { BrowserRouter as Router, Route, useParams, Link } from 'react-router-dom';
-import { getUserData } from '../utils/getUserData'
-import ColaboratorImage from '../components/ColaboratorImage';
-import BarChart from '../components/SemestralBarChart';
-import DoughnutChart from '../components/MonthlyPercentageGraph';
+import React, { useState, useContext, useEffect } from "react";
+import SearchBar from "../components/SearchBar";
+import {
+  BrowserRouter as Router,
+  Route,
+  useParams,
+  Link,
+} from "react-router-dom";
+import { getUserData } from "../utils/getUserData";
+import ColaboratorImage from "../components/ColaboratorImage";
+import BarChart from "../components/SemestralBarChart";
+import DoughnutChart from "../components/MonthlyPercentageGraph";
 import { getData } from "../utils/getData";
 import { getMonthData } from "../utils/getMonthData";
-import IndicatorCard from '../components/IndicatorCard';
-import { getMonthStatistics } from '../utils/getMonthStatistics'; 
-import ColaboratorGrade from '../components/ColaboratorGrade';
-import AddIndicator from '../components/AddIndicator';
-import { CreateColaboratorListContext } from '../context/CreateColaboratorListContext'
+import IndicatorCard from "../components/IndicatorCard";
+import { getMonthStatistics } from "../utils/getMonthStatistics";
+import ColaboratorGrade from "../components/ColaboratorGrade";
+import AddIndicator from "../components/AddIndicator";
+import { CreateColaboratorListContext } from "../context/CreateColaboratorListContext";
 import grade from "../assets/grade.svg";
 import StatsTextBox from "../components/StatsTextBox";
 import ChangeMonthBox from "../components/ChangeMonthBox";
@@ -110,102 +115,89 @@ export default function Colaborator() {
   const chartContext = useContext(ChartContext);
   return (
     <>
-      <div className='mt-2'>
-        <Link to='/colaboradores'>
+      <div className="mt-2">
+        <Link to="/colaboradores">
           <SearchBar />
         </Link>
       </div>
 
       {/* Card do Colaborador com nome, imagem, role e nota */}
-      <div className='flex flex-row justify-between space-x-5 ml-5 my-8 mr-10'>
-
-        <div className='flex flex-col gap-5'>
-
-          <div className='flex flex-row justify-between'>
-
-            <div className='flex gap-3 mr-40'>
-
-              <ColaboratorImage/ >
-              <div className='flex flex-col'>
-                  <div className='text-[#A3A3A3]'>{userData.role}</div>
-                  <div className='font-bold text-3xl'>{userData.name}</div>
+      <div className="flex flex-row justify-between space-x-5 ml-5 my-8 mr-10">
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-row justify-between">
+            <div className="flex gap-3 mr-40">
+              <ColaboratorImage />
+              <div className="flex flex-col">
+                <div className="text-[#A3A3A3]">{userData.role}</div>
+                <div className="font-bold text-3xl">{userData.name}</div>
               </div>
             </div>
 
-
             <div>
-               <ColaboratorGrade 
-              grade={userData.grade}
-              ></ColaboratorGrade> 
+              <ColaboratorGrade grade={userData.grade}></ColaboratorGrade>
             </div>
           </div>
 
+          <div className="flex flex-row space-x-24">
+            <div className="mt-2 ml-5"> Indicadores</div>
 
-          <div className='flex flex-row space-x-24'> 
-
-            <div className='mt-2 ml-5'> Indicadores</div>
-            
             <div>
-            <AddIndicator
-                      openCreatePopUp={openCreatePopUp}
-                      setOpenCreatePopUp={setOpenCreatePopUp}
-                      />
+              <AddIndicator
+                openCreatePopUp={openCreatePopUp}
+                setOpenCreatePopUp={setOpenCreatePopUp}
+              />
             </div>
           </div>
         </div>
 
+        <div className="flex flex-col gap-3 items-center pb-5">
+          <div className="grow ..."></div>
+          <div>
+            <div className="flex flex-row space-x-1 mr-5">
+              <button onClick={decrementNumber}>-</button>
+              <ChangeMonthBox monthNumber={number}></ChangeMonthBox>
+              <button onClick={incrementNumber}>+</button>
+            </div>
+          </div>
 
-          
-          <div className="flex flex-col gap-3 items-center pb-5">
-              <div className="grow ..."></div>
-                <div> 
-                  <div className='flex flex-row space-x-1 mr-5'>
-                  <button onClick={decrementNumber}>-</button>
-                  <ChangeMonthBox monthNumber = {number}></ChangeMonthBox>
-                  <button onClick={incrementNumber}>+</button>
-                  </div>
-                </div>
-                
-                <PDFDownloadButton
-                  name={data.name}
-                  role={data.role}
-                  grade={data.grade}
-                  id={data.id}
-                  doughnutChart={chartContext.chartImg}
-                  monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
-                  nothingIndicators={monthStats?.nothingIndicators}
-                  monthNumber={number}
-                />
-              </div>
-
-                        
+          <PDFDownloadButton
+            name={data.name}
+            role={data.role}
+            grade={data.grade}
+            id={data.id}
+            doughnutChart={chartContext.chartImg}
+            monthIndicators={monthStats?.monthIndicators.slice(0, 4)}
+            nothingIndicators={monthStats?.nothingIndicators}
+            monthNumber={number}
+            validP={chartContext.validP}
+            goalP={chartContext.goalP}
+            superGoalP={chartContext.superGoalP}
+            challengeP={chartContext.challengeP}
+            nothingP={chartContext.nothingP}
+          />
+        </div>
       </div>
-
-
-        {/* Flex box da primeira linha de componentes */}
-        <div className='flex flex-row space-x-24'> 
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
-        {/* Cards dos indicadores */}
-        <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
-          {monthStats &&
-            monthStats.monthIndicators.map((indicator) => (
-              <IndicatorCard
-                id={indicator.id}
-                name={indicator.name}
-                weight={indicator.weight}
-                goal={indicator.goal}
-                supergoal={indicator.superGoal}
-                challenge={indicator.challenge}
-                result={indicator.result}
-              />
-            ))}
+        {/* Flex box da primeira linha de componentes */}
+        <div className="flex flex-row space-x-24">
+          {/* Cards dos indicadores */}
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+            {monthStats &&
+              monthStats.monthIndicators.map((indicator) => (
+                <IndicatorCard
+                  id={indicator.id}
+                  name={indicator.name}
+                  weight={indicator.weight}
+                  goal={indicator.goal}
+                  supergoal={indicator.superGoal}
+                  challenge={indicator.challenge}
+                  result={indicator.result}
+                />
+              ))}
+          </div>
         </div>
-        </div>
-        
-
-
 
         <div className="flex flex-col">
           <div className="rounded-lg border border-solid p-3">
