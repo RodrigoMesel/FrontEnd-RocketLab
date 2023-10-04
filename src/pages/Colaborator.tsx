@@ -143,16 +143,20 @@ export default function Colaborator() {
   };
 
   const [monthStats, setMonthStats] = useState<MonthStatistics>();
+  const [indicadorCriado, setIndicadorCriado] = useState(false);
 
   useEffect(() => {
     const fetchIndicators = async () => {
-      const response = await axios.get(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
-      setMonthStats(response.data);
+      const response = await fetch(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
+      const indicators = await response.json();
+      setMonthStats(indicators);
     };
-
-    fetchIndicators();
-  }, [month, userId, monthStats]);
-
+  
+    if (indicadorCriado) {
+      fetchIndicators();
+      setIndicadorCriado(false);
+    }
+  }, [month, userId, indicadorCriado]);
 
   const data = getUserData(userId);
 
@@ -320,6 +324,8 @@ export default function Colaborator() {
       <CreateIndicatorModal
         openPopUpCreateIndicator={openPopUpCreateIndicator}
         setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+        indicadorCriado={indicadorCriado}
+        setindicadorCriado={setIndicadorCriado}
       ></CreateIndicatorModal>
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}
