@@ -9,6 +9,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   grade,
   role,
   doughnutChart,
+  doughnutChartHollow,
   monthIndicators,
   nothingIndicators,
   monthNumber,
@@ -26,6 +27,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
           document={
             <PDFFile
               doughnutChart={doughnutChart}
+              doughnutChartHollow={doughnutChartHollow}
               id={id}
               name={name}
               role={role}

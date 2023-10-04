@@ -27,9 +27,13 @@ interface DoughnutChartProps {
     nothingIndicators: Indicator[];
     monthIndicators: Indicator[];
   };
+  centerText: boolean;
 }
 
-const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
+const DoughnutChart: React.FC<DoughnutChartProps> = ({
+  chartData,
+  centerText,
+}) => {
   const [userData, setUserData] = useState({
     labels: ["Meta", "Supermeta", "Desafio", "Não alcançado"],
     datasets: [
@@ -179,23 +183,24 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
                 : 0
             );
             chartContext.changeValidP(isNumber(middleValue) ? middleValue : 0);
+            if (centerText) {
+              var width = chart.width,
+                height = chart.height,
+                ctx = chart.ctx;
 
-            var width = chart.width,
-              height = chart.height,
-              ctx = chart.ctx;
+              ctx.restore();
+              var fontSize = (height / 100).toFixed(2);
+              ctx.font = "bold " + fontSize + "em Poppins";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#312843";
 
-            ctx.restore();
-            var fontSize = (height / 100).toFixed(2);
-            ctx.font = "bold " + fontSize + "em Poppins";
-            ctx.textBaseline = "middle";
-            ctx.fillStyle = "#312843";
+              var text = `${middleValue || 0}%`,
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
+              console.log(text);
 
-            var text = `${middleValue || 0}%`,
-              textX = Math.round((width - ctx.measureText(text).width) / 2),
-              textY = height / 2;
-            console.log(text);
-
-            ctx.fillText(text, textX, textY);
+              ctx.fillText(text, textX, textY);
+            }
           },
         },
         {
@@ -250,7 +255,9 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ chartData }) => {
           duration: 0,
           onComplete: function () {
             ref.current
-              ? chartContext.changeImg(ref.current.toBase64Image())
+              ? centerText
+                ? chartContext.changeImg(ref.current.toBase64Image())
+                : chartContext.changePastChartImg(ref.current.toBase64Image())
               : "";
           },
         },

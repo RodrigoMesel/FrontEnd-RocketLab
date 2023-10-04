@@ -21,6 +21,7 @@ export interface PDFProps {
   grade: number;
   id: number;
   doughnutChart: string;
+  doughnutChartHollow: string;
   validP: number;
   goalP: number;
   superGoalP: number;
@@ -78,6 +79,7 @@ const PDFFile: React.FC<PDFProps> = ({
   grade,
   role,
   doughnutChart,
+  doughnutChartHollow,
   monthIndicators,
   nothingIndicators,
   monthNumber,
@@ -131,6 +133,7 @@ const PDFFile: React.FC<PDFProps> = ({
                 monthIndicators.map((indicator) => (
                   <Indicator
                     key={indicator.id}
+                    id={indicator.id}
                     name={indicator.name}
                     weight={indicator.weight}
                     goal={indicator.goal}
@@ -221,6 +224,7 @@ const IndicatorDone = (props: { color: string; num: number }) => (
 );
 
 const Indicator = (props: {
+  id: number;
   name: string;
   weight: number;
   goal: number;
@@ -254,7 +258,9 @@ const Indicator = (props: {
     >
       <View style={tw("flex flex-row justify-between w-[28.75rem] h-3")}>
         <View style={tw("w-[25.75rem] h-[2.875rem]")}>
-          <Text style={tw("text-lg")}>{props.name}</Text>
+          <Text style={tw("text-lg")}>
+            #{props.id} {props.name}
+          </Text>
           <Text style={tw("text-sm text-[#A3A3A3]")}>Peso: {props.weight}</Text>
         </View>
         <View

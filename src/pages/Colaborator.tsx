@@ -220,6 +220,7 @@ export default function Colaborator() {
               grade={data.grade}
               id={data.id}
               doughnutChart={chartContext.chartImg}
+              doughnutChartHollow={chartContext.pastChartImg}
               monthIndicators={monthStats.monthIndicators.slice(0, 4)}
               nothingIndicators={monthStats.nothingIndicators}
               monthNumber={month}
@@ -235,26 +236,32 @@ export default function Colaborator() {
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row space-x-24">
-        {/* Cards dos indicadores */}
-        <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+        <div className="flex flex-col">
           {month != currentMonth ? (
-            <PastChartCard id={data.id} month={month} />
+            <PastChartCard
+              id={data.id}
+              month={month}
+              monthGrade={monthStats?.monthGrade || 0}
+            />
           ) : (
             ""
           )}
-          {monthStats &&
-            monthStats.monthIndicators.map((indicator, index) => (
-              <IndicatorCard
-                key={index}
-                id={indicator.id}
-                name={indicator.name}
-                weight={indicator.weight}
-                goal={indicator.goal}
-                supergoal={indicator.superGoal}
-                challenge={indicator.challenge}
-                result={indicator.result}
-              />
-            ))}
+          {/* Cards dos indicadores */}
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+            {monthStats &&
+              monthStats.monthIndicators.map((indicator, index) => (
+                <IndicatorCard
+                  key={index}
+                  id={indicator.id}
+                  name={indicator.name}
+                  weight={indicator.weight}
+                  goal={indicator.goal}
+                  supergoal={indicator.superGoal}
+                  challenge={indicator.challenge}
+                  result={indicator.result}
+                />
+              ))}
+          </div>
         </div>
 
         {/*Grafico dos indicadores */}
@@ -271,6 +278,7 @@ export default function Colaborator() {
               chartData={getMonthData(
                 `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
               )}
+              centerText={true}
             />
           </div>
           <div className="flex flex-row gap-6 justify-center items-center">
