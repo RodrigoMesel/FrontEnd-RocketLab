@@ -27,6 +27,7 @@ import { IndicatorContext } from "../context/IndicatorContext";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
+import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 
 type UserData = {
   id: number;
@@ -251,6 +252,10 @@ export default function Colaborator() {
             </div>
           </div>
         </div>
+
+        {monthStats && 
+          <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
+        }
       </div>
 
       <div className="flex justify-center items-center mb-5">
