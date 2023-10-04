@@ -21,6 +21,11 @@ export interface PDFProps {
   grade: number;
   id: number;
   doughnutChart: string;
+  validP: number;
+  goalP: number;
+  superGoalP: number;
+  challengeP: number;
+  nothingP: number;
   monthNumber: number;
   monthIndicators?: Array<{
     id: number;
@@ -76,6 +81,11 @@ const PDFFile: React.FC<PDFProps> = ({
   monthIndicators,
   nothingIndicators,
   monthNumber,
+  validP,
+  goalP,
+  superGoalP,
+  challengeP,
+  nothingP,
 }) => {
   return (
     <Document>
@@ -132,7 +142,7 @@ const PDFFile: React.FC<PDFProps> = ({
             </View>
           </View>
           <View style={tw("flex flex-row gap-[7px] mt-[3.5rem] mx-[0.813rem]")}>
-            <IndicatorGraph doughnutChart={doughnutChart} />
+            <IndicatorGraph doughnutChart={doughnutChart} validP={validP} />
             <IndicatorNotReached nothingIndicators={nothingIndicators} />
           </View>
         </View>
@@ -325,7 +335,7 @@ const Indicator = (props: {
     </View>
   );
 };
-const IndicatorGraph = (props: { doughnutChart: string }) => {
+const IndicatorGraph = (props: { doughnutChart: string; validP: number }) => {
   return (
     <View
       style={tw(
@@ -333,7 +343,7 @@ const IndicatorGraph = (props: { doughnutChart: string }) => {
       )}
     >
       <View style={tw("flex flex-row")}>
-        <Text style={tw("font-bold text-base")}>90% </Text>
+        <Text style={tw("font-bold text-base")}>{props.validP}% </Text>
         <Text style={tw("text-base")}>dos indicadores foram alcançados</Text>
       </View>
 
