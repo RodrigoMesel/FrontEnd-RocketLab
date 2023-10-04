@@ -18,36 +18,41 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   challengeP,
   nothingP,
 }) => {
+  const currentMonth = new Date().getMonth() + 1;
   return (
     <>
-      <PDFDownloadLink
-        document={
-          <PDFFile
-            doughnutChart={doughnutChart}
-            id={id}
-            name={name}
-            role={role}
-            grade={grade}
-            monthIndicators={monthIndicators}
-            nothingIndicators={nothingIndicators}
-            monthNumber={monthNumber}
-            validP={validP}
-            goalP={goalP}
-            superGoalP={superGoalP}
-            challengeP={challengeP}
-            nothingP={nothingP}
-          />
-        }
-        fileName={name + "_" + getMonthName(monthNumber)}
-      >
-        {({ loading }) =>
-          loading ? (
-            <DownloadPdfButton disabled={true}></DownloadPdfButton>
-          ) : (
-            <DownloadPdfButton disabled={false}></DownloadPdfButton>
-          )
-        }
-      </PDFDownloadLink>
+      {currentMonth != monthNumber ? (
+        <PDFDownloadLink
+          document={
+            <PDFFile
+              doughnutChart={doughnutChart}
+              id={id}
+              name={name}
+              role={role}
+              grade={grade}
+              monthIndicators={monthIndicators}
+              nothingIndicators={nothingIndicators}
+              monthNumber={monthNumber}
+              validP={validP}
+              goalP={goalP}
+              superGoalP={superGoalP}
+              challengeP={challengeP}
+              nothingP={nothingP}
+            />
+          }
+          fileName={name + "_" + getMonthName(monthNumber - 1)}
+        >
+          {({ loading }) =>
+            loading ? (
+              <DownloadPdfButton disabled={true}></DownloadPdfButton>
+            ) : (
+              <DownloadPdfButton disabled={false}></DownloadPdfButton>
+            )
+          }
+        </PDFDownloadLink>
+      ) : (
+        <DownloadPdfButton disabled={true}></DownloadPdfButton>
+      )}
     </>
   );
 };

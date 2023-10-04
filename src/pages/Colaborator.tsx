@@ -226,7 +226,7 @@ export default function Colaborator() {
           <div className="w-full h-40 my-4">
             <DoughnutChart
               chartData={getMonthData(
-                `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+                `http://localhost:3000/colaborator-indicator/statistics/month/${currentMonth}/colaboratorId/${userId}`
               )}
             />
           </div>
@@ -253,9 +253,11 @@ export default function Colaborator() {
           </div>
         </div>
 
-        {monthStats && 
-          <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
-        }
+        {monthStats && (
+          <IndicatorNotAchieve
+            nothingIndicators={monthStats.nothingIndicators}
+          />
+        )}
       </div>
 
       <div className="flex justify-center items-center mb-5">
