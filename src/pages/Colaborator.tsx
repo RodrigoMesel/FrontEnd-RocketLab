@@ -28,6 +28,7 @@ import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
+import { GradeChartCard } from "../components/GradeChartCard";
 
 type UserData = {
   id: number;
@@ -42,7 +43,7 @@ interface MonthStatistics {
   challenge: number;
   nothing: number;
   monthGrade: number;
-  
+
   monthIndicators: {
     id: number;
     colaboratorId: number;
@@ -57,7 +58,7 @@ interface MonthStatistics {
     name: string;
   }[];
 
-  nothingIndicators:{
+  nothingIndicators: {
     id: number;
     colaboratorId: number;
     indicatorId: number;
@@ -70,8 +71,7 @@ interface MonthStatistics {
     challenge: number;
     name: string;
   }[];
-};
-
+}
 
 interface Indicator {
   id: number;
@@ -136,23 +136,31 @@ export default function Colaborator() {
 
   const incrementNumber = () => {
     setNumber(month + 1);
+    setUpdateData(true);
   };
 
   const decrementNumber = () => {
     setNumber(month - 1);
+    setUpdateData(true);
   };
 
   const [monthStats, setMonthStats] = useState<MonthStatistics>();
+  const [UpdateData, setUpdateData] = useState(true);
 
   useEffect(() => {
     const fetchIndicators = async () => {
-      const response = await axios.get(`http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`);
-      setMonthStats(response.data);
+      const response = await fetch(
+        `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+      );
+      const indicators = await response.json();
+      setMonthStats(indicators);
     };
 
-    fetchIndicators();
-  }, [month, userId, monthStats]);
-
+    if (UpdateData) {
+      fetchIndicators();
+      setUpdateData(false);
+    }
+  }, [month, userId, UpdateData]);
 
   const data = getUserData(userId);
 
@@ -212,14 +220,15 @@ export default function Colaborator() {
             </div>
           </div>
 
-          {monthStats && 
+          {monthStats && (
             <PDFDownloadButton
               name={data.name}
               role={data.role}
               grade={data.grade}
               id={data.id}
               doughnutChart={chartContext.chartImg}
-              monthIndicators={monthStats.monthIndicators.slice(0, 4)}
+              doughnutChartHollow={chartContext.pastChartImg}
+              monthIndicators={monthStats.monthIndicators.slice(0, 5)}
               nothingIndicators={monthStats.nothingIndicators}
               monthNumber={month}
               validP={chartContext.validP}
@@ -228,71 +237,88 @@ export default function Colaborator() {
               challengeP={chartContext.challengeP}
               nothingP={chartContext.nothingP}
             />
-          }
+          )}
         </div>
       </div>
 
       {/* Flex box da primeira linha de componentes */}
-      <div className="flex flex-row space-x-24">
-        {/* Cards dos indicadores */}
-        <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
-          {monthStats &&
-            monthStats.monthIndicators.map((indicator, index) => (
-              <IndicatorCard
-                key={index}
-                id={indicator.id}
-                name={indicator.name}
-                weight={indicator.weight}
-                goal={indicator.goal}
-                supergoal={indicator.superGoal}
-                challenge={indicator.challenge}
-                result={indicator.result}
-              />
-            ))}
+      <div className="flex flex-row gap-2">
+        <div className="flex flex-col w-[45%]">
+          {monthStats && month != currentMonth ? (
+            <GradeChartCard
+              id={data.id}
+              month={month}
+              monthGrade={monthStats.monthGrade}
+              monthIndicators={monthStats.monthIndicators.slice(0, 6)}
+            />
+          ) : (
+            ""
+          )}
+          {/* Cards dos indicadores */}
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+            {monthStats &&
+              monthStats.monthIndicators.map((indicator, index) => (
+                <IndicatorCard
+                  key={index}
+                  id={indicator.id}
+                  name={indicator.name}
+                  weight={indicator.weight}
+                  goal={indicator.goal}
+                  supergoal={indicator.superGoal}
+                  challenge={indicator.challenge}
+                  result={indicator.result}
+                />
+              ))}
+          </div>
         </div>
 
         {/*Grafico dos indicadores */}
-        <div className="rounded-lg border border-solid p-[1.313rem] w-[25%]">
-          <p className="text-lg">
-            <span className="font-bold">
-              {chartContext.validP}
-              {"% "}
-            </span>
-            dos indicadores foram alcançados
-          </p>
-          <div className="w-full h-40 my-4">
-            <DoughnutChart
-              chartData={getMonthData(
-                `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-              )}
-            />
-          </div>
-          <div className="flex flex-row gap-6 justify-center items-center">
-            <div className="flex flex-col text-xs">
-              <div className="flex flex-row items-center">
-                <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                <p>Meta</p>
+        <div className="flex w-[50%] gap-2">
+          <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
+            <p className="text-lg">
+              <span className="font-bold">
+                {chartContext.validP}
+                {"% "}
+              </span>
+              dos indicadores foram alcançados
+            </p>
+            <div className="w-full max-w-none h-40 my-4">
+              <DoughnutChart
+                chartData={getMonthData(
+                  `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+                )}
+                centerText={true}
+              />
+            </div>
+            <div className="flex flex-row gap-6 justify-center items-center">
+              <div className="flex flex-col text-xs">
+                <div className="flex flex-row items-center">
+                  <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                  <p>Meta</p>
+                </div>
+                <div className="flex flex-row items-center">
+                  <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                  <p>Supermeta</p>
+                </div>
+                <div className="flex flex-row items-center">
+                  <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                  <p>Desafio</p>
+                </div>
               </div>
-              <div className="flex flex-row items-center">
-                <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                <p>Supermeta</p>
-              </div>
-              <div className="flex flex-row items-center">
-                <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                <p>Desafio</p>
+              <div className="flex flex-col text-xs">
+                <p className="font-bold">{chartContext.goalP}%</p>
+                <p className="font-bold">{chartContext.superGoalP}%</p>
+                <p className="font-bold">{chartContext.challengeP}%</p>
               </div>
             </div>
-            <div className="flex flex-col text-xs">
-              <p className="font-bold">{chartContext.goalP}%</p>
-              <p className="font-bold">{chartContext.superGoalP}%</p>
-              <p className="font-bold">{chartContext.challengeP}%</p>
-            </div>
           </div>
-        </div>
 
-        {monthStats && 
-          <IndicatorNotAchieve nothingIndicators={monthStats.nothingIndicators}/>
-        }
+          {monthStats && (
+            <IndicatorNotAchieve
+              nothingIndicators={monthStats.nothingIndicators}
+            />
+          )}
+        </div>
       </div>
 
       <div className="flex justify-center items-center mb-5">
@@ -320,6 +346,8 @@ export default function Colaborator() {
       <CreateIndicatorModal
         openPopUpCreateIndicator={openPopUpCreateIndicator}
         setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
       ></CreateIndicatorModal>
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}

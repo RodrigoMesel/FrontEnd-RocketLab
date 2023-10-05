@@ -21,6 +21,7 @@ export interface PDFProps {
   grade: number;
   id: number;
   doughnutChart: string;
+  doughnutChartHollow: string;
   validP: number;
   goalP: number;
   superGoalP: number;
@@ -78,6 +79,7 @@ const PDFFile: React.FC<PDFProps> = ({
   grade,
   role,
   doughnutChart,
+  doughnutChartHollow,
   monthIndicators,
   nothingIndicators,
   monthNumber,
@@ -131,6 +133,7 @@ const PDFFile: React.FC<PDFProps> = ({
                 monthIndicators.map((indicator) => (
                   <Indicator
                     key={indicator.id}
+                    id={indicator.id}
                     name={indicator.name}
                     weight={indicator.weight}
                     goal={indicator.goal}
@@ -142,7 +145,13 @@ const PDFFile: React.FC<PDFProps> = ({
             </View>
           </View>
           <View style={tw("flex flex-row gap-[7px] mt-[3.5rem] mx-[0.813rem]")}>
-            <IndicatorGraph doughnutChart={doughnutChart} validP={validP} />
+            <IndicatorGraph
+              doughnutChart={doughnutChart}
+              validP={validP}
+              goalP={goalP}
+              challengeP={challengeP}
+              superGoalP={superGoalP}
+            />
             <IndicatorNotReached nothingIndicators={nothingIndicators} />
           </View>
         </View>
@@ -221,6 +230,7 @@ const IndicatorDone = (props: { color: string; num: number }) => (
 );
 
 const Indicator = (props: {
+  id: number;
   name: string;
   weight: number;
   goal: number;
@@ -254,7 +264,9 @@ const Indicator = (props: {
     >
       <View style={tw("flex flex-row justify-between w-[28.75rem] h-3")}>
         <View style={tw("w-[25.75rem] h-[2.875rem]")}>
-          <Text style={tw("text-lg")}>{props.name}</Text>
+          <Text style={tw("text-lg")}>
+            #{props.id} {props.name}
+          </Text>
           <Text style={tw("text-sm text-[#A3A3A3]")}>Peso: {props.weight}</Text>
         </View>
         <View
@@ -335,7 +347,13 @@ const Indicator = (props: {
     </View>
   );
 };
-const IndicatorGraph = (props: { doughnutChart: string; validP: number }) => {
+const IndicatorGraph = (props: {
+  doughnutChart: string;
+  validP: number;
+  goalP: number;
+  superGoalP: number;
+  challengeP: number;
+}) => {
   return (
     <View
       style={tw(
@@ -347,22 +365,18 @@ const IndicatorGraph = (props: { doughnutChart: string; validP: number }) => {
         <Text style={tw("text-base")}>dos indicadores foram alcançados</Text>
       </View>
 
-      <View style={tw("w-[19.75rem] h-[10rem] flex flex-row overflow-hidden")}>
-        <View
-          style={tw(
-            "w-[8rem] h-[8.8rem] mt-[1rem] mr-[5rem] relative bottom-0"
-          )}
-        >
+      <View style={tw("w-[19.75rem] h-[10rem] flex flex-row items-center ")}>
+        <View style={tw("w-auto h-auto mt-[1rem] mr-[5rem] items-center")}>
           {props.doughnutChart != "" ? (
             <Image
-              style={tw("w-auto h-[8.8rem]")}
+              style={tw("w-auto h-auto")}
               src={props.doughnutChart}
             ></Image>
           ) : (
             <></>
           )}
         </View>
-        <View style={tw("mt-[2.625rem] text-xs flex flex-col gap-[8px]")}>
+        <View style={tw("mt-[1rem] text-xs flex flex-col gap-[8px]")}>
           <View style={tw("flex flex-row items-center gap-[9px]")}>
             <View
               style={tw(
