@@ -318,11 +318,11 @@ const GradeChart = (props: {
                   indicator.goal,
                   indicator.superGoal,
                   indicator.challenge
-                )} w-[4.3rem] border-l-2 pl-3 overflow-hidden`
+                )} w-[6.45rem] border-l-2 pl-3 overflow-hidden`
               )}
             >
-              <Text style={tw("text-base font-normal")}>#{indicator.id}</Text>
-              <Text style={tw("text-2xl font-bold")}>{indicator.result}</Text>
+              <Text style={tw("text-sm font-normal")}>#{indicator.id}</Text>
+              <Text style={tw("text-lg font-bold")}>{indicator.result}</Text>
             </View>
           ))}
         </View>
