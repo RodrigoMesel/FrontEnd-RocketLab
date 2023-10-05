@@ -121,7 +121,7 @@ const PDFFile: React.FC<PDFProps> = ({
               )}
             >
               <Text style={tw("font-medium text-base text-[#A3A3A3]")}>
-                {getMonthName(monthNumber)}
+                {getMonthName(monthNumber - 1)}
               </Text>
             </View>
           </View>
