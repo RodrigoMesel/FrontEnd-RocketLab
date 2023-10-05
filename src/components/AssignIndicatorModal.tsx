@@ -16,11 +16,15 @@ interface Indicator {
 interface IndicatorModalProps {
   openPopUpAssignIndicator: boolean;
   setOpenPopUpAssignIndicator: (value: React.SetStateAction<boolean>) => void;
+  UpdateData: boolean;
+  setUpdateData: (value: React.SetStateAction<boolean>) => void;
 }
 
 const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
   openPopUpAssignIndicator,
   setOpenPopUpAssignIndicator,
+  UpdateData,
+  setUpdateData
 }: IndicatorModalProps) => {
   const {openPopUpIndicator, setOpenPopUpIndicator} = useContext(IndicatorContext)
   const [indicators, setIndicators] = useState<Indicator[]>([]);
@@ -72,6 +76,7 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
   );
 
   const postColaboratorIndicator = async () => {
+    try {
     if (!selectedIndicator) {
       return;
     }
@@ -88,6 +93,11 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
     await axios.post('http://localhost:3000/colaborator-indicator', data).then((response) => {
       console.log(response.data);
     });
+
+    setUpdateData(true);
+    } catch (error) {
+      console.error("Ocorreu um erro:", error);
+    }
   };
 
   const notifyIndicator = () =>

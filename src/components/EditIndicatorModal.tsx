@@ -21,19 +21,23 @@ interface Indicator {
     name: string;
   }
 
-interface IndicatorModalProps {
+interface EditIndicatorModalProps {
   openPopUpEditIndicator: boolean;
   setOpenPopUpEditIndicator: (value: React.SetStateAction<boolean>) => void;
   editingIndicator: Indicator | null,
-    setEditingIndicator: (value: React.SetStateAction<Indicator | null>) => void,
+  setEditingIndicator: (value: React.SetStateAction<Indicator | null>) => void;
+  UpdateData: boolean;
+  setUpdateData: (value: React.SetStateAction<boolean>) => void;
 }
 
-const EditIndicatorModal: React.FC<IndicatorModalProps> = ({
+const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
   openPopUpEditIndicator,
   setOpenPopUpEditIndicator,
   editingIndicator,
-  setEditingIndicator
-}: IndicatorModalProps) => {
+  setEditingIndicator,
+  UpdateData,
+  setUpdateData
+}: EditIndicatorModalProps) => {
   const { openPopUpIndicator, setOpenPopUpIndicator } =
     useContext(IndicatorContext);
   const { id } = useParams();
@@ -100,21 +104,19 @@ const EditIndicatorModal: React.FC<IndicatorModalProps> = ({
         superGoal: superGoal,
         challenge: challenge
       };
-      console.log(colaboratorIndicatorData);
 
       const patchIndicatorResponse = await axios.patch(
         `http://localhost:3000/indicator/${indicatorData.id}`,
         indicatorData
       );
 
-      console.log(patchIndicatorResponse)
-
       const patchColaboratorIndicatorResponse = await axios.patch(
         `http://localhost:3000/colaborator-indicator/${colaboratorIndicatorData.id}`,
         colaboratorIndicatorData
       );
 
-      console.log(patchColaboratorIndicatorResponse)
+      setUpdateData(true);
+
     } catch (error) {
       console.error("Ocorreu um erro:", error);
     }

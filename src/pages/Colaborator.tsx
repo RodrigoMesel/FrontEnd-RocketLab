@@ -30,7 +30,7 @@ import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
-import { PastChartCard } from "../components/PastChartCard";
+// import { PastChartCard } from "../components/PastChartCard";
 import NoIndicatorsCard from "../components/NoIndicatorsCards";
 import { GradeChartCard } from "../components/GradeChartCard";
 
@@ -393,12 +393,16 @@ export default function Colaborator() {
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}
         setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
       ></AssignIndicatorModal>
       <EditIndicatorModal
         openPopUpEditIndicator={openPopUpEditIndicator}
         setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
         editingIndicator={editingIndicator}
         setEditingIndicator={setEditingIndicator}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
       ></EditIndicatorModal>
     </>
   );
