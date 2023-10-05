@@ -58,7 +58,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
     //   );
   return (
     <>
-    <div className='bg-[#FBFBFB] p-5 rounded-lg  '>
+    <div className='bg-[#FBFBFB] p-6 rounded-xl  '>
         <div className='flex flex-row'> 
             <div>
             <div className="text-lg mt-3 ml-3 flex items-center">
