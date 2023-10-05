@@ -33,6 +33,6 @@ export function getData(url: string) {
         console.log(error);
       });
   }, []);
-  console.log(data);
+  // console.log(data);
   return data;
 }

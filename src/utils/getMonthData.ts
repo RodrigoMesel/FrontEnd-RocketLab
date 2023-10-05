@@ -43,6 +43,6 @@ export function getMonthData(url: string) {
         console.log(error);
       });
   }, [url]);
-  console.log(data);
+  // console.log(data);
   return data;
 }
