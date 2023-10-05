@@ -41,7 +41,7 @@ interface IndicatorCardProps {
 }
   
 export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator, month, currentMonth}) => {
-    const pastIndicatorCard = month !== currentMonth;
+    const showResult = (month !== currentMonth || result !== 0);
     const goalAchieved = result >= goal && result < supergoal 
     const superGoalAchieved = result >= supergoal && result < challenge 
     const challengeAchieved = result >= challenge
@@ -57,7 +57,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
     const sizeResultComponent = result.toString().length > 3 ? 'w-16' : 'w-12';
     return (
         <>
-        {pastIndicatorCard ? (
+        {showResult ? (
             // Card dos meses anteriores
             <div className='bg-[#FBFBFB] p-6 rounded-xl  '>
             <div className='flex flex-row'> 
