@@ -25,7 +25,7 @@ export const GradeChartCard: React.FC<PastChartCardProps> = ({
 }) => {
   return (
     <>
-      <div className=" py-[2.125rem] px-[1.563rem] rounded-lg flex items-center bg-slate-100 gap-4">
+      <div className="py-[2.125rem] px-[1.563rem] rounded-lg flex items-center bg-slate-100 gap-4">
         <div className="w-[30%] h-auto">
           <DoughnutChart
             chartData={getMonthData(
@@ -37,18 +37,14 @@ export const GradeChartCard: React.FC<PastChartCardProps> = ({
         <div className="flex flex-col">
           <p className="text-base">Total do mês</p>
           <div className="flex">
-            <object
-              data={star}
-              type="image/svg+xml"
-              className="fill-black"
-            ></object>
+            <img src={star}></img>
             <p className="font-bold text-[32px]">
               {monthGrade.toFixed(2).replace(/[.,]00$/, "")}
             </p>
           </div>
         </div>
         {/* indicadores */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 justify-evenly">
           {monthIndicators &&
             monthIndicators.map((indicator, index) => (
               <div

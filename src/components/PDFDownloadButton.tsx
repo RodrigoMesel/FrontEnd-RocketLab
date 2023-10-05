@@ -18,6 +18,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   superGoalP,
   challengeP,
   nothingP,
+  monthGrade,
 }) => {
   const currentMonth = new Date().getMonth() + 1;
   return (
@@ -40,6 +41,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
               superGoalP={superGoalP}
               challengeP={challengeP}
               nothingP={nothingP}
+              monthGrade={monthGrade}
             />
           }
           fileName={name + "_" + getMonthName(monthNumber - 1)}

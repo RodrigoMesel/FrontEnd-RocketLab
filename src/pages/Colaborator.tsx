@@ -236,6 +236,7 @@ export default function Colaborator() {
               superGoalP={chartContext.superGoalP}
               challengeP={chartContext.challengeP}
               nothingP={chartContext.nothingP}
+              monthGrade={monthStats.monthGrade}
             />
           )}
         </div>
@@ -244,18 +245,18 @@ export default function Colaborator() {
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row gap-2">
         <div className="flex flex-col w-[45%]">
-          {monthStats && month != currentMonth ? (
-            <GradeChartCard
-              id={data.id}
-              month={month}
-              monthGrade={monthStats.monthGrade}
-              monthIndicators={monthStats.monthIndicators.slice(0, 6)}
-            />
-          ) : (
-            ""
-          )}
           {/* Cards dos indicadores */}
           <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+            {monthStats && month != currentMonth ? (
+              <GradeChartCard
+                id={data.id}
+                month={month}
+                monthGrade={monthStats.monthGrade}
+                monthIndicators={monthStats.monthIndicators.slice(0, 5)}
+              />
+            ) : (
+              ""
+            )}
             {monthStats &&
               monthStats.monthIndicators.map((indicator, index) => (
                 <IndicatorCard

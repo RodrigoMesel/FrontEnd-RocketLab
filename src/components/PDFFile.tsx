@@ -28,6 +28,7 @@ export interface PDFProps {
   challengeP: number;
   nothingP: number;
   monthNumber: number;
+  monthGrade: number;
   monthIndicators?: Array<{
     id: number;
     name: string;
@@ -88,6 +89,7 @@ const PDFFile: React.FC<PDFProps> = ({
   superGoalP,
   challengeP,
   nothingP,
+  monthGrade,
 }) => {
   return (
     <Document>
@@ -129,6 +131,13 @@ const PDFFile: React.FC<PDFProps> = ({
           >
             <Text style={tw("mb-[1rem] text-base")}>Indicadores</Text>
             <View style={tw("flex flex-row flex-wrap gap-[7px]")}>
+              {monthIndicators && (
+                <GradeChart
+                  doughnutChart={doughnutChartHollow}
+                  monthGrade={monthGrade}
+                  monthIndicators={monthIndicators}
+                />
+              )}
               {monthIndicators &&
                 monthIndicators.map((indicator) => (
                   <Indicator
@@ -229,6 +238,99 @@ const IndicatorDone = (props: { color: string; num: number }) => (
   </View>
 );
 
+const GradeChart = (props: {
+  doughnutChart: string;
+  monthGrade: number;
+  monthIndicators: Array<{
+    id: number;
+    name: string;
+    weight: number;
+    goal: number;
+    superGoal: number;
+    challenge: number;
+    result: number;
+  }>;
+}) => {
+  const borderColor = (
+    result: number,
+    goal: number,
+    superGoal: number,
+    challenge: number
+  ) => {
+    const color =
+      result >= challenge
+        ? "border-[#6186D3]"
+        : result >= superGoal
+        ? "border-[#32B97C]"
+        : result >= goal
+        ? "border-[#AC72C1]"
+        : "border-[#F16062]";
+    return color;
+  };
+  return (
+    <>
+      <View
+        style={tw(
+          "flex flex-row w-[31.625rem] h-[13.25rem] rounded-[20px] bg-[#F5F5F5] pl-[1.563rem] pr-[0.563rem] pb-[2.676rem] pt-[1.761rem] overflow-hidden"
+        )}
+      >
+        <View style={tw("w-auto h-auto mt-[1rem] items-center")}>
+          {props.doughnutChart != "" ? (
+            <Image
+              style={tw("w-auto h-auto")}
+              src={props.doughnutChart}
+            ></Image>
+          ) : (
+            <></>
+          )}
+        </View>
+
+        <View style={tw("flex flex-col ml-[1rem] mt-[3rem]")}>
+          <Text style={tw("text-base")}>Total do mês</Text>
+          <View style={tw("flex flex-row items-center")}>
+            <Svg
+              style={tw("mb-[0.6rem] mr-[0.4rem]")}
+              width="21"
+              height="19"
+              viewBox="0 0 21 19"
+            >
+              <Path
+                d="M10.5 15.25L4.3125 19L5.95312 11.9688L0.515625 7.23438L7.6875 6.625L10.5 0.015625L13.3125 6.625L20.4844 7.23438L15.0469 11.9688L16.6875 19L10.5 15.25Z"
+                fill="#312843"
+              />
+            </Svg>
+
+            <Text style={tw("font-bold text-[26px]")}>
+              {props.monthGrade.toFixed(2).replace(/[.,]00$/, "")}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={tw(
+            "flex flex-row flex-wrap ml-[1.688rem] gap-[8px] w-[16rem]"
+          )}
+        >
+          {props.monthIndicators.map((indicator) => (
+            <View
+              style={tw(
+                `flex flex-col ${borderColor(
+                  indicator.result,
+                  indicator.goal,
+                  indicator.superGoal,
+                  indicator.challenge
+                )} w-[4.3rem] border-l-2 pl-3 overflow-hidden`
+              )}
+            >
+              <Text style={tw("text-base font-normal")}>#{indicator.id}</Text>
+              <Text style={tw("text-2xl font-bold")}>{indicator.result}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    </>
+  );
+};
+
 const Indicator = (props: {
   id: number;
   name: string;
@@ -282,7 +384,7 @@ const Indicator = (props: {
         {type === "goal" ? (
           <View
             style={tw(
-              "border-l-2 border-[#AC72C1] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
+              "border-l-3 border-[#AC72C1] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Meta</Text>
@@ -376,32 +478,41 @@ const IndicatorGraph = (props: {
             <></>
           )}
         </View>
-        <View style={tw("mt-[1rem] text-xs flex flex-col gap-[8px]")}>
-          <View style={tw("flex flex-row items-center gap-[9px]")}>
-            <View
-              style={tw(
-                "bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
-              )}
-            ></View>
-            <Text>Meta</Text>
-          </View>
+        <View style={tw("flex flex-row gap-[4rem]")}>
+          <View style={tw("mt-[1rem] text-xs flex flex-col gap-[8px]")}>
+            <View style={tw("flex flex-row items-center gap-[9px]")}>
+              <View
+                style={tw(
+                  "bg-[#AC72C1] rounded-[21px] w-[12px] h-[0.25rem] mt-[0.338rem]"
+                )}
+              ></View>
+              <Text>Meta</Text>
+            </View>
 
-          <View style={tw("flex flex-row items-center gap-[9px]")}>
-            <View
-              style={tw(
-                "bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
-              )}
-            ></View>
-            <Text>Supermeta</Text>
-          </View>
+            <View style={tw("flex flex-row items-center gap-[9px]")}>
+              <View
+                style={tw(
+                  "bg-[#32B97C] rounded-[21px] w-[18px] h-[0.25rem] mt-[0.338rem]"
+                )}
+              ></View>
+              <Text>Supermeta</Text>
+            </View>
 
-          <View style={tw("flex flex-row items-center gap-[9px]")}>
-            <View
-              style={tw(
-                "bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mt-[0.338rem]"
-              )}
-            ></View>
-            <Text>Desafio</Text>
+            <View style={tw("flex flex-row items-center gap-[9px]")}>
+              <View
+                style={tw(
+                  "bg-[#6186D3] rounded-[21px] w-[12px] h-[0.25rem] mt-[0.338rem]"
+                )}
+              ></View>
+              <Text>Desafio</Text>
+            </View>
+          </View>
+          <View
+            style={tw("mt-[1rem] text-xs font-bold flex flex-col gap-[8px]")}
+          >
+            <Text>{props.goalP}%</Text>
+            <Text>{props.superGoalP}%</Text>
+            <Text>{props.challengeP}%</Text>
           </View>
         </View>
       </View>
