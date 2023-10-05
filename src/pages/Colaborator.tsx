@@ -266,10 +266,10 @@ export default function Colaborator() {
       </div>
 
       {/* Flex box da primeira linha de componentes */}
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-6 justify-center pl-8">
         <div className="flex flex-col w-[45%]">
           {/* Cards dos indicadores */}
-          <div className="flex flex-col space-y-2 ml-5 mt-3 h-56 overflow-scroll">
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-[21rem] overflow-scroll">
             {monthStats && month != currentMonth ? (
               <GradeChartCard
                 id={data.id}
@@ -317,15 +317,20 @@ export default function Colaborator() {
         </div>
 
         {/*Grafico dos indicadores */}
-        <div className="flex w-[50%] gap-2">
+        <div className="flex w-[50%] gap-3">
           <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
             <p className="text-lg">
               <span className="font-bold">
                 {chartContext.validP}
                 {"% "}
               </span>
-              dos indicadores foram alcançados
+
+              {monthStats && month != currentMonth ? (
+                  <span>dos indicadores foram alcançados</span>
+              ) : <span>dos indicadores foram alcançados no mês anterior</span>}
+
             </p>
+            
             <div className="w-full max-w-none h-40 my-4">
               <DoughnutChart
                 chartData={getMonthData(
@@ -360,6 +365,8 @@ export default function Colaborator() {
           {monthStats && (
             <IndicatorNotAchieve
               nothingIndicators={monthStats.nothingIndicators}
+              month={month}
+              actualMonth={currentMonth}
             />
           )}
         </div>

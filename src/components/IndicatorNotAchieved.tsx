@@ -15,14 +15,23 @@ interface IndicatorNotAchieveProps{
         challenge: number;
         name: string;
       }[];
+      month: number,
+      actualMonth: number
 }
 
-const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicators} : IndicatorNotAchieveProps) => {
+const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicators, month, actualMonth} : IndicatorNotAchieveProps) => {
   console.log(nothingIndicators)
   return (
     <div className='rounded-lg border border-solid py-8 px-3 flex flex-col max-w-xs gap-8 overflow-scroll'>
 
-      <span className='text-2xl'>Indicadores <span className='font-bold'>não alcançados</span> neste mês</span>
+      <span className='text-2xl'>Indicadores 
+        <span className='font-bold'>não alcançados</span> 
+        {month != actualMonth ? (
+            <span> neste mês</span>
+              ) : (
+            <span> no mês anterior</span>
+              )}
+      </span>
 
       {nothingIndicators.length > 0 && nothingIndicators!.map((indicator, index) => (
                     <div key={index} className='flex flex-row justify-between items-center px-3 gap-5'>
@@ -36,7 +45,7 @@ const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicat
                   ))}
 
       {nothingIndicators.length == 0 && 
-            <span className='text-[#A3A3A3] text-xl text-center mt-10 flex'>Todos os indicadores foram alcançados!</span>
+            <span className='text-[#A3A3A3] text-xl text-center mt-5 flex'>Todos os indicadores foram alcançados!</span>
       }
 
     </div>
