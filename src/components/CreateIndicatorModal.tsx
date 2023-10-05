@@ -10,11 +10,16 @@ import "react-toastify/dist/ReactToastify.css";
 interface IndicatorModalProps {
   openPopUpCreateIndicator: boolean;
   setOpenPopUpCreateIndicator: (value: React.SetStateAction<boolean>) => void;
+  UpdateData: boolean;
+  setUpdateData: (value: React.SetStateAction<boolean>) => void;
+
 }
 
 const CreateIndicatorModal: React.FC<IndicatorModalProps> = ({
   openPopUpCreateIndicator,
   setOpenPopUpCreateIndicator,
+  UpdateData,
+  setUpdateData
 }: IndicatorModalProps) => {
   const { openPopUpIndicator, setOpenPopUpIndicator } =
     useContext(IndicatorContext);
@@ -61,7 +66,6 @@ const CreateIndicatorModal: React.FC<IndicatorModalProps> = ({
         "http://localhost:3000/indicator",
         indicator
       );
-      // .then(response => console.log(response.data));
 
       const indicatorId = postIndicatorResponse.data.id;
       const colaboratorIndicator = {
@@ -76,7 +80,7 @@ const CreateIndicatorModal: React.FC<IndicatorModalProps> = ({
       await axios.post(
         "http://localhost:3000/colaborator-indicator",
         colaboratorIndicator
-      );
+      ).then(() => setUpdateData(true))
     } catch (error) {
       console.error("Ocorreu um erro:", error);
     }
