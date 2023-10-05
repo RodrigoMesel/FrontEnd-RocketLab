@@ -101,7 +101,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
     setCenter(
       format(chartData.goal + chartData.superGoal + chartData.challenge)
     );
-    console.log(center);
+    // console.log(center);
   }, [chartData]);
 
   const format = (value: number) => {
@@ -197,7 +197,7 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({
               var text = `${middleValue || 0}%`,
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
                 textY = height / 2;
-              console.log(text);
+              // console.log(text);
 
               ctx.fillText(text, textX, textY);
             }
