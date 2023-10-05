@@ -270,7 +270,7 @@ export default function Colaborator() {
             ""
           )}
           {/* Cards dos indicadores */}
-          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-56 overflow-scroll">
         {hasIndicators === null ? (
           <p>Carregando indicadores...</p>
         ) : hasIndicators ? (
