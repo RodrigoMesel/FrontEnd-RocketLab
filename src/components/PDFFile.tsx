@@ -510,9 +510,9 @@ const IndicatorGraph = (props: {
           <View
             style={tw("mt-[1rem] text-xs font-bold flex flex-col gap-[8px]")}
           >
-            <Text>{props.goalP}%</Text>
-            <Text>{props.superGoalP}%</Text>
-            <Text>{props.challengeP}%</Text>
+            <Text>{props.goalP || 0}%</Text>
+            <Text>{props.superGoalP || 0}%</Text>
+            <Text>{props.challengeP || 0}%</Text>
           </View>
         </View>
       </View>

@@ -247,26 +247,25 @@ export default function Colaborator() {
 
       {/* Flex box da primeira linha de componentes */}
       <div className="flex flex-row gap-6 justify-center pl-8">
-
         <div className="flex flex-col w-[45%]">
           <div className="flex flex-row space-x-24 justify-between pr-3">
-                <div className="mt-2 ml-5"> Indicadores</div>
+            <div className="mt-2 ml-5"> Indicadores</div>
 
-                {/* Botão de adicionar só aparece caso tenha indicadores */}
-                {hasIndicators === null ? (
-                  <p>Carregando botão...</p>
-                ) : hasIndicators ? (
-                  <div>
-                    <AddIndicator
-                      openPopUpIndicator={openPopUpIndicator}
-                      setOpenPopUpIndicator={setOpenPopUpIndicator}
-                      currentMonth={currentMonth}
-                      monthToAddIndicator={month}
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
+            {/* Botão de adicionar só aparece caso tenha indicadores */}
+            {hasIndicators === null ? (
+              <p>Carregando botão...</p>
+            ) : hasIndicators ? (
+              <div>
+                <AddIndicator
+                  openPopUpIndicator={openPopUpIndicator}
+                  setOpenPopUpIndicator={setOpenPopUpIndicator}
+                  currentMonth={currentMonth}
+                  monthToAddIndicator={month}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
@@ -318,7 +317,6 @@ export default function Colaborator() {
           </div>
         </div>
 
-
         {/*Grafico dos indicadores */}
         <div className="flex w-[50%] gap-3">
           <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
@@ -329,11 +327,12 @@ export default function Colaborator() {
               </span>
 
               {monthStats && month != currentMonth ? (
-                  <span>dos indicadores foram alcançados</span>
-              ) : <span>dos indicadores foram alcançados no mês anterior</span>}
-
+                <span>dos indicadores foram alcançados</span>
+              ) : (
+                <span>dos indicadores foram alcançados no mês anterior</span>
+              )}
             </p>
-            
+
             <div className="w-full max-w-none h-40 my-4">
               <DoughnutChart
                 chartData={getMonthData(
@@ -358,9 +357,9 @@ export default function Colaborator() {
                 </div>
               </div>
               <div className="flex flex-col text-xs">
-                <p className="font-bold">{chartContext.goalP}%</p>
-                <p className="font-bold">{chartContext.superGoalP}%</p>
-                <p className="font-bold">{chartContext.challengeP}%</p>
+                <p className="font-bold">{chartContext.goalP || 0}%</p>
+                <p className="font-bold">{chartContext.superGoalP || 0}%</p>
+                <p className="font-bold">{chartContext.challengeP || 0}%</p>
               </div>
             </div>
           </div>
