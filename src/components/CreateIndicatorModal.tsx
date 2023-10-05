@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { IndicatorContext } from "../context/IndicatorContext";
 import left from "../assets/left.svg";
-import close from "../assets/left.svg";
+import close from "../assets/close.svg";
 import "react-toastify/dist/ReactToastify.css";
 
 interface IndicatorModalProps {

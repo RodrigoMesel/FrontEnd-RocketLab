@@ -285,6 +285,8 @@ export default function Colaborator() {
               setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
               editingIndicator={editingIndicator}
               setEditingIndicator={setEditingIndicator}
+              month={month}
+              currentMonth={currentMonth}
             />
           ))
         ) : (
