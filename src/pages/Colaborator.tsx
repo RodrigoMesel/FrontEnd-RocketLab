@@ -209,7 +209,6 @@ export default function Colaborator() {
               <ColaboratorGrade grade={userData.grade}></ColaboratorGrade>
             </div>
           </div>
-
         </div>
 
         <div className="flex flex-col gap-3 items-center pb-5">
