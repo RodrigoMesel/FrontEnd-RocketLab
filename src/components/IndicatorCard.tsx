@@ -62,7 +62,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
         <div className='flex flex-row'> 
             <div>
             <div className="text-lg mt-3 ml-3 flex items-center">
-                #{indicatorId} {name} {unity}
+                #{indicatorId} {unity}: {name} 
                 {month === currentMonth ? (
                     <div className="ml-2 cursor-pointer " onClick={() => {{
                         setEditingIndicator({
