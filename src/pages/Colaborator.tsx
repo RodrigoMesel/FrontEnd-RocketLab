@@ -20,14 +20,18 @@ import ChangeMonthBox from "../components/ChangeMonthBox";
 import IndicatorModal from "../components/IndicatorModal";
 import { CreateIndicatorContext } from "../context/CreateIndicatorContext";
 import { AssignIndicatorContext } from "../context/AssignIndicatorContext";
+import { EditIndicatorContext } from "../context/EditIndicatorContext";
 import CreateIndicatorModal from "../components/CreateIndicatorModal";
 import AssignIndicatorModal from "../components/AssignIndicatorModal";
+import EditIndicatorModal from "../components/EditIndicatorModal";
 import { IndicatorContext } from "../context/IndicatorContext";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
+// import { PastChartCard } from "../components/PastChartCard";
+import NoIndicatorsCard from "../components/NoIndicatorsCards";
 import { GradeChartCard } from "../components/GradeChartCard";
 
 type UserData = {
@@ -84,6 +88,7 @@ interface Indicator {
   goal: number;
   superGoal: number;
   challenge: number;
+  name: string;
 }
 
 interface DoughnutChartProps {
@@ -118,9 +123,15 @@ export default function Colaborator() {
   const { openPopUpAssignIndicator, setOpenPopUpAssignIndicator } = useContext(
     AssignIndicatorContext
   );
+  const { openPopUpEditIndicator, setOpenPopUpEditIndicator } =
+    useContext(EditIndicatorContext);
 
   const currentMonth = new Date().getMonth() + 1; // Mês atual
   const [month, setNumber] = useState(currentMonth);
+  const [hasIndicators, setHasIndicators] = useState<boolean | null>(null);
+  const [editingIndicator, setEditingIndicator] = useState<Indicator | null>(
+    null
+  );
 
   const [doughnutChartData, setDoughnutChartData] = useState<
     DoughnutChartProps["chartData"]
@@ -149,11 +160,16 @@ export default function Colaborator() {
 
   useEffect(() => {
     const fetchIndicators = async () => {
-      const response = await fetch(
-        `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-      );
-      const indicators = await response.json();
-      setMonthStats(indicators);
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+        );
+        setMonthStats(response.data);
+        // Verifica se há indicadores associados
+        setHasIndicators(response.data.monthIndicators.length > 0);
+      } catch (error) {
+        console.error("Erro ao buscar indicadores:", error);
+      }
     };
 
     if (UpdateData) {
@@ -197,14 +213,21 @@ export default function Colaborator() {
           <div className="flex flex-row space-x-24">
             <div className="mt-2 ml-5"> Indicadores</div>
 
-            <div>
-              <AddIndicator
-                openPopUpIndicator={openPopUpIndicator}
-                setOpenPopUpIndicator={setOpenPopUpIndicator}
-                currentMonth={currentMonth}
-                monthToAddIndicator={month}
-              />
-            </div>
+            {/* Botão de adicionar só aparece caso tenha indicadores */}
+            {hasIndicators === null ? (
+              <p>Carregando botão...</p>
+            ) : hasIndicators ? (
+              <div>
+                <AddIndicator
+                  openPopUpIndicator={openPopUpIndicator}
+                  setOpenPopUpIndicator={setOpenPopUpIndicator}
+                  currentMonth={currentMonth}
+                  monthToAddIndicator={month}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
 
@@ -246,30 +269,50 @@ export default function Colaborator() {
       <div className="flex flex-row gap-2">
         <div className="flex flex-col w-[45%]">
           {/* Cards dos indicadores */}
-          <div className="flex flex-col space-y-2 ml-5 mt-3 h-96 overflow-scroll">
+          <div className="flex flex-col space-y-2 ml-5 mt-3 h-56 overflow-scroll">
             {monthStats && month != currentMonth ? (
               <GradeChartCard
                 id={data.id}
                 month={month}
                 monthGrade={monthStats.monthGrade}
-                monthIndicators={monthStats.monthIndicators.slice(0, 5)}
+                monthIndicators={monthStats.monthIndicators.slice(0, 6)}
               />
             ) : (
               ""
             )}
-            {monthStats &&
-              monthStats.monthIndicators.map((indicator, index) => (
+            {hasIndicators === null ? (
+              <p>Carregando indicadores...</p>
+            ) : hasIndicators ? (
+              // Renderiza a lista de indicadores
+
+              monthStats?.monthIndicators.map((indicator, index) => (
                 <IndicatorCard
                   key={index}
                   id={indicator.id}
-                  name={indicator.name}
+                  colaboratorId={indicator.colaboratorId}
+                  indicatorId={indicator.indicatorId}
+                  result={indicator.result}
                   weight={indicator.weight}
+                  unity={indicator.unity}
                   goal={indicator.goal}
                   supergoal={indicator.superGoal}
                   challenge={indicator.challenge}
-                  result={indicator.result}
+                  name={indicator.name}
+                  creationMonth={indicator.creationMonth}
+                  openPopUpEditIndicator={openPopUpEditIndicator}
+                  setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+                  editingIndicator={editingIndicator}
+                  setEditingIndicator={setEditingIndicator}
+                  month={month}
+                  currentMonth={currentMonth}
                 />
-              ))}
+              ))
+            ) : (
+              // Mostra a mensagem quando não há indicadores
+              <div>
+                <NoIndicatorsCard></NoIndicatorsCard>
+              </div>
+            )}
           </div>
         </div>
 
@@ -353,7 +396,17 @@ export default function Colaborator() {
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}
         setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
       ></AssignIndicatorModal>
+      <EditIndicatorModal
+        openPopUpEditIndicator={openPopUpEditIndicator}
+        setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+        editingIndicator={editingIndicator}
+        setEditingIndicator={setEditingIndicator}
+        UpdateData={UpdateData}
+        setUpdateData={setUpdateData}
+      ></EditIndicatorModal>
     </>
   );
 }
