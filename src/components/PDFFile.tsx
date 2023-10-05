@@ -555,7 +555,9 @@ const IndicatorNotReached = (props: {
                 )}
               ></View>
               <View style={tw("w-[8.79rem] h-[2.25rem]")}>
-                <Text style={tw("text-xs")}>{indicator.name}</Text>
+                <Text style={tw("text-xs")}>
+                  {indicator.name}({indicator.goal})
+                </Text>
               </View>
               <View style={tw("w-[2.813rem] h-[2.25rem]")}>
                 <Text style={tw("text-xs font-bold")}>{indicator.result}</Text>
