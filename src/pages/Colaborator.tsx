@@ -212,7 +212,7 @@ export default function Colaborator() {
           <div className="flex flex-row space-x-24">
             <div className="mt-2 ml-5"> Indicadores</div>
 
-          {/* Botão de adicionar só aparece caso tenha indicadores */}
+          {/* Botão de adicionar, só aparece caso existam indicadores */}
           {hasIndicators === null ? (
           <p>Carregando botão...</p>
         ) : hasIndicators ? (
