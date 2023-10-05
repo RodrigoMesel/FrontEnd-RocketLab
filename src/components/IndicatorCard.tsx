@@ -54,6 +54,8 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
     // const { openPopUpEditIndicator, setOpenPopUpEditIndicator } = useContext(
     //     EditIndicatorContext
     //   );
+    const goalAchieved = result >= goal && result < supergoal ? 'bg-[#32B97C] text-white' : '';
+    const superGoalAchieved = result >= supergoal && result < challenge ? ' bg-[#32B97C] p-1 font-bold text-white rounded-md' : '';
   return (
     <>
     <div className='bg-[#FBFBFB] p-6 rounded-xl  '>
@@ -95,8 +97,8 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
             <div className='flex flex-row'>
                 <img src={retangulo} alt="" className="h-12 w-8" />
                 <div className='flex flex-col'>
-                    <div> Meta </div>
-                    <div className='font-bold text-lg'> {goal}</div>
+                <div >Meta</div>
+                <div className={`font-bold text-lg ${superGoalAchieved}`}> {goal}</div>
                 </div>
             </div>
 
