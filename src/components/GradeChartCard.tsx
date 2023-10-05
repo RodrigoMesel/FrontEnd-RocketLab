@@ -44,20 +44,20 @@ export const GradeChartCard: React.FC<PastChartCardProps> = ({
           </div>
         </div>
         {/* indicadores */}
-        <div className="flex flex-wrap gap-2 justify-evenly">
+        <div className="ml-3 flex flex-wrap gap-2 justify-evenly">
           {monthIndicators &&
             monthIndicators.map((indicator, index) => (
               <div
                 key={index}
-                className={`flex flex-col ${borderColor(
+                className={`flex flex-col grow shrink basis-0  ${borderColor(
                   indicator.result,
                   indicator.goal,
                   indicator.superGoal,
                   indicator.challenge
                 )} basis-[20%] border-l-[3px] pl-3`}
               >
-                <p className="text-base font-normal">#{indicator.id} </p>
-                <p className="text-2xl font-bold">{indicator.result}</p>
+                <p className="text-sm font-normal">#{indicator.id} </p>
+                <p className="text-lg font-bold">{indicator.result}</p>
               </div>
             ))}
         </div>
