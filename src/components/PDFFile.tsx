@@ -16,6 +16,7 @@ import PoppinsRegular from "../assets/PDFFonts/Poppins-Regular.ttf";
 import { getMonthName } from "../utils/getMonthName";
 
 export interface PDFProps {
+  isActive?: boolean;
   name: string;
   role: string;
   grade: number;

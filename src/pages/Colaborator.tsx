@@ -47,7 +47,7 @@ interface MonthStatistics {
   challenge: number;
   nothing: number;
   monthGrade: number;
-
+  isActive: boolean;
   monthIndicators: {
     id: number;
     colaboratorId: number;
@@ -92,15 +92,13 @@ interface Indicator {
 }
 
 interface DoughnutChartProps {
-  chartData: {
-    goal: number;
-    superGoal: number;
-    challenge: number;
-    nothing: number;
-    monthGrade: number;
-    nothingIndicators: Indicator[];
-    monthIndicators: Indicator[];
-  };
+  goal: number;
+  superGoal: number;
+  challenge: number;
+  nothing: number;
+  monthGrade: number;
+  nothingIndicators: Indicator[];
+  monthIndicators: Indicator[];
 }
 
 export default function Colaborator() {
@@ -129,21 +127,25 @@ export default function Colaborator() {
   const currentMonth = new Date().getMonth() + 1; // Mês atual
   const [month, setNumber] = useState(currentMonth);
   const [hasIndicators, setHasIndicators] = useState<boolean | null>(null);
+  const [activeUser, setActiveUser] = useState<boolean>(false);
   const [editingIndicator, setEditingIndicator] = useState<Indicator | null>(
     null
   );
 
-  const [doughnutChartData, setDoughnutChartData] = useState<
-    DoughnutChartProps["chartData"]
-  >({
-    goal: 0,
-    superGoal: 0,
-    challenge: 0,
-    nothing: 0,
-    monthGrade: 0,
-    nothingIndicators: [],
-    monthIndicators: [],
-  });
+  const [chartData, setChartData] = useState([
+    { month: 0, goal: 0, superGoal: 0, challenge: 0, nothing: 0 },
+  ]);
+
+  const [doughnutChartData, setDoughnutChartData] =
+    useState<DoughnutChartProps>({
+      goal: 0,
+      superGoal: 0,
+      challenge: 0,
+      nothing: 0,
+      monthGrade: 0,
+      nothingIndicators: [],
+      monthIndicators: [],
+    });
 
   const incrementNumber = () => {
     setNumber(month + 1);
@@ -166,7 +168,9 @@ export default function Colaborator() {
         );
         setMonthStats(response.data);
         // Verifica se há indicadores associados
+
         setHasIndicators(response.data.monthIndicators.length > 0);
+        setActiveUser(response.data.isActive);
       } catch (error) {
         console.error("Erro ao buscar indicadores:", error);
       }
@@ -177,6 +181,56 @@ export default function Colaborator() {
       setUpdateData(false);
     }
   }, [month, userId, UpdateData]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
+      )
+      .then((res) => {
+        const newData = () => {
+          const newData = [];
+          var month = new Date();
+          for (var i = 0; i < 6; i++) {
+            month.setMonth(month.getMonth() - 1);
+            newData.push({
+              month: month.getMonth(),
+              goal: res.data.goal[i],
+              superGoal: res.data.superGoal[i],
+              challenge: res.data.challenge[i],
+              nothing: res.data.nothing[i],
+            });
+          }
+          return newData;
+        };
+        setChartData(newData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+      )
+      .then((res) => {
+        const newData: DoughnutChartProps = {
+          goal: res.data.goal,
+          superGoal: res.data.superGoal,
+          challenge: res.data.challenge,
+          nothing: res.data.nothing,
+          monthGrade: res.data.monthGrade,
+          nothingIndicators: res.data.nothingIndicators,
+          monthIndicators: res.data.monthIndicators,
+        };
+        setDoughnutChartData(newData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [month, userId]);
 
   const data = getUserData(userId);
 
@@ -192,7 +246,6 @@ export default function Colaborator() {
           <SearchBar />
         </Link>
       </div>
-
       {/* Card do Colaborador com nome, imagem, role e nota */}
       <div className="flex flex-row justify-between items-center space-x-5 ml-5 mt-10 mb-5 mr-10">
         <div className="flex flex-col gap-5">
@@ -225,6 +278,7 @@ export default function Colaborator() {
 
           {monthStats && (
             <PDFDownloadButton
+              isActive={activeUser}
               name={data.name}
               role={data.role}
               grade={data.grade}
@@ -244,158 +298,197 @@ export default function Colaborator() {
           )}
         </div>
       </div>
-
       {/* Flex box da primeira linha de componentes */}
-      <div className="flex flex-row gap-6 justify-center pl-8">
-        <div className="flex flex-col w-[45%]">
-          <div className="flex flex-row space-x-24 justify-between pr-3">
-            <div className="mt-2 ml-5"> Indicadores</div>
+      {activeUser ? (
+        <>
+          <div className="flex flex-row gap-6 justify-center pl-8">
+            <div className="flex flex-col w-[45%]">
+              <div className="flex flex-row space-x-24 justify-between pr-3">
+                <div className="mt-2 ml-5"> Indicadores</div>
 
-            {/* Botão de adicionar só aparece caso tenha indicadores */}
-            {hasIndicators === null ? (
-              <p>Carregando botão...</p>
-            ) : hasIndicators ? (
-              <div>
-                <AddIndicator
-                  openPopUpIndicator={openPopUpIndicator}
-                  setOpenPopUpIndicator={setOpenPopUpIndicator}
-                  currentMonth={currentMonth}
-                  monthToAddIndicator={month}
-                />
+                {/* Botão de adicionar só aparece caso tenha indicadores */}
+                {hasIndicators === null ? (
+                  <p>Carregando botão...</p>
+                ) : hasIndicators ? (
+                  <div>
+                    <AddIndicator
+                      openPopUpIndicator={openPopUpIndicator}
+                      setOpenPopUpIndicator={setOpenPopUpIndicator}
+                      currentMonth={currentMonth}
+                      monthToAddIndicator={month}
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <div className="flex flex-col w-[100%]">
-            {/* Cards dos indicadores */}
-            <div className="flex flex-col space-y-2 ml-5 mt-3 h-[21rem] overflow-scroll">
-              {monthStats && month != currentMonth ? (
-                <GradeChartCard
-                  id={data.id}
-                  month={month}
-                  monthGrade={monthStats.monthGrade}
-                  monthIndicators={monthStats.monthIndicators.slice(0, 6)}
-                />
-              ) : (
-                ""
-              )}
-              {hasIndicators === null ? (
-                <p>Carregando indicadores...</p>
-              ) : hasIndicators ? (
-                // Renderiza a lista de indicadores
+              <div className="flex flex-col w-[100%]">
+                {/* Cards dos indicadores */}
+                <div className="flex flex-col space-y-2 ml-5 mt-3 h-[21rem] overflow-scroll">
+                  {monthStats && month != currentMonth ? (
+                    <GradeChartCard
+                      id={data.id}
+                      month={month}
+                      monthGrade={monthStats.monthGrade}
+                      monthIndicators={monthStats.monthIndicators.slice(0, 6)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {hasIndicators === null ? (
+                    <p>Carregando indicadores...</p>
+                  ) : hasIndicators ? (
+                    // Renderiza a lista de indicadores
 
-                monthStats?.monthIndicators.map((indicator, index) => (
-                  <IndicatorCard
-                    key={index}
-                    id={indicator.id}
-                    colaboratorId={indicator.colaboratorId}
-                    indicatorId={indicator.indicatorId}
-                    result={indicator.result}
-                    weight={indicator.weight}
-                    unity={indicator.unity}
-                    goal={indicator.goal}
-                    supergoal={indicator.superGoal}
-                    challenge={indicator.challenge}
-                    name={indicator.name}
-                    creationMonth={indicator.creationMonth}
-                    openPopUpEditIndicator={openPopUpEditIndicator}
-                    setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
-                    editingIndicator={editingIndicator}
-                    setEditingIndicator={setEditingIndicator}
-                    month={month}
-                    currentMonth={currentMonth}
-                  />
-                ))
-              ) : (
-                // Mostra a mensagem quando não há indicadores
-                <div>
-                  <NoIndicatorsCard></NoIndicatorsCard>
+                    monthStats?.monthIndicators.map((indicator, index) => (
+                      <IndicatorCard
+                        key={index}
+                        id={indicator.id}
+                        colaboratorId={indicator.colaboratorId}
+                        indicatorId={indicator.indicatorId}
+                        result={indicator.result}
+                        weight={indicator.weight}
+                        unity={indicator.unity}
+                        goal={indicator.goal}
+                        supergoal={indicator.superGoal}
+                        challenge={indicator.challenge}
+                        name={indicator.name}
+                        creationMonth={indicator.creationMonth}
+                        openPopUpEditIndicator={openPopUpEditIndicator}
+                        setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+                        editingIndicator={editingIndicator}
+                        setEditingIndicator={setEditingIndicator}
+                        month={month}
+                        currentMonth={currentMonth}
+                      />
+                    ))
+                  ) : (
+                    // Mostra a mensagem quando não há indicadores
+                    <div>
+                      <NoIndicatorsCard></NoIndicatorsCard>
+                    </div>
+                  )}
                 </div>
+              </div>
+            </div>
+
+            {/*Grafico dos indicadores */}
+
+            <div className="flex w-[50%] gap-3">
+              <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
+                <p className="text-lg">
+                  <span className="font-bold">
+                    {chartContext.validP}
+                    {"% "}
+                  </span>
+
+                  {monthStats && month != currentMonth ? (
+                    <span>dos indicadores foram alcançados</span>
+                  ) : (
+                    <span>
+                      dos indicadores foram alcançados no mês anterior
+                    </span>
+                  )}
+                </p>
+
+                <div className="w-full max-w-none h-40 my-4">
+                  <DoughnutChart
+                    chartData={doughnutChartData}
+                    centerText={true}
+                  />
+                </div>
+                <div className="flex flex-row gap-6 justify-center items-center">
+                  <div className="flex flex-col text-xs">
+                    <div className="flex flex-row items-center">
+                      <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                      <p>Meta</p>
+                    </div>
+                    <div className="flex flex-row items-center">
+                      <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                      <p>Supermeta</p>
+                    </div>
+                    <div className="flex flex-row items-center">
+                      <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                      <p>Desafio</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col text-xs">
+                    <p className="font-bold">{chartContext.goalP || 0}%</p>
+                    <p className="font-bold">{chartContext.superGoalP || 0}%</p>
+                    <p className="font-bold">{chartContext.challengeP || 0}%</p>
+                  </div>
+                </div>
+              </div>
+
+              {monthStats && (
+                <IndicatorNotAchieve
+                  nothingIndicators={monthStats.nothingIndicators}
+                  month={month}
+                  actualMonth={currentMonth}
+                />
               )}
             </div>
           </div>
-        </div>
-
-        {/*Grafico dos indicadores */}
-        <div className="flex w-[50%] gap-3">
-          <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
-            <p className="text-lg">
-              <span className="font-bold">
-                {chartContext.validP}
-                {"% "}
-              </span>
-
-              {monthStats && month != currentMonth ? (
-                <span>dos indicadores foram alcançados</span>
-              ) : (
-                <span>dos indicadores foram alcançados no mês anterior</span>
-              )}
-            </p>
-
-            <div className="w-full max-w-none h-40 my-4">
-              <DoughnutChart
-                chartData={getMonthData(
-                  `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-                )}
-                centerText={true}
+          <div className="flex justify-center items-center mb-5">
+            <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
+              <div className="flex pb-5 content-start justify-between">
+                <div className="text-xl p-2">Evolução de resultados</div>
+                <StatsTextBox txt={"Últimos 6 meses"} />
+              </div>
+              <div className="flex w-[100%] h-96">
+                <BarChart chartData={chartData} yAxisLabel="Indicadores" />
+              </div>
+            </div>
+          </div>
+        </>
+      ) : month == currentMonth ? (
+        hasIndicators ? (
+          // Renderiza a lista de indicadores
+          <>
+            <div>
+              <AddIndicator
+                openPopUpIndicator={openPopUpIndicator}
+                setOpenPopUpIndicator={setOpenPopUpIndicator}
+                currentMonth={currentMonth}
+                monthToAddIndicator={month}
               />
             </div>
-            <div className="flex flex-row gap-6 justify-center items-center">
-              <div className="flex flex-col text-xs">
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Meta</p>
-                </div>
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Supermeta</p>
-                </div>
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Desafio</p>
-                </div>
-              </div>
-              <div className="flex flex-col text-xs">
-                <p className="font-bold">{chartContext.goalP || 0}%</p>
-                <p className="font-bold">{chartContext.superGoalP || 0}%</p>
-                <p className="font-bold">{chartContext.challengeP || 0}%</p>
-              </div>
-            </div>
+            {monthStats?.monthIndicators.map((indicator, index) => (
+              <IndicatorCard
+                key={index}
+                id={indicator.id}
+                colaboratorId={indicator.colaboratorId}
+                indicatorId={indicator.indicatorId}
+                result={indicator.result}
+                weight={indicator.weight}
+                unity={indicator.unity}
+                goal={indicator.goal}
+                supergoal={indicator.superGoal}
+                challenge={indicator.challenge}
+                name={indicator.name}
+                creationMonth={indicator.creationMonth}
+                openPopUpEditIndicator={openPopUpEditIndicator}
+                setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
+                editingIndicator={editingIndicator}
+                setEditingIndicator={setEditingIndicator}
+                month={month}
+                currentMonth={currentMonth}
+              />
+            ))}
+          </>
+        ) : (
+          <div>
+            <NoIndicatorsCard></NoIndicatorsCard>
           </div>
-
-          {monthStats && (
-            <IndicatorNotAchieve
-              nothingIndicators={monthStats.nothingIndicators}
-              month={month}
-              actualMonth={currentMonth}
-            />
-          )}
-        </div>
-      </div>
-
-      <div className="flex justify-center items-center mb-5">
-        <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
-          <div className="flex pb-5 content-start justify-between">
-            <div className="text-xl p-2">Evolução de resultados</div>
-            <StatsTextBox txt={"Últimos 6 meses"} />
-          </div>
-          <div className="flex w-[100%] h-96">
-            <BarChart
-              chartData={getData(
-                `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
-              )}
-              yAxisLabel="Indicadores"
-            />
-          </div>
-        </div>
-      </div>
+        )
+      ) : (
+        ""
+      )}
 
       <IndicatorModal
         openPopUpIndicator={openPopUpIndicator}
         setOpenPopUpIndicator={setOpenPopUpIndicator}
       ></IndicatorModal>
-
       <CreateIndicatorModal
         openPopUpCreateIndicator={openPopUpCreateIndicator}
         setOpenPopUpCreateIndicator={setOpenPopUpCreateIndicator}
