@@ -249,7 +249,7 @@ export default function Colaborator() {
       </div>
 
       {/* Card do Colaborador com nome, imagem, cargo, nota e botão de baixar relatório */}
-      <div className="flex flex-row justify-between items-center space-x-5 ml-[4rem] mt-10 mb-7">
+      <div className="flex flex-row justify-between items-center space-x-5 ml-[1.4rem] mt-10 mb-7">
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between">
             <div className="flex gap-3 mr-10">
