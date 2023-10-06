@@ -77,9 +77,26 @@ const HighlightsList: React.FC = () => {
 
             <p className="text-lg">
               <span className="font-bold">
-                {data ? data.challenge.length : 0} colaboradores{" "}
+                {data ? data.challenge.length : 0}
               </span>
-              atingiram o Desafio de seu Indicador!
+              {data ? (
+                data.goal.length != 1 ? (
+                  <>
+                    <span className="font-bold"> colaboradores</span>{" "}
+                    <span> atingiram o Desafio de seu Indicador!</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="font-bold"> colaborador</span>{" "}
+                    <span> atingiu o Desafio de seu Indicador!</span>
+                  </>
+                )
+              ) : (
+                <>
+                  <span className="font-bold"> colaboradores</span>{" "}
+                  <span> atingiram o Desafio de seu Indicador!</span>
+                </>
+              )}
             </p>
           </div>
         </li>
@@ -122,9 +139,26 @@ const HighlightsList: React.FC = () => {
 
             <p className="text-lg">
               <span className="font-bold">
-                {data ? data.superGoal.length : 0} colaboradores{" "}
+                {data ? data.superGoal.length : 0}
               </span>
-              atingiram a Supermeta de seu Indicador!
+              {data ? (
+                data.goal.length != 1 ? (
+                  <>
+                    <span className="font-bold"> colaboradores</span>{" "}
+                    <span> atingiram a Supermeta de seu Indicador!</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="font-bold"> colaborador</span>{" "}
+                    <span> atingiu a Supermeta de seu Indicador!</span>
+                  </>
+                )
+              ) : (
+                <>
+                  <span className="font-bold"> colaboradores</span>{" "}
+                  <span> atingiram a Supermeta de seu Indicador!</span>
+                </>
+              )}
             </p>
           </div>
         </li>
@@ -165,10 +199,25 @@ const HighlightsList: React.FC = () => {
               </svg>
             </div>
             <p className="text-lg">
-              <span className="font-bold">
-                {data ? data.goal.length : 0} colaboradores{" "}
-              </span>
-              atingiram a Meta de seu Indicador!
+              <span className="font-bold">{data ? data.goal.length : 0}</span>
+              {data ? (
+                data.goal.length != 1 ? (
+                  <>
+                    <span className="font-bold"> colaboradores</span>{" "}
+                    <span> atingiram a Meta de seu Indicador!</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="font-bold"> colaborador</span>{" "}
+                    <span> atingiu a Meta de seu Indicador!</span>
+                  </>
+                )
+              ) : (
+                <>
+                  <span className="font-bold"> colaboradores</span>{" "}
+                  <span> atingiram a Meta de seu Indicador!</span>
+                </>
+              )}
             </p>
           </div>
         </li>
@@ -210,9 +259,26 @@ const HighlightsList: React.FC = () => {
             </div>
             <p className="text-lg">
               <span className="font-bold">
-                {data ? data.nothing.length : 0} colaboradores{" "}
+                {data ? data.nothing.length : 0}
               </span>
-              não atingiram seu Indicador.
+              {data ? (
+                data.nothing.length != 1 ? (
+                  <>
+                    <span className="font-bold"> colaboradores</span>{" "}
+                    <span> não atingiram seu Indicador.</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="font-bold"> colaborador</span>{" "}
+                    <span> não atingiu seu Indicador.</span>
+                  </>
+                )
+              ) : (
+                <>
+                  <span className="font-bold"> colaboradores</span>{" "}
+                  <span> não atingiram seu Indicador.</span>
+                </>
+              )}
             </p>
           </div>
         </li>
