@@ -164,12 +164,13 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
                         </div>
                     </div>
 
-            <div className="flex flex-col gap-3 my-1 mb-2 items-center w-96 px-10">
+            <div className="flex flex-col gap-4 my-1 mb-2 items-center w-96 px-10">
               <div className="font-bold flex self-center text-lg">Atribuir indicador</div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1 mt-3">
+                    <label>Indicador</label>
                     <Select
-                      className="basic-single w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg my-3 mt-5"
+                      className="basic-single w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg"
                       classNamePrefix="select"
                       isDisabled={false}
                       isLoading={false}
@@ -185,7 +186,7 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
               </div>
 
                                               
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-col gap-1'>
                   <label>Unidade</label>
                   <input type="text" value={selectedIndicator?.unity || undefined}
                         className='flex w-72 px-2 py-1 bg-slate-300 border-2 border-solid border-zinc-500 rounded-lg'
@@ -193,25 +194,25 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
               </div>
                                 
 
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-col gap-1'>
                                     <label>Peso</label>
                                     <input type="text" onChange={handleWeightChange}
                                          className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
                                 </div>
                                 
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col gap-1'>
                                     <label>Meta</label>
                                     <input type="text" onChange={handleGoalChange}
                                          className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
                                 </div>
                                 
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col gap-1'>
                                     <label>Supermeta</label>
                                     <input type="text" onChange={handleSuperGoalChange}
                                          className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />
                                 </div>
 
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col gap-1'>
                                     <label>Desafio</label>
                                     <input type="text" onChange={handleChallengeChange}
                                          className='flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg' />

@@ -126,6 +126,8 @@ export default function Colaborator() {
   const { openPopUpEditIndicator, setOpenPopUpEditIndicator } =
     useContext(EditIndicatorContext);
 
+  const [ openPopUpDeleteConfirmation, setOpenPopUpDeleteConfirmation ] = useState(false)
+
   const currentMonth = new Date().getMonth() + 1; // Mês atual
   const [month, setNumber] = useState(currentMonth);
   const [hasIndicators, setHasIndicators] = useState<boolean | null>(null);
@@ -194,10 +196,10 @@ export default function Colaborator() {
       </div>
 
       {/* Card do Colaborador com nome, imagem, role e nota */}
-      <div className="flex flex-row justify-between items-center space-x-5 ml-5 mt-10 mb-5 mr-10">
+      <div className="flex flex-row justify-between items-center space-x-5 ml-5 mt-10 mb-7">
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between">
-            <div className="flex gap-3 mr-40">
+            <div className="flex gap-3 mr-10">
               <ColaboratorImage />
               <div className="flex flex-col">
                 <div className="text-[#A3A3A3]">{userData.role}</div>
@@ -205,16 +207,16 @@ export default function Colaborator() {
               </div>
             </div>
 
-            <div>
+            <div className="flex items-center">
               <ColaboratorGrade grade={userData.grade}></ColaboratorGrade>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 items-center pb-5">
+        <div className="flex flex-col gap-3 items-end pr-5">
           <div className="grow ..."></div>
           <div>
-            <div className="flex flex-row space-x-1 mr-5">
+            <div className="flex flex-row">
               <ChangeMonthBox
                 monthNumber={month}
                 incrementNumber={incrementNumber}
@@ -305,6 +307,9 @@ export default function Colaborator() {
                     setEditingIndicator={setEditingIndicator}
                     month={month}
                     currentMonth={currentMonth}
+                    setUpdateData={setUpdateData}
+                    openPopUpDeleteConfirmation={openPopUpDeleteConfirmation}
+                    setOpenPopUpDeleteConfirmation={setOpenPopUpDeleteConfirmation}
                   />
                 ))
               ) : (
