@@ -25,8 +25,13 @@ interface SeparetedByGrade {
     grade0_1: Colaborator[],
 }
 
+interface ColaboratorListProps {
+    UpdateData: boolean;
+    setUpdateData: (value: React.SetStateAction<boolean>) => void;
+}
 
-const ColaboratorList: React.FC = () => {
+
+const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateData}) => {
 
     const {openCreatePopUp} = useContext(CreateColaboratorListContext)
   
@@ -62,9 +67,12 @@ const ColaboratorList: React.FC = () => {
           }
         };
       
-        fetchData(); // Chama a função assíncrona aqui
+        if(UpdateData){
+            fetchData();
+            setUpdateData(false)
+        }
       
-      }, [sortedByName, openCreatePopUp]);
+      }, [sortedByName, UpdateData]);
 
       
 
