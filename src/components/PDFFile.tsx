@@ -317,8 +317,8 @@ const GradeChart = (props: {
         <View
           style={tw("flex flex-row flex-wrap ml-[30px] gap-[8px] w-[20rem]")}
         >
-          {props.monthIndicators.map((indicator) => (
-            <View
+          {props.monthIndicators.map((indicator, index) => (
+            <View key={index}
               style={tw(
                 `flex flex-col ${borderColor(
                   indicator.result,

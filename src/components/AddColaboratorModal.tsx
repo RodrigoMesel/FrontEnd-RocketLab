@@ -8,9 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 interface AddColaboratorModalProps{
     openCreatePopUp: boolean,
     setOpenCreatePopUp: (value: React.SetStateAction<boolean>) => void
+    UpdateData: boolean;
+    setUpdateData: (value: React.SetStateAction<boolean>) => void;
 }
 
-const AddColaboratorModal:  React.FC<AddColaboratorModalProps> = ({openCreatePopUp, setOpenCreatePopUp}: AddColaboratorModalProps) => {
+const AddColaboratorModal:  React.FC<AddColaboratorModalProps> = ({openCreatePopUp, setOpenCreatePopUp, setUpdateData, UpdateData}: AddColaboratorModalProps) => {
 
     const [name, setName] = useState('')
 
@@ -33,7 +35,7 @@ const AddColaboratorModal:  React.FC<AddColaboratorModalProps> = ({openCreatePop
         }
 
         await axios.post('http://localhost:3000/colaborator', data)
-            .then(response => console.log(response.data));
+            .then(() => setUpdateData(true));
     }
 
     const notify = () => toast.error('Preencha todos os campos', {
