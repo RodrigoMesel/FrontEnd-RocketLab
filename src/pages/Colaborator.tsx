@@ -10,8 +10,6 @@ import { getUserData } from "../utils/getUserData";
 import ColaboratorImage from "../components/ColaboratorImage";
 import BarChart from "../components/SemestralBarChart";
 import DoughnutChart from "../components/MonthlyPercentageGraph";
-import { getData } from "../utils/getData";
-import { getMonthData } from "../utils/getMonthData";
 import IndicatorCard from "../components/IndicatorCard";
 import ColaboratorGrade from "../components/ColaboratorGrade";
 import AddIndicator from "../components/AddIndicator";
@@ -25,12 +23,10 @@ import CreateIndicatorModal from "../components/CreateIndicatorModal";
 import AssignIndicatorModal from "../components/AssignIndicatorModal";
 import EditIndicatorModal from "../components/EditIndicatorModal";
 import { IndicatorContext } from "../context/IndicatorContext";
-import DownloadPdfButton from "../components/DownloadPdfButton";
 import { ChartContext } from "../context/ChartContext";
 import PDFDownloadButton from "../components/PDFDownloadButton";
 import IndicatorNotAchieve from "../components/IndicatorNotAchieved";
 import axios from "axios";
-// import { PastChartCard } from "../components/PastChartCard";
 import NoIndicatorsCard from "../components/NoIndicatorsCards";
 import { GradeChartCard } from "../components/GradeChartCard";
 
@@ -481,7 +477,7 @@ export default function Colaborator() {
         UpdateData={UpdateData}
         setUpdateData={setUpdateData}
       ></AssignIndicatorModal>
-      
+
       <EditIndicatorModal
         openPopUpEditIndicator={openPopUpEditIndicator}
         setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
