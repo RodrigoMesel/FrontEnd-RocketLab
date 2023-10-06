@@ -216,6 +216,7 @@ const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
                     onChange={handleNameChange}
                     className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg"
                     defaultValue={editingIndicator?.name}
+                    disabled 
                   />
                 </div>
 
@@ -238,6 +239,7 @@ const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
                     value={unity || ""}
                     onChange={handleUnitySelectionChange}
                     className="flex w-72 px-2 py-1 border-2 border-solid border-zinc-500 rounded-lg"
+                    disabled 
                     // defaultValue={editingIndicator?.unity}
                   >
                     <option value="" disabled hidden>

@@ -92,7 +92,6 @@ interface Indicator {
 }
 
 interface DoughnutChartProps {
-  chartData: {
     goal: number;
     superGoal: number;
     challenge: number;
@@ -100,7 +99,6 @@ interface DoughnutChartProps {
     monthGrade: number;
     nothingIndicators: Indicator[];
     monthIndicators: Indicator[];
-  };
 }
 
 export default function Colaborator() {
@@ -135,10 +133,17 @@ export default function Colaborator() {
   const [editingIndicator, setEditingIndicator] = useState<Indicator | null>(
     null
   );
+  const [deletingIndicator, setDeletingIndicator] = useState<Indicator | null>(
+    null
+  );
 
-  const [doughnutChartData, setDoughnutChartData] = useState<
-    DoughnutChartProps["chartData"]
-  >({
+  const [activeUser, setActiveUser] = useState<boolean>(false);
+  const [chartData, setChartData] = useState([
+    { month: 0, goal: 0, superGoal: 0, challenge: 0, nothing: 0 },
+  ]);
+
+  const [doughnutChartData, setDoughnutChartData] =
+  useState<DoughnutChartProps>({
     goal: 0,
     superGoal: 0,
     challenge: 0,
@@ -147,6 +152,7 @@ export default function Colaborator() {
     nothingIndicators: [],
     monthIndicators: [],
   });
+
 
   const incrementNumber = () => {
     setNumber(month + 1);
@@ -169,6 +175,7 @@ export default function Colaborator() {
         );
         setMonthStats(response.data);
         // Verifica se há indicadores associados
+        setActiveUser(response.data.isActive);
         setHasIndicators(response.data.monthIndicators.length > 0);
       } catch (error) {
         console.error("Erro ao buscar indicadores:", error);
@@ -187,6 +194,57 @@ export default function Colaborator() {
     setUserData(data);
   }, [data]);
 
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
+      )
+      .then((res) => {
+        const newData = () => {
+          const newData = [];
+          var month = new Date();
+          for (var i = 0; i < 6; i++) {
+            month.setMonth(month.getMonth() - 1);
+            newData.push({
+              month: month.getMonth(),
+              goal: res.data.goal[i],
+              superGoal: res.data.superGoal[i],
+              challenge: res.data.challenge[i],
+              nothing: res.data.nothing[i],
+            });
+          }
+          return newData;
+        };
+        setChartData(newData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
+      )
+      .then((res) => {
+        const newData: DoughnutChartProps = {
+          goal: res.data.goal,
+          superGoal: res.data.superGoal,
+          challenge: res.data.challenge,
+          nothing: res.data.nothing,
+          monthGrade: res.data.monthGrade,
+          nothingIndicators: res.data.nothingIndicators,
+          monthIndicators: res.data.monthIndicators,
+        };
+        setDoughnutChartData(newData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [month, userId]);
+
+
   const chartContext = useContext(ChartContext);
   return (
     <>
@@ -197,7 +255,7 @@ export default function Colaborator() {
       </div>
 
       {/* Card do Colaborador com nome, imagem, role e nota */}
-      <div className="flex flex-row justify-between items-center space-x-5 ml-5 mt-10 mb-7">
+      <div className="flex flex-row justify-between items-center space-x-5 ml-[4rem] mt-10 mb-7">
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between">
             <div className="flex gap-3 mr-10">
@@ -272,7 +330,7 @@ export default function Colaborator() {
           </div>
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
-            <div className="flex flex-col space-y-2 ml-5 mt-3 h-[21rem] overflow-scroll">
+            <div className="flex flex-col space-y-2 ml-5 mt-3 h-[18rem] overflow-scroll">
               {monthStats && month != currentMonth ? (
                 <GradeChartCard
                   id={data.id}
@@ -306,6 +364,8 @@ export default function Colaborator() {
                     setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
                     editingIndicator={editingIndicator}
                     setEditingIndicator={setEditingIndicator}
+                    deletingIndicator={deletingIndicator} 
+                    setDeletingIndicator={setDeletingIndicator}
                     month={month}
                     currentMonth={currentMonth}
                     setUpdateData={setUpdateData}
@@ -326,8 +386,11 @@ export default function Colaborator() {
         </div>
 
         {/*Grafico dos indicadores */}
+        
+
+        {activeUser ? (
         <div className="flex w-[50%] gap-3">
-          <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
+        <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
             <p className="text-lg">
               <span className="font-bold">
                 {chartContext.validP}
@@ -341,11 +404,11 @@ export default function Colaborator() {
               )}
             </p>
 
+            
+
             <div className="w-full max-w-none h-40 my-4">
               <DoughnutChart
-                chartData={getMonthData(
-                  `http://localhost:3000/colaborator-indicator/statistics/month/${month}/colaboratorId/${userId}`
-                )}
+                chartData={doughnutChartData}
                 centerText={true}
               />
             </div>
@@ -371,7 +434,7 @@ export default function Colaborator() {
               </div>
             </div>
           </div>
-
+          
           {monthStats && (
             <IndicatorNotAchieve
               nothingIndicators={monthStats.nothingIndicators}
@@ -379,25 +442,28 @@ export default function Colaborator() {
               actualMonth={currentMonth}
             />
           )}
+
         </div>
+          ) : (<div className="flex w-[50%] gap-3"></div>)}
       </div>
 
+      {activeUser ? (
       <div className="flex justify-center items-center mb-5">
         <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">
             <div className="text-xl p-2">Evolução de resultados</div>
             <StatsTextBox txt={"Últimos 6 meses"} />
           </div>
-          <div className="flex w-[100%] h-96">
+          <div className="flex w-[100%] h-[16rem]">
             <BarChart
-              chartData={getData(
-                `http://localhost:3000/colaborator-indicator/statistics/colaboratorId/${userId}`
-              )}
+              chartData={chartData}
               yAxisLabel="Indicadores"
             />
           </div>
         </div>
-      </div>
+      </div>) : (null)}
+
+      
 
       <IndicatorModal
         openPopUpIndicator={openPopUpIndicator}

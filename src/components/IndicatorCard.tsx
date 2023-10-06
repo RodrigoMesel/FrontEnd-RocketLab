@@ -8,7 +8,7 @@ import edit from '../assets/edit.svg';
 import deleteIcon from '../assets/delete.svg';
 import DeleteConfirmation from './DeleteConfirmation';
 
-interface Indicator {
+export interface Indicator {
     id: number;
     colaboratorId: number;
     indicatorId: number;
@@ -38,6 +38,8 @@ interface IndicatorCardProps {
     setOpenPopUpEditIndicator: (value: React.SetStateAction<boolean>) => void,
     editingIndicator: Indicator | null,
     setEditingIndicator: (value: React.SetStateAction<Indicator | null>) => void,
+    deletingIndicator: Indicator | null,
+    setDeletingIndicator: (value: React.SetStateAction<Indicator | null>) => void,
     month: number;
     currentMonth: number;
     setUpdateData: (value: React.SetStateAction<boolean>) => void;
@@ -45,7 +47,7 @@ interface IndicatorCardProps {
     setOpenPopUpDeleteConfirmation: (value: React.SetStateAction<boolean>) => void,
 }
   
-export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator, month, currentMonth, setUpdateData, openPopUpDeleteConfirmation, setOpenPopUpDeleteConfirmation}) => {
+export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator, deletingIndicator, setDeletingIndicator, month, currentMonth, setUpdateData, openPopUpDeleteConfirmation, setOpenPopUpDeleteConfirmation}) => {
     const showResult = (month !== currentMonth || result !== 0);
     const goalAchieved = result >= goal && result < supergoal 
     const superGoalAchieved = result >= supergoal && result < challenge 
@@ -238,7 +240,21 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
         
                 </div>
 
-                <button onClick={() => setOpenPopUpDeleteConfirmation(!openPopUpDeleteConfirmation)} className='flex justify-end w-[100%] pr-4'>
+                <button onClick={() => {
+                    setDeletingIndicator({
+                        id: id,
+                        colaboratorId: colaboratorId, 
+                        indicatorId: indicatorId,
+                        result: result,
+                        weight: weight,
+                        unity: unity,
+                        goal: goal,
+                        superGoal: supergoal,
+                        challenge: challenge,
+                        creationMonth: creationMonth,
+                        name: name,
+                    })
+                    setOpenPopUpDeleteConfirmation(!openPopUpDeleteConfirmation)}} className='flex justify-end w-[100%] pr-4'>
                     <img src={deleteIcon} alt="" />
                 </button>
             </div>
@@ -249,6 +265,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
             setOpenPopUp={setOpenPopUpDeleteConfirmation}
             setUpdateData={setUpdateData}
             indicatorId={id}
+            deletingIndicator={deletingIndicator}
         />
 
         </>

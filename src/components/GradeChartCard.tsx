@@ -16,6 +16,7 @@ interface PastChartCardProps {
     superGoal: number;
     challenge: number;
     result: number;
+    indicatorId: number;
   }>;
 }
 
