@@ -252,7 +252,7 @@ export default function Colaborator() {
         </Link>
       </div>
 
-      {/* Card do Colaborador com nome, imagem, role e nota */}
+      {/* Card do Colaborador com nome, imagem, cargo, nota e botão de baixar relatório */}
       <div className="flex flex-row justify-between items-center space-x-5 ml-[4rem] mt-10 mb-7">
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between">
@@ -311,7 +311,7 @@ export default function Colaborator() {
           <div className="flex flex-row space-x-24 justify-between pr-3">
             <div className="mt-2 ml-5"> Indicadores</div>
 
-            {/* Botão de adicionar só aparece caso tenha indicadores */}
+            {/* Botão de adicionar, só aparece caso existam indicadores */}
             {hasIndicators === null ? (
               <p>Carregando botão...</p>
             ) : hasIndicators ? (
@@ -330,6 +330,7 @@ export default function Colaborator() {
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
             <div className="flex flex-col space-y-2 ml-5 mt-3 h-[18rem] overflow-scroll">
+              {/* Card com gráfico */}
               {monthStats && month != currentMonth ? (
                 <GradeChartCard
                   id={data.id}
@@ -344,7 +345,6 @@ export default function Colaborator() {
                 <p>Carregando indicadores...</p>
               ) : hasIndicators ? (
                 // Renderiza a lista de indicadores
-
                 monthStats?.monthIndicators.map((indicator, index) => (
                   <IndicatorCard
                     key={index}
@@ -375,18 +375,13 @@ export default function Colaborator() {
                   />
                 ))
               ) : (
-                // Mostra a mensagem quando não há indicadores
+                // Quando não há indicadores, mostra a mensagem
                 <div>
                   <NoIndicatorsCard
                   activeUser={activeUser}
                   month={month}
                   currentMonth={currentMonth}
                   />
-                  {month == currentMonth ? (
-                    <NoIndicatorsCard></NoIndicatorsCard>
-                  ) : (
-                    ""
-                  )}
                 </div>
               )}
             </div>
@@ -394,7 +389,6 @@ export default function Colaborator() {
         </div>
 
         {/*Grafico dos indicadores */}
-
         {activeUser ? (
           <div className="flex w-[50%] gap-3">
             <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
@@ -453,6 +447,7 @@ export default function Colaborator() {
         )}
       </div>
 
+      {/* Gráfico de barras */}
       {activeUser ? (
         <div className="flex justify-center items-center mb-5">
           <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
@@ -467,6 +462,7 @@ export default function Colaborator() {
         </div>
       ) : null}
 
+      {/* Modais */}
       <IndicatorModal
         openPopUpIndicator={openPopUpIndicator}
         setOpenPopUpIndicator={setOpenPopUpIndicator}
@@ -478,12 +474,14 @@ export default function Colaborator() {
         UpdateData={UpdateData}
         setUpdateData={setUpdateData}
       ></CreateIndicatorModal>
+
       <AssignIndicatorModal
         openPopUpAssignIndicator={openPopUpAssignIndicator}
         setOpenPopUpAssignIndicator={setOpenPopUpAssignIndicator}
         UpdateData={UpdateData}
         setUpdateData={setUpdateData}
       ></AssignIndicatorModal>
+      
       <EditIndicatorModal
         openPopUpEditIndicator={openPopUpEditIndicator}
         setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
