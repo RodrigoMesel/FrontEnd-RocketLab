@@ -1,20 +1,24 @@
 import axios from "axios";
 import React from "react";
+import { Indicator } from "./IndicatorCard";
 
 interface DeleteConfirmationProps{
     openPopUp: boolean,
     setOpenPopUp: (value: React.SetStateAction<boolean>) => void
     setUpdateData: (value: React.SetStateAction<boolean>) => void
     indicatorId: number
+    deletingIndicator: Indicator | null
 }
 
 
-const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({openPopUp, setOpenPopUp, setUpdateData, indicatorId}) => {
+const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({openPopUp, setOpenPopUp, setUpdateData, indicatorId, deletingIndicator}) => {
 
-    const deleteIndicator = async (id: number) => {
-        await axios.delete(`http://localhost:3000/colaborator-indicator/${id}`)
+    const deleteIndicator = async (indicator: Indicator) => {
+        const response = await axios.delete(`http://localhost:3000/colaborator-indicator/${indicator.id}`)
         setUpdateData(true)
         setOpenPopUp(!openPopUp)
+        console.log("DELETE")
+        console.log(response);
     }
 
     if(openPopUp){
@@ -37,7 +41,7 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({openPopUp, setOp
                         <div className="flex flex-row justify-around w-[100%] mt-16 mb-5">
                             <button className="bg-[#D9D9D9] text-black rounded-xl px-4 py-3" onClick={() => setOpenPopUp(!openPopUp)}>Cancelar</button>
 
-                            <button className="bg-[#952323] text-white rounded-xl px-4 py-3" onClick={() => deleteIndicator(indicatorId)}>Confirmar</button> 
+                            <button className="bg-[#952323] text-white rounded-xl px-4 py-3" onClick={() => deleteIndicator(deletingIndicator!)}>Confirmar</button> 
                         </div>               
 
                     </div>
