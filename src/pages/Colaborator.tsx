@@ -330,7 +330,7 @@ export default function Colaborator() {
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
             <div className="flex flex-col space-y-2 ml-5 mt-3 h-[18rem] overflow-scroll">
-              {monthStats && month != currentMonth && activeUser ? (
+              {monthStats && month != currentMonth ? (
                 <GradeChartCard
                   id={data.id}
                   month={month}
