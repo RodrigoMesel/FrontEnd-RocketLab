@@ -8,13 +8,14 @@ interface PastChartCardProps {
   monthGrade: number;
   monthIndicators?: Array<{
     id: number;
+    colaboratorId: number;
+    indicatorId: number;
     name: string;
     weight: number;
     goal: number;
     superGoal: number;
     challenge: number;
     result: number;
-    indicatorId: number;
   }>;
 }
 

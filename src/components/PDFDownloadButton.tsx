@@ -4,6 +4,7 @@ import DownloadPdfButton from "./DownloadPdfButton";
 import { getMonthName } from "../utils/getMonthName";
 
 const PDFDownloadButton: React.FC<PDFProps> = ({
+  isActive,
   id,
   name,
   grade,
@@ -23,7 +24,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   const currentMonth = new Date().getMonth() + 1;
   return (
     <>
-      {currentMonth != monthNumber ? (
+      {currentMonth != monthNumber && isActive ? (
         <PDFDownloadLink
           document={
             <PDFFile
@@ -48,9 +49,9 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
         >
           {({ loading }) =>
             loading ? (
-              <DownloadPdfButton disabled={true}></DownloadPdfButton>
+              <DownloadPdfButton key={0} disabled={true}></DownloadPdfButton>
             ) : (
-              <DownloadPdfButton disabled={false}></DownloadPdfButton>
+              <DownloadPdfButton key={1} disabled={false}></DownloadPdfButton>
             )
           }
         </PDFDownloadLink>
