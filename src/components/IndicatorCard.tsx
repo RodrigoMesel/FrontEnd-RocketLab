@@ -69,32 +69,66 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
             <div className='bg-[#FBFBFB] p-6 rounded-xl  '>
             <div className='flex flex-row'> 
                 <div>
-                <div className="text-lg mt-3 ml-6 flex items-center">
-                    #{indicatorId} {name} 
-                    {month === currentMonth ? (
-                        <div className="ml-2 cursor-pointer " onClick={() => {{
-                            setEditingIndicator({
-                                id: id,
-                                colaboratorId: colaboratorId, 
-                                indicatorId: indicatorId,
-                                result: result,
-                                weight: weight,
-                                unity: unity,
-                                goal: goal,
-                                superGoal: supergoal,
-                                challenge: challenge,
-                                creationMonth: creationMonth,
-                                name: name,
-                            })
-                            setOpenPopUpEditIndicator(!openPopUpEditIndicator)
-                        }}}>
-                            <img src={edit} alt="" className="h-3 w-3" />
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                    
+                {currentMonth === month ? (
+
+            <div className="text-lg mt-3 ml-6 flex items-center">  
+            {name} 
+            {month === currentMonth ? (
+                <div className="ml-2 cursor-pointer " onClick={() => {{
+                    setEditingIndicator({
+                        id: id,
+                        colaboratorId: colaboratorId, 
+                        indicatorId: indicatorId,
+                        result: result,
+                        weight: weight,
+                        unity: unity,
+                        goal: goal,
+                        superGoal: supergoal,
+                        challenge: challenge,
+                        creationMonth: creationMonth,
+                        name: name,
+                    })
+                    setOpenPopUpEditIndicator(!openPopUpEditIndicator)
+                }}}>
+                    <img src={edit} alt="" className="h-3 w-3" />
                 </div>
+            ) : (
+                ""
+            )}
+
+            </div>
+
+                ) : (
+
+            <div className="text-lg mt-3 ml-6 flex items-center">  
+            #{indicatorId} {name} 
+            {month === currentMonth ? (
+                <div className="ml-2 cursor-pointer " onClick={() => {{
+                    setEditingIndicator({
+                        id: id,
+                        colaboratorId: colaboratorId, 
+                        indicatorId: indicatorId,
+                        result: result,
+                        weight: weight,
+                        unity: unity,
+                        goal: goal,
+                        superGoal: supergoal,
+                        challenge: challenge,
+                        creationMonth: creationMonth,
+                        name: name,
+                    })
+                    setOpenPopUpEditIndicator(!openPopUpEditIndicator)
+                }}}>
+                    <img src={edit} alt="" className="h-3 w-3" />
+                </div>
+            ) : (
+                ""
+            )}
+
+            </div>
+
+                )}
+                
                 <div className='text-xs ml-6'> Peso: {weight.toFixed(2)}</div>
                 </div>
     
