@@ -24,7 +24,7 @@ const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicat
   return (
     <div className='rounded-lg border border-solid py-8 px-3 flex flex-col max-w-xs gap-8 overflow-scroll'>
 
-      <span className='text-2xl'>Indicadores 
+      <span className='text-lg'>Indicadores 
         <span className='font-bold'> não alcançados</span> 
         {month != actualMonth ? (
             <span> neste mês</span>
@@ -45,7 +45,7 @@ const IndicatorNotAchieve: React.FC<IndicatorNotAchieveProps> = ({nothingIndicat
                   ))}
 
       {nothingIndicators.length == 0 && 
-            <span className='text-[#A3A3A3] text-xl text-center mt-5 flex'>Todos os indicadores foram alcançados!</span>
+            <span className='text-[#A3A3A3] text-lg text-center mt-5 flex'>Todos os indicadores foram alcançados!</span>
       }
 
     </div>

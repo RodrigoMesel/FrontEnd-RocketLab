@@ -5,6 +5,8 @@ import retanguloVerde from '../assets/retanguloVerde.svg';
 import retanguloAzul from '../assets/retanguloAzul.svg';
 import check from '../assets/check.svg';
 import edit from '../assets/edit.svg';
+import deleteIcon from '../assets/delete.svg';
+import DeleteConfirmation from './DeleteConfirmation';
 
 interface Indicator {
     id: number;
@@ -38,9 +40,12 @@ interface IndicatorCardProps {
     setEditingIndicator: (value: React.SetStateAction<Indicator | null>) => void,
     month: number;
     currentMonth: number;
+    setUpdateData: (value: React.SetStateAction<boolean>) => void;
+    openPopUpDeleteConfirmation: boolean,
+    setOpenPopUpDeleteConfirmation: (value: React.SetStateAction<boolean>) => void,
 }
   
-export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator, month, currentMonth}) => {
+export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, indicatorId, result, weight, goal, supergoal, challenge,unity,creationMonth, name, openPopUpEditIndicator, setOpenPopUpEditIndicator, editingIndicator, setEditingIndicator, month, currentMonth, setUpdateData, openPopUpDeleteConfirmation, setOpenPopUpDeleteConfirmation}) => {
     const showResult = (month !== currentMonth || result !== 0);
     const goalAchieved = result >= goal && result < supergoal 
     const superGoalAchieved = result >= supergoal && result < challenge 
@@ -232,8 +237,19 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
                     </div>
         
                 </div>
+
+                <button onClick={() => setOpenPopUpDeleteConfirmation(!openPopUpDeleteConfirmation)} className='flex justify-end w-[100%] pr-4'>
+                    <img src={deleteIcon} alt="" />
+                </button>
             </div>
         )}
+
+        <DeleteConfirmation
+            openPopUp={openPopUpDeleteConfirmation}
+            setOpenPopUp={setOpenPopUpDeleteConfirmation}
+            setUpdateData={setUpdateData}
+            indicatorId={id}
+        />
 
         </>
     );

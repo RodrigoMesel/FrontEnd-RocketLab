@@ -24,7 +24,7 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
   const currentMonth = new Date().getMonth() + 1;
   return (
     <>
-      {currentMonth != monthNumber && isActive ? (
+      {currentMonth != monthNumber ? (
         <PDFDownloadLink
           document={
             <PDFFile

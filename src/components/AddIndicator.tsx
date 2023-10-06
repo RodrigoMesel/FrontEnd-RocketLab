@@ -27,7 +27,7 @@ const AddIndicator: React.FC<AddIndicatorProps> = ({
       className='flex items-center justify-center'
     >
       <button
-        className={`bg-[#952323] h-6 w-40 flex items-center justify-center ml-1 space-x-1 rounded-md ${
+        className={`bg-[#952323] h-6 w-40 flex items-center justify-center ml-1 space-x-1 rounded-md py-4 ${
           isButtonDisabled ? 'cursor-not-allowed bg-[#A3A3A3]' : ''
         }`}
         disabled={isButtonDisabled}
