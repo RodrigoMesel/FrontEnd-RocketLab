@@ -32,6 +32,8 @@ export interface PDFProps {
   monthGrade: number;
   monthIndicators?: Array<{
     id: number;
+    colaboratorId: number;
+    indicatorId: number;
     name: string;
     weight: number;
     goal: number;
@@ -144,6 +146,8 @@ const PDFFile: React.FC<PDFProps> = ({
                   <Indicator
                     key={indicator.id}
                     id={indicator.id}
+                    indicatorId={indicator.indicatorId}
+                    colaboratorId={indicator.colaboratorId}
                     name={indicator.name}
                     weight={indicator.weight}
                     goal={indicator.goal}
@@ -244,6 +248,8 @@ const GradeChart = (props: {
   monthGrade: number;
   monthIndicators: Array<{
     id: number;
+    colaboratorId: number;
+    indicatorId: number;
     name: string;
     weight: number;
     goal: number;
@@ -322,7 +328,9 @@ const GradeChart = (props: {
                 )} w-[6.45rem] border-l-2 pl-3 overflow-hidden`
               )}
             >
-              <Text style={tw("text-sm font-normal")}>#{indicator.id}</Text>
+              <Text style={tw("text-sm font-normal")}>
+                #{indicator.indicatorId}
+              </Text>
               <Text style={tw("text-lg font-bold")}>{indicator.result}</Text>
             </View>
           ))}
@@ -334,6 +342,8 @@ const GradeChart = (props: {
 
 const Indicator = (props: {
   id: number;
+  colaboratorId: number;
+  indicatorId: number;
   name: string;
   weight: number;
   goal: number;
@@ -368,7 +378,7 @@ const Indicator = (props: {
       <View style={tw("flex flex-row justify-between w-[28.75rem] h-3")}>
         <View style={tw("w-[25.75rem] h-[2.875rem]")}>
           <Text style={tw("text-lg")}>
-            #{props.id} {props.name}
+            #{props.indicatorId} {props.name}
           </Text>
           <Text style={tw("text-sm text-[#A3A3A3]")}>Peso: {props.weight}</Text>
         </View>
@@ -385,7 +395,7 @@ const Indicator = (props: {
         {type === "goal" ? (
           <View
             style={tw(
-              "border-l-3 border-[#AC72C1] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
+              "border-l-2 border-[#AC72C1] w-[10.438rem] h-[3.875rem] pl-[0.688rem] pt-[0.27rem] overflow-hidden"
             )}
           >
             <Text style={tw("text-base")}>Meta</Text>
@@ -468,7 +478,7 @@ const IndicatorGraph = (props: {
         <Text style={tw("text-base")}>dos indicadores foram alcançados</Text>
       </View>
 
-      <View style={tw("w-[19.75rem] h-[10rem] flex flex-row items-center ")}>
+      <View style={tw("w-[19.75rem] h-[10rem] flex flex-row items-center")}>
         <View style={tw("w-auto h-auto mt-[1rem] mr-[5rem] items-center")}>
           {props.doughnutChart != "" ? (
             <Image

@@ -49,9 +49,9 @@ const PDFDownloadButton: React.FC<PDFProps> = ({
         >
           {({ loading }) =>
             loading ? (
-              <DownloadPdfButton disabled={true}></DownloadPdfButton>
+              <DownloadPdfButton key={0} disabled={true}></DownloadPdfButton>
             ) : (
-              <DownloadPdfButton disabled={false}></DownloadPdfButton>
+              <DownloadPdfButton key={1} disabled={false}></DownloadPdfButton>
             )
           }
         </PDFDownloadLink>

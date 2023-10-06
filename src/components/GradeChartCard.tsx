@@ -8,6 +8,8 @@ interface PastChartCardProps {
   monthGrade: number;
   monthIndicators?: Array<{
     id: number;
+    colaboratorId: number;
+    indicatorId: number;
     name: string;
     weight: number;
     goal: number;
@@ -56,7 +58,7 @@ export const GradeChartCard: React.FC<PastChartCardProps> = ({
                   indicator.challenge
                 )} basis-[20%] border-l-[3px] pl-3`}
               >
-                <p className="text-sm font-normal">#{indicator.id} </p>
+                <p className="text-sm font-normal">#{indicator.indicatorId} </p>
                 <p className="text-lg font-bold">{indicator.result}</p>
               </div>
             ))}
