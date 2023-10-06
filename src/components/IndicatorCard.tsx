@@ -167,8 +167,27 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({id, colaboratorId, 
                         <div className='font-bold text-lg'> {challenge}</div>
                     </div>
                     </div>
+                    
+                    
                     )}
             </div>
+            <button onClick={() => {
+                    setDeletingIndicator({
+                        id: id,
+                        colaboratorId: colaboratorId, 
+                        indicatorId: indicatorId,
+                        result: result,
+                        weight: weight,
+                        unity: unity,
+                        goal: goal,
+                        superGoal: supergoal,
+                        challenge: challenge,
+                        creationMonth: creationMonth,
+                        name: name,
+                    })
+                    setOpenPopUpDeleteConfirmation(!openPopUpDeleteConfirmation)}} className='flex justify-end w-[100%] pr-4'>
+                    <img src={deleteIcon} alt="" />
+                </button>
         </div>
             ) : (
                 // Card do mês atual
