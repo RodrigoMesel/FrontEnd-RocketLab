@@ -377,6 +377,11 @@ export default function Colaborator() {
               ) : (
                 // Mostra a mensagem quando não há indicadores
                 <div>
+                  <NoIndicatorsCard
+                  activeUser={activeUser}
+                  month={month}
+                  currentMonth={currentMonth}
+                  />
                   {month == currentMonth ? (
                     <NoIndicatorsCard></NoIndicatorsCard>
                   ) : (
