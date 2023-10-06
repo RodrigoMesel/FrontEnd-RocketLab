@@ -254,7 +254,7 @@ export default function Colaborator() {
       </div>
 
       {/* Card do Colaborador com nome, imagem, role e nota */}
-      <div className="flex flex-row justify-between items-center space-x-5 ml-5 mt-10 mb-7">
+      <div className="flex flex-row justify-between items-center space-x-5 ml-[4rem] mt-10 mb-7">
         <div className="flex flex-col gap-5">
           <div className="flex flex-row justify-between">
             <div className="flex gap-3 mr-10">
@@ -329,7 +329,7 @@ export default function Colaborator() {
           </div>
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
-            <div className="flex flex-col space-y-2 ml-5 mt-3 h-[21rem] overflow-scroll">
+            <div className="flex flex-col space-y-2 ml-5 mt-3 h-[18rem] overflow-scroll">
               {monthStats && month != currentMonth ? (
                 <GradeChartCard
                   id={data.id}
@@ -444,13 +444,14 @@ export default function Colaborator() {
           ) : (<div className="flex w-[50%] gap-3"></div>)}
       </div>
 
-      {activeUser ? (<div className="flex justify-center items-center mb-5">
+      {activeUser ? (
+      <div className="flex justify-center items-center mb-5">
         <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
           <div className="flex pb-5 content-start justify-between">
             <div className="text-xl p-2">Evolução de resultados</div>
             <StatsTextBox txt={"Últimos 6 meses"} />
           </div>
-          <div className="flex w-[100%] h-96">
+          <div className="flex w-[100%] h-[16rem]">
             <BarChart
               chartData={chartData}
               yAxisLabel="Indicadores"
