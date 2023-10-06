@@ -92,13 +92,13 @@ interface Indicator {
 }
 
 interface DoughnutChartProps {
-    goal: number;
-    superGoal: number;
-    challenge: number;
-    nothing: number;
-    monthGrade: number;
-    nothingIndicators: Indicator[];
-    monthIndicators: Indicator[];
+  goal: number;
+  superGoal: number;
+  challenge: number;
+  nothing: number;
+  monthGrade: number;
+  nothingIndicators: Indicator[];
+  monthIndicators: Indicator[];
 }
 
 export default function Colaborator() {
@@ -143,16 +143,15 @@ export default function Colaborator() {
   ]);
 
   const [doughnutChartData, setDoughnutChartData] =
-  useState<DoughnutChartProps>({
-    goal: 0,
-    superGoal: 0,
-    challenge: 0,
-    nothing: 0,
-    monthGrade: 0,
-    nothingIndicators: [],
-    monthIndicators: [],
-  });
-
+    useState<DoughnutChartProps>({
+      goal: 0,
+      superGoal: 0,
+      challenge: 0,
+      nothing: 0,
+      monthGrade: 0,
+      nothingIndicators: [],
+      monthIndicators: [],
+    });
 
   const incrementNumber = () => {
     setNumber(month + 1);
@@ -244,7 +243,6 @@ export default function Colaborator() {
       });
   }, [month, userId]);
 
-
   const chartContext = useContext(ChartContext);
   return (
     <>
@@ -331,7 +329,7 @@ export default function Colaborator() {
           <div className="flex flex-col w-[100%]">
             {/* Cards dos indicadores */}
             <div className="flex flex-col space-y-2 ml-5 mt-3 h-[18rem] overflow-scroll">
-              {monthStats && month != currentMonth ? (
+              {monthStats && month != currentMonth && activeUser ? (
                 <GradeChartCard
                   id={data.id}
                   month={month}
@@ -364,7 +362,7 @@ export default function Colaborator() {
                     setOpenPopUpEditIndicator={setOpenPopUpEditIndicator}
                     editingIndicator={editingIndicator}
                     setEditingIndicator={setEditingIndicator}
-                    deletingIndicator={deletingIndicator} 
+                    deletingIndicator={deletingIndicator}
                     setDeletingIndicator={setDeletingIndicator}
                     month={month}
                     currentMonth={currentMonth}
@@ -378,7 +376,11 @@ export default function Colaborator() {
               ) : (
                 // Mostra a mensagem quando não há indicadores
                 <div>
-                  <NoIndicatorsCard></NoIndicatorsCard>
+                  {month == currentMonth ? (
+                    <NoIndicatorsCard></NoIndicatorsCard>
+                  ) : (
+                    ""
+                  )}
                 </div>
               )}
             </div>
@@ -386,84 +388,78 @@ export default function Colaborator() {
         </div>
 
         {/*Grafico dos indicadores */}
-        
 
         {activeUser ? (
-        <div className="flex w-[50%] gap-3">
-        <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
-            <p className="text-lg">
-              <span className="font-bold">
-                {chartContext.validP}
-                {"% "}
-              </span>
+          <div className="flex w-[50%] gap-3">
+            <div className="rounded-lg border border-solid p-[1.313rem] w-[50%]">
+              <p className="text-lg">
+                <span className="font-bold">
+                  {chartContext.validP}
+                  {"% "}
+                </span>
 
-              {monthStats && month != currentMonth ? (
-                <span>dos indicadores foram alcançados</span>
-              ) : (
-                <span>dos indicadores foram alcançados no mês anterior</span>
-              )}
-            </p>
+                {monthStats && month != currentMonth ? (
+                  <span>dos indicadores foram alcançados</span>
+                ) : (
+                  <span>dos indicadores foram alcançados no mês anterior</span>
+                )}
+              </p>
 
-            
+              <div className="w-full max-w-none h-40 my-4">
+                <DoughnutChart
+                  chartData={doughnutChartData}
+                  centerText={true}
+                />
+              </div>
+              <div className="flex flex-row gap-6 justify-center items-center">
+                <div className="flex flex-col text-xs">
+                  <div className="flex flex-row items-center">
+                    <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                    <p>Meta</p>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                    <p>Supermeta</p>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
+                    <p>Desafio</p>
+                  </div>
+                </div>
+                <div className="flex flex-col text-xs">
+                  <p className="font-bold">{chartContext.goalP || 0}%</p>
+                  <p className="font-bold">{chartContext.superGoalP || 0}%</p>
+                  <p className="font-bold">{chartContext.challengeP || 0}%</p>
+                </div>
+              </div>
+            </div>
 
-            <div className="w-full max-w-none h-40 my-4">
-              <DoughnutChart
-                chartData={doughnutChartData}
-                centerText={true}
+            {monthStats && (
+              <IndicatorNotAchieve
+                nothingIndicators={monthStats.nothingIndicators}
+                month={month}
+                actualMonth={currentMonth}
               />
-            </div>
-            <div className="flex flex-row gap-6 justify-center items-center">
-              <div className="flex flex-col text-xs">
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#AC72C1] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Meta</p>
-                </div>
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#32B97C] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Supermeta</p>
-                </div>
-                <div className="flex flex-row items-center">
-                  <div className="bg-[#6186D3] rounded-[21px] w-[0.90rem] h-[0.25rem] mr-[0.338rem]"></div>
-                  <p>Desafio</p>
-                </div>
-              </div>
-              <div className="flex flex-col text-xs">
-                <p className="font-bold">{chartContext.goalP || 0}%</p>
-                <p className="font-bold">{chartContext.superGoalP || 0}%</p>
-                <p className="font-bold">{chartContext.challengeP || 0}%</p>
-              </div>
-            </div>
+            )}
           </div>
-          
-          {monthStats && (
-            <IndicatorNotAchieve
-              nothingIndicators={monthStats.nothingIndicators}
-              month={month}
-              actualMonth={currentMonth}
-            />
-          )}
-
-        </div>
-          ) : (<div className="flex w-[50%] gap-3"></div>)}
+        ) : (
+          <div className="flex w-[50%] gap-3"></div>
+        )}
       </div>
 
       {activeUser ? (
-      <div className="flex justify-center items-center mb-5">
-        <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
-          <div className="flex pb-5 content-start justify-between">
-            <div className="text-xl p-2">Evolução de resultados</div>
-            <StatsTextBox txt={"Últimos 6 meses"} />
-          </div>
-          <div className="flex w-[100%] h-[16rem]">
-            <BarChart
-              chartData={chartData}
-              yAxisLabel="Indicadores"
-            />
+        <div className="flex justify-center items-center mb-5">
+          <div className="rounded-lg border border-solid p-5 mt-3 w-[90%] ">
+            <div className="flex pb-5 content-start justify-between">
+              <div className="text-xl p-2">Evolução de resultados</div>
+              <StatsTextBox txt={"Últimos 6 meses"} />
+            </div>
+            <div className="flex w-[100%] h-[16rem]">
+              <BarChart chartData={chartData} yAxisLabel="Indicadores" />
+            </div>
           </div>
         </div>
-      </div>) : (null)}
-
-      
+      ) : null}
 
       <IndicatorModal
         openPopUpIndicator={openPopUpIndicator}
