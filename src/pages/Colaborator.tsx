@@ -284,12 +284,13 @@ export default function Colaborator() {
 
           {monthStats && (
             <PDFDownloadButton
+              isActive={activeUser}
               name={data.name}
               role={data.role}
               grade={data.grade}
               id={data.id}
-              doughnutChart={chartContext.chartImg}
-              doughnutChartHollow={chartContext.pastChartImg}
+              doughnutChart={activeUser ? chartContext.chartImg : ""}
+              doughnutChartHollow={activeUser ? chartContext.pastChartImg : ""}
               monthIndicators={monthStats.monthIndicators.slice(0, 5)}
               nothingIndicators={monthStats.nothingIndicators}
               monthNumber={month}

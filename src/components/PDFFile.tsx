@@ -575,6 +575,11 @@ const IndicatorNotReached = (props: {
               </View>
             </View>
           ))}
+        {props.nothingIndicators && props.nothingIndicators.length == 0 && (
+          <Text style={tw("text-[#A3A3A3] text-lg text-center mt-5 flex")}>
+            Todos os indicadores foram alcançados!
+          </Text>
+        )}
       </View>
     </View>
   );
