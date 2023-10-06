@@ -281,15 +281,17 @@ const GradeChart = (props: {
           "flex flex-row w-[31.625rem] h-[13.25rem] rounded-[20px] bg-[#F5F5F5] pl-[1.563rem] pr-[0.563rem] pb-[2.676rem] pt-[1.761rem] overflow-hidden"
         )}
       >
-        <View style={tw("w-auto h-auto mt-[1rem] items-center")}>
-          {props.doughnutChart != "" ? (
-            <Image
-              style={tw("w-auto h-auto")}
-              src={props.doughnutChart}
-            ></Image>
-          ) : (
-            <></>
-          )}
+        <View style={tw("w-[10.33rem] h-auto mt-[1rem] items-center")}>
+          <View style={tw("w-auto h-auto items-center")}>
+            {props.doughnutChart != "" ? (
+              <Image
+                style={tw("w-auto h-auto")}
+                src={props.doughnutChart}
+              ></Image>
+            ) : (
+              <></>
+            )}
+          </View>
         </View>
 
         <View style={tw("flex flex-col ml-[1rem] mt-[3rem]")}>
@@ -313,9 +315,7 @@ const GradeChart = (props: {
           </View>
         </View>
         <View
-          style={tw(
-            "flex flex-row flex-wrap ml-[1.688rem] gap-[8px] w-[16rem]"
-          )}
+          style={tw("flex flex-row flex-wrap ml-[30px] gap-[8px] w-[20rem]")}
         >
           {props.monthIndicators.map((indicator) => (
             <View
