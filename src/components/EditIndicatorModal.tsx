@@ -92,7 +92,6 @@ const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
         name: name,
         unity: unity
       };
-      console.log(indicatorData);
       const colaboratorIndicatorData = {
         id: editingIndicator?.id,
         colaboratorId: editingIndicator?.colaboratorId,
