@@ -20,7 +20,6 @@ export function getUserData(userId: number) {
         const user: UserData = { id, name, grade, role };
 
         setUserData(user);
-        console.log(user);
       })
       .catch((error) => {
         console.log(error);

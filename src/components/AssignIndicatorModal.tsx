@@ -86,7 +86,6 @@ const AssignIndicatorModal: React.FC<IndicatorModalProps> = ({
 
 
     await axios.post('http://localhost:3000/colaborator-indicator', data).then((response) => {
-      console.log(response.data);
     });
 
     setUpdateData(true);

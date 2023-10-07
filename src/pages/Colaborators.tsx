@@ -18,6 +18,8 @@ export default function Colaborators() {
 
   const [openPopUp, setOpenPopUp] = useState(false)
 
+  const [UpdateData, setUpdateData] = useState(true);
+
   return (
     <>
       <div className='mt-2'>
@@ -40,7 +42,10 @@ export default function Colaborators() {
         <div className='flex '>
           <div className = 'flex flex-row justify-items-start px-10 py-10' style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
 
-          <ColaboratorList/>
+          <ColaboratorList
+            setUpdateData={setUpdateData}
+            UpdateData={UpdateData}
+          />
                       
           </div>
           <div className="grow h-14 ..."></div>
@@ -49,11 +54,15 @@ export default function Colaborators() {
         <ChangeListOrderModal
           openPopUp={openPopUp}
           setOpenPopUp={setOpenPopUp}
+          UpdateData={UpdateData}
+          setUpdateData={setUpdateData}
         ></ChangeListOrderModal>
 
         <AddColaboratorModal
           openCreatePopUp={openCreatePopUp}
           setOpenCreatePopUp={setOpenCreatePopUp}
+          setUpdateData={setUpdateData}
+          UpdateData={UpdateData}
         ></AddColaboratorModal>
     </>
   )

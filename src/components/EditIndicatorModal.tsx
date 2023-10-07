@@ -92,7 +92,6 @@ const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
         name: name,
         unity: unity
       };
-      console.log(indicatorData);
       const colaboratorIndicatorData = {
         id: editingIndicator?.id,
         colaboratorId: editingIndicator?.colaboratorId,
@@ -186,10 +185,10 @@ const EditIndicatorModal: React.FC<EditIndicatorModalProps> = ({
             <div>
               <div className="flex flex-row mt-2">
                 <div
-                  className="flex w-full ml-7 cursor-pointer"
-                  onClick={goBack}
+                  className="flex w-full ml-7"
+                  // onClick={goBack}
                 >
-                  <img src={left} alt="" className="h-3 w-3" />
+                  {/* <img src={left} alt="" className="h-3 w-3" /> */}
                 </div>
                 <div
                   className="flex w-full ml-64 cursor-pointer"

@@ -12,7 +12,6 @@ const SearchBar: React.FC = () => {
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Colaborador:', filterText);
   };
 
   
