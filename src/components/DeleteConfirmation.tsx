@@ -17,8 +17,6 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({openPopUp, setOp
         const response = await axios.delete(`http://localhost:3000/colaborator-indicator/${indicator.id}`)
         setUpdateData(true)
         setOpenPopUp(!openPopUp)
-        console.log("DELETE")
-        console.log(response);
     }
 
     if(openPopUp){
