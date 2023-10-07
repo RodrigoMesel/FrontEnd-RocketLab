@@ -230,6 +230,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({
                     
                     )}
             </div>
+            {month === currentMonth ? (
             <button onClick={() => {
                     setDeletingIndicator({
                         id: id,
@@ -247,6 +248,7 @@ export const IndicatorCard: React.FC<IndicatorCardProps> = ({
                     setOpenPopUpDeleteConfirmation(!openPopUpDeleteConfirmation)}} className='flex justify-end w-[100%] pr-4'>
                     <img src={deleteIcon} alt="" />
                 </button>
+            ) : ("")}
         </div>
       ) : (
         // Card do mês atual
