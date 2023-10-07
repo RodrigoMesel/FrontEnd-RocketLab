@@ -56,7 +56,7 @@ const IndicatorModal:  React.FC<IndicatorModalProps> = ({openPopUpIndicator,setO
                                 <div className='flex self-center'>ou</div>
 
                                 <button className='text-white bg-[#952323] w-80 py-3 rounded-xl' onClick={openThirdModal}>
-                                    Atribuir novo indicador
+                                    Atribuir indicador já existente
                                 </button>
                         </div>
                     </div>
