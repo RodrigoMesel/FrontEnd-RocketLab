@@ -29,7 +29,6 @@ const HighlightsList: React.FC = () => {
           challenge: challenge,
           nothing: nothing,
         });
-        console.log(res.data.lastMonthHighlights);
       })
       .catch((error) => {
         console.log(error);

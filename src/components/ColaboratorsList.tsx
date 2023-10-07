@@ -18,11 +18,11 @@ interface SeparetedByName {
 }
 
 interface SeparetedByGrade {
-    grade4_5: Colaborator[],
-    grade3_4: Colaborator[],
-    grade2_3: Colaborator[],
-    grade1_2: Colaborator[],
-    grade0_1: Colaborator[],
+    grade4_5: Colaborator[] ,
+    grade3_4: Colaborator[] ,
+    grade2_3: Colaborator[] ,
+    grade1_2: Colaborator[] ,
+    grade0_1: Colaborator[] ,
 }
 
 interface ColaboratorListProps {
@@ -61,6 +61,7 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
             } else {
               const response = await axios.get("http://localhost:3000/colaborator/separetedByGrade");
               setColaboratorGradeList(response.data);
+              console.log(colaboratorGradeList)
             }
           } catch (error) {
             console.error("Erro ao buscar os dados:", error);
@@ -90,11 +91,11 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
             )
     }
         else{
-            setFilteredGrade4_5List(colaboratorGradeList!.grade4_5.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-            setFilteredGrade3_4List(colaboratorGradeList!.grade3_4.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-            setFilteredGrade2_3List(colaboratorGradeList!.grade2_3.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-            setFilteredGrade1_2List(colaboratorGradeList!.grade1_2.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
-            setFilteredGrade0_1List(colaboratorGradeList!.grade0_1.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))
+            {colaboratorGradeList &&  setFilteredGrade4_5List(colaboratorGradeList.grade4_5.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))}
+            {colaboratorGradeList &&  setFilteredGrade3_4List(colaboratorGradeList.grade3_4.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))}
+            {colaboratorGradeList &&  setFilteredGrade2_3List(colaboratorGradeList.grade2_3.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))}
+            {colaboratorGradeList &&  setFilteredGrade1_2List(colaboratorGradeList.grade1_2.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))}
+            {colaboratorGradeList &&  setFilteredGrade0_1List(colaboratorGradeList.grade0_1.filter((item : Colaborator) => item.name.toLowerCase().includes(filterText.toLowerCase())))}
         }
 
 
@@ -130,9 +131,9 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
             ))
 
             : 
-
+                            
             <div className="flex flex-col gap-8 w-full">
-                {(filteredGrade4_5List.length > 0) ? 
+                {(colaboratorGradeList && filteredGrade4_5List.length > 0) ? 
                 <>
                     <div className="flex flex-row gap-2 items-center">
                         <img src="./src/assets/star.png" alt="" className="h-3 w-3" />
@@ -159,7 +160,7 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
                 : <></>}
                 
 
-                {(filteredGrade3_4List.length > 0) ? 
+                {(colaboratorGradeList && filteredGrade3_4List.length > 0) ? 
                 <>
                 <div className="flex flex-row gap-2 items-center w-full">
                     <img src="./src/assets/star.png" alt="" className="h-3 w-3" />
@@ -184,7 +185,7 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
                 </> : <></>}
 
 
-                {(filteredGrade2_3List.length > 0) ? 
+                {(colaboratorGradeList && filteredGrade2_3List.length > 0) ? 
                 <>
                     <div className="flex flex-row gap-2 items-center">
                         <img src="./src/assets/star.png" alt="" className="h-3 w-3" />
@@ -209,7 +210,7 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
                     : <></>}
                 
 
-                {(filteredGrade1_2List.length > 0) ? 
+                {(colaboratorGradeList && filteredGrade1_2List.length > 0) ? 
                 <>
                     <div className="flex flex-row gap-2 items-center">
                         <img src="./src/assets/star.png" alt="" className="h-3 w-3" />
@@ -234,7 +235,7 @@ const ColaboratorList: React.FC<ColaboratorListProps> = ({UpdateData, setUpdateD
                 : <></>}
                 
 
-                {(filteredGrade0_1List.length > 0) ? 
+                {(colaboratorGradeList && filteredGrade0_1List.length > 0) ? 
                 <>
                 <div className="flex flex-row gap-2 items-center">
                     <img src="./src/assets/star.png" alt="" className="h-3 w-3" />

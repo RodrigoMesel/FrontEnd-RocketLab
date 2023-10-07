@@ -27,7 +27,6 @@ export function getData(url: string) {
         };
 
         setData(newData);
-        console.log(res);
       })
       .catch((error) => {
         console.log(error);
