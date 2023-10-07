@@ -27,7 +27,7 @@ export const GradeChartCard: React.FC<PastChartCardProps> = ({
 }) => {
   return (
     <>
-      <div className="py-[2.125rem] pl-[1.563rem] rounded-lg flex items-center bg-slate-100 gap-4">
+      <div className="py-[2.125rem] pl-[1.563rem] rounded-xl flex items-center bg-[#FBFBFB] gap-4">
         <div className="w-[30%] h-auto">
           <DoughnutChart
             chartData={getMonthData(
