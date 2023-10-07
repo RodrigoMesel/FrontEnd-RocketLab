@@ -4,9 +4,11 @@ import { SortedByContext } from '../context/SortedByContext';
 interface ChangeListOrderModalProps{
     openPopUp: boolean,
     setOpenPopUp: (value: React.SetStateAction<boolean>) => void
+    UpdateData: boolean;
+    setUpdateData: (value: React.SetStateAction<boolean>) => void;
 }
 
-const ChangeListOrderModal:  React.FC<ChangeListOrderModalProps> = ({openPopUp, setOpenPopUp}: ChangeListOrderModalProps) => {
+const ChangeListOrderModal:  React.FC<ChangeListOrderModalProps> = ({openPopUp, setOpenPopUp, UpdateData, setUpdateData}: ChangeListOrderModalProps) => {
 
     const {sortedByName, setSortedByName} = useContext(SortedByContext)
 
@@ -53,7 +55,7 @@ const ChangeListOrderModal:  React.FC<ChangeListOrderModalProps> = ({openPopUp, 
                         </div>
                         
                         <button className='text-white bg-[#952323] w-80 py-3 rounded-xl'
-                            onClick={() => Promise.all([setSortedByName(partialValue), setOpenPopUp(!openPopUp)])}>
+                            onClick={() => Promise.all([setSortedByName(partialValue), setOpenPopUp(!openPopUp), setUpdateData(true)])}>
                                 Aplicar
                             </button>
                         
