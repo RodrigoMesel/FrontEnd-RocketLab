@@ -1,27 +1,20 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+# V-FOODS
+Projeto criado como parte do desafio da Rocket Lab. Trata-se de uma plataforma de gerenciamento de indicadores, metas e colaboradores de uma empresa.
+## Tecnologias utilizadas
+- React
+- TypeScript
+- NestJS
+- Prisma
+## Contribuidores
+- <a href="https://github.com/bonnaborsoi" target="_blank">Bonna Gil Borsoi</a>
+- <a href="https://github.com/gabrielmpinha" target="_blank">Gabriel Pinheiro</a>
+- <a href="https://github.com/joaomarcelovalencachacon" target="_blank">João Marcelo Valença</a>
+- <a href="https://github.com/RodrigoMesel" target="_blank">Rodrigo Mesel</a>
+## Backend
+Repositório do BackEnd do projeto <a href="https://github.com/RodrigoMesel/BackEnd-RocketLab" target="_blank">aqui</a>
+## Como rodar
+```bash
+git clone https://github.com/RodrigoMesel/FrontEnd-RocketLab.git
+npm install
+npm run dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
